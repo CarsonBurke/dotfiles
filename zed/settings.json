@@ -8,6 +8,7 @@
 // command palette
 {
 	"auto_update_extensions": {
+  "basher": false,
   "biome": false
  },
  "git_panel": {
@@ -135,7 +136,7 @@
 		"show_branch_icon": true
 	},
 	"project_panel": {
-		"hide_hidden": true,
+		"hide_hidden": false,
   "hide_root": false,
   "sticky_scroll": true,
   "button": true,

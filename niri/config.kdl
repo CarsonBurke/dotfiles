@@ -16,11 +16,12 @@ input {
             // layout "us,ru"
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
 
-            // If this section is empty, niri will fetch xkb settings
-            // from org.freedesktop.locale1. You can control these using
-            // localectl set-x11-keymap.
+            // Make Caps Lock work as Shift Lock (toggleable shift for all keys including symbols)
+            options "caps:shiftlock"
         }
-
+        
+        repeat-delay 150
+        repeat-rate 50
         // Enable numlock on startup, omitting this setting disables it.
         numlock
     }
@@ -264,8 +265,8 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "waybar"
+// Start kded6 for StatusNotifierItem tray support, then launch waybar
+spawn-sh-at-startup "kded6 & sleep 0.3 && busctl --user call org.kde.kded6 /kded org.kde.kded6 loadModule s statusnotifierwatcher && waybar"
 
 // Start walker service for fast app launching
 spawn-at-startup "/usr/bin/walker" "--gapplication-service"
@@ -276,6 +277,9 @@ spawn-at-startup "swww" "img" "/home/marvin/Pictures/myWallpapers/whytecliff_nig
 
 // Night light / blue light filter
 spawn-at-startup "/usr/bin/sunsetr"
+
+// Power usage monitoring daemon (samples every 60s)
+spawn-at-startup "/home/marvin/Documents/unorganized/total-power-use" "daemon" "60"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -384,15 +388,13 @@ binds {
     Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+D hotkey-overlay-title="Run an Application: walker" { spawn "walker"; }
     Mod+B hotkey-overlay-title="Open Browser: Zen" { spawn "flatpak" "run" "app.zen_browser.zen"; }
+    Mod+Shift+B hotkey-overlay-title="Open Browser: Zen Private" { spawn "flatpak" "run" "app.zen_browser.zen" "-private-window"; }
     Mod+I hotkey-overlay-title="Open IDE: Zed" { spawn "zed"; }
-    Mod+F hotkey-overlay-title="Open Files: Nautilus" { spawn "nautilus"; }
+    Mod+F hotkey-overlay-title="Open Files: Dolphin" { spawn "dolphin"; }
     Mod+M hotkey-overlay-title="Toggle Mic Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-
-    // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
-    // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
-    // For example, this is a standard bind to toggle the screen reader (orca).
-    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+    Mod+Shift+Equal hotkey-overlay-title="Mic Volume Up" { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.05+ -l 1.0"; }
+    Mod+Shift+Minus hotkey-overlay-title="Mic Volume Down" { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.05-"; }
+    Mod+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
@@ -432,7 +434,6 @@ binds {
     Mod+H     { focus-column-left; }
     Mod+J     { focus-window-down; }
     Mod+K     { focus-window-up; }
-    Mod+L     { focus-column-right; }
 
     Mod+Ctrl+Left  { move-column-left; }
     Mod+Ctrl+Down  { move-window-down; }
@@ -572,7 +573,6 @@ binds {
     // Mod+R { switch-preset-column-width-back; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
-    // Mod+F { maximize-column; }  // Now using Mod+C for this
     Mod+Shift+F { fullscreen-window; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
@@ -596,8 +596,8 @@ binds {
     Mod+Equal { set-column-width "+10%"; }
 
     // Finer height adjustments when in column with other windows.
-    Mod+Shift+Minus { set-window-height "-10%"; }
-    Mod+Shift+Equal { set-window-height "+10%"; }
+    Mod+Alt+Minus { set-window-height "-10%"; }
+    Mod+Alt+Equal { set-window-height "+10%"; }
 
     // Move the focused window between the floating and the tiling layout.
     Mod+V       { toggle-window-floating; }
