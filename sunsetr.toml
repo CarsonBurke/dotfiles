@@ -23,7 +23,3 @@ static_gamma = 100       # Gamma percentage for static mode (10-200%)
 sunset = "19:00:00"      # Time for manual sunset calculations (HH:MM:SS)
 sunrise = "06:00:00"     # Time for manual sunrise calculations (HH:MM:SS)
 transition_duration = 5 # Transition duration in minutes (5-120)
-
-#[Geolocation]
-latitude = 49.249657     # Geographic latitude (auto-detected on first run)
-longitude = -123.119339  # Geographic longitude (use 'sunsetr geo' to change)
