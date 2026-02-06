@@ -1,0 +1,93 @@
+#!/bin/bash
+# Duplicate the currently focused window by finding and launching its app.
+# For terminals, opens the new window in the same working directory.
+
+window_info=$(niri msg --json focused-window)
+app_id=$(echo "$window_info" | jq -r '.app_id')
+window_pid=$(echo "$window_info" | jq -r '.pid')
+
+if [ -z "$app_id" ] || [ "$app_id" = "null" ]; then
+    exit 1
+fi
+
+# For terminal emulators, find the CWD of the shell process inside the terminal.
+get_terminal_cwd() {
+    local pid="$1"
+    [ -z "$pid" ] || [ "$pid" = "null" ] && return 1
+
+    # Look for a known shell among the direct children of the terminal process.
+    # This avoids picking up helper processes (e.g. kitty's "kitten __atexit__")
+    # whose CWD would be wrong.
+    local line cpid ccomm
+    while IFS= read -r line; do
+        cpid=$(echo "$line" | awk '{print $1}')
+        ccomm=$(echo "$line" | awk '{print $2}')
+        case "$ccomm" in
+            bash|zsh|fish|sh|dash|ksh|tcsh|csh|nu|nushell|elvish|xonsh|pwsh)
+                local cwd
+                cwd=$(readlink "/proc/$cpid/cwd" 2>/dev/null)
+                if [ -n "$cwd" ]; then
+                    echo "$cwd"
+                    return 0
+                fi
+                ;;
+        esac
+    done < <(ps --ppid "$pid" -o pid=,comm= 2>/dev/null)
+    return 1
+}
+
+# Check if this is a known terminal emulator
+case "$app_id" in
+    kitty|org.kde.konsole|Alacritty|foot|wezterm|org.wezfurlong.wezterm|com.mitchellh.ghostty)
+        cwd=$(get_terminal_cwd "$window_pid")
+        if [ -n "$cwd" ]; then
+            case "$app_id" in
+                kitty)
+                    exec kitty --directory "$cwd" ;;
+                Alacritty)
+                    exec alacritty --working-directory "$cwd" ;;
+                foot)
+                    exec foot --working-directory "$cwd" ;;
+                wezterm|org.wezfurlong.wezterm)
+                    exec wezterm start --cwd "$cwd" ;;
+                com.mitchellh.ghostty)
+                    exec ghostty --working-directory="$cwd" ;;
+                org.kde.konsole)
+                    exec konsole --workdir "$cwd" ;;
+            esac
+        fi
+        ;;
+esac
+
+# For non-terminal apps (or if CWD detection failed), use the original behavior.
+
+# Search for .desktop file in standard locations
+desktop_dirs=(
+    "$HOME/.local/share/applications"
+    "/usr/share/applications"
+    "/usr/local/share/applications"
+    "/var/lib/flatpak/exports/share/applications"
+    "$HOME/.local/share/flatpak/exports/share/applications"
+)
+
+desktop_file=""
+for dir in "${desktop_dirs[@]}"; do
+    # Try exact match first
+    if [ -f "$dir/$app_id.desktop" ]; then
+        desktop_file="$dir/$app_id.desktop"
+        break
+    fi
+    # Try case-insensitive search
+    found=$(find "$dir" -maxdepth 1 -iname "*$app_id*.desktop" 2>/dev/null | head -1)
+    if [ -n "$found" ]; then
+        desktop_file="$found"
+        break
+    fi
+done
+
+if [ -n "$desktop_file" ]; then
+    desktop_name=$(basename "$desktop_file")
+    gtk-launch "$desktop_name" 2>/dev/null || gio launch "$desktop_file" 2>/dev/null
+else
+    exec "$app_id"
+fi

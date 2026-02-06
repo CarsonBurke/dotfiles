@@ -390,7 +390,7 @@ binds {
     Mod+B hotkey-overlay-title="Open Browser: Zen" { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+Shift+B hotkey-overlay-title="Open Browser: Zen Private" { spawn "flatpak" "run" "app.zen_browser.zen" "-private-window"; }
     Mod+I hotkey-overlay-title="Open IDE: Zed" { spawn "zed"; }
-    Mod+F hotkey-overlay-title="Open Files: Dolphin" { spawn "dolphin"; }
+    Mod+F hotkey-overlay-title="Open Files: Nautilus" { spawn "nautilus"; }
     Mod+M hotkey-overlay-title="Toggle Mic Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
     Mod+Shift+Equal hotkey-overlay-title="Mic Volume Up" { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.05+ -l 1.0"; }
     Mod+Shift+Minus hotkey-overlay-title="Mic Volume Down" { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.05-"; }
@@ -573,7 +573,7 @@ binds {
     // Mod+R { switch-preset-column-width-back; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
-    Mod+Shift+F { fullscreen-window; }
+    Mod+G hotkey-overlay-title="Fullscreen Window" { fullscreen-window; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
     // Makes the column "fill the rest of the space".
