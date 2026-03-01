@@ -1,0 +1,9 @@
+# Track only config that matters
+*
+!.gitignore
+!CLAUDE.md
+!settings.json
+!agents/
+!agents/**
+!commands/
+!commands/**
