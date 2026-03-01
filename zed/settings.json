@@ -29,6 +29,7 @@
   "biome": false
  },
  "git_panel": {
+  "tree_view": true,
   "scrollbar": {
    "show": "system"
   }
