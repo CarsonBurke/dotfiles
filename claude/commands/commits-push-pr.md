@@ -1,0 +1,1 @@
+Idiomatically create commit(s) from current diff in Conventional Commits style, separated by concerns. You generally don't need to put anything in the commit description. Don't co-author yourself. Then create a PR, same style; no description or a very short one if it's necessary. Push when done.
