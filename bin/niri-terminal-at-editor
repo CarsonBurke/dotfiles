@@ -1,0 +1,44 @@
+#!/bin/sh
+# Open a terminal at the focused editor window's project directory.
+# Supports VSCode and Zed.
+
+WINDOW_JSON=$(niri msg -j focused-window 2>/dev/null) || exec kitty
+TITLE=$(printf '%s' "$WINDOW_JSON" | jq -r '.title // empty')
+APP_ID=$(printf '%s' "$WINDOW_JSON" | jq -r '.app_id // empty')
+
+case "$APP_ID" in
+    code|Code|com.visualstudio.code*)
+        # VSCode titles: "file.ts - my-project - Visual Studio Code"
+        FOLDER_NAME=$(printf '%s' "$TITLE" | sed 's/ - Visual Studio Code$//' | awk -F ' - ' '{print $NF}')
+        if [ -n "$FOLDER_NAME" ]; then
+            STORAGE="$HOME/.config/Code/User/globalStorage/storage.json"
+            if [ -f "$STORAGE" ]; then
+                DIR=$(jq -r --arg name "$FOLDER_NAME" '
+                    [.windowsState.lastActiveWindow.folder] +
+                    [.windowsState.openedWindows[]?.folder]
+                    | map(strings | select(endswith("/" + $name)))
+                    | first
+                    | ltrimstr("file://")
+                ' "$STORAGE" 2>/dev/null)
+            fi
+        fi
+        ;;
+    dev.zed.Zed|zed|Zed)
+        # Zed titles: "my-project" or "my-project — file.tsx"
+        # Strip the " — filename" suffix if present (em-dash U+2014)
+        FOLDER_NAME=$(printf '%s' "$TITLE" | sed 's/ — .*//')
+        if [ -n "$FOLDER_NAME" ]; then
+            ZED_DB="$HOME/.local/share/zed/db/0-stable/db.sqlite"
+            if [ -f "$ZED_DB" ]; then
+                DIR=$(printf "SELECT paths FROM workspaces WHERE paths LIKE '%%/%s' ORDER BY timestamp DESC LIMIT 1;" "$FOLDER_NAME" \
+                    | sqlite3 "$ZED_DB" 2>/dev/null)
+            fi
+        fi
+        ;;
+esac
+
+if [ -n "$DIR" ] && [ -d "$DIR" ]; then
+    exec kitty --directory "$DIR"
+fi
+
+exec kitty
