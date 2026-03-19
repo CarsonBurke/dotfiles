@@ -1,4 +1,6 @@
-source /usr/share/cachyos-fish-config/cachyos-config.fish
+if status is-interactive
+    source /usr/share/cachyos-fish-config/cachyos-config.fish
+end
 
 # overwrite greeting
 # potentially disabling fastfetch

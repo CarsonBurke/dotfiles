@@ -1,5 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export AGENT_BROWSER_HEADED:TRUE
 SETUVAR --export CLAUDE_CODE_MAX_OUTPUT_TOKENS:200000
 SETUVAR --export CMAKE_POLICY_VERSION_MINIMUM:3\x2e5
 SETUVAR --export CUDA_HOME:/opt/cuda
@@ -7,6 +8,7 @@ SETUVAR --export EDITOR:ox
 SETUVAR --export LIBGL_ALWAYS_SOFTWARE:1
 SETUVAR --export LIBTORCH:/home/marvin/Downloads/libtorch\x2dshared\x2dwith\x2ddeps\x2d2\x2e10\x2e0\x2bcu130/libtorch
 SETUVAR --export LIBTORCH_BYPASS_VERSION_CHECK:1
+SETUVAR --export MISE_TRUST_ALL:1
 SETUVAR --export --path PATH:/usr/local/NVIDIA\x2dNsight\x2dCompute/bin\x1e/opt/cuda/bin\x1e/usr/local/bin\x1e/usr/bin
 SETUVAR --export POWER_RATE:0\x2e14
 SETUVAR --export VK_ICD_FILENAMES:/usr/share/vulkan/icd\x2ed/nvidia_icd\x2ejson
