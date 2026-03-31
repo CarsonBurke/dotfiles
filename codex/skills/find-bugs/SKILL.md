@@ -27,22 +27,12 @@ Paths: {paths}
    - suggested fix
 4. Gather all findings and write them to `./FOUND_ISSUES.md`.
 
-Use these default domains unless the user provides overrides:
+If the user provides domains, use those. Otherwise, auto-discover domains by scanning the project structure:
 
-1. electron-core: `packages/electron-core`
-2. electron-client: `packages/electron-client`
-3. claws: `packages/claws` and `packages/claws-shared`
-4. axes: `packages/axes`
-5. web: `packages/web`
-6. common business logic: `packages/common`
-7. common and schemas: `packages/public-schemas`, `packages/private-schemas`, `packages/electron-client-common`
-8. backend service: `packages/w-brazil`
-9. workflow library: `packages/workflow`
-10. shared ui: `packages/ui`
-11. extension: `packages/extension`
-12. migration library: `packages/drifti`
-13. otel library: `packages/otel`
-14. electron-bootstrap: `packages/electron-bootstrap`
+1. Look for a monorepo layout (e.g. `packages/`, `apps/`, `libs/`, `services/`, `modules/`).
+2. If found, treat each immediate subdirectory as a domain.
+3. If the project is not a monorepo, split by top-level source directories (e.g. `src/api`, `src/ui`, `src/core`).
+4. If the structure is flat or ambiguous, treat the entire `src/` (or project root) as a single domain.
 
 ## FOUND_ISSUES.md Format
 

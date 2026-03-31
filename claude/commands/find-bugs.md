@@ -13,22 +13,12 @@ Launch one `find-domain-bugs` subagent via the Task tool (`subagent_type=find-do
 
 ### Domains
 
-Use the following default domains unless the user provides overrides via `$ARGUMENTS`:
+If the user provides domains via `$ARGUMENTS`, use those. Otherwise, auto-discover domains by scanning the project structure:
 
-1. **electron-core** — `packages/electron-core` (main process backend logic)
-2. **electron-client** — `packages/electron-client` (renderer SPA, React components)
-3. **claws** — `packages/claws` and `packages/claws-shared` (data broker integrations)
-4. **axes** — `packages/axes` (service integrations)
-5. **web** — `packages/web` (marketing/checkout/account site)
-6. **common business logic** - `packages/common`
-7. **common & schemas** — `packages/public-schemas`, `packages/private-schemas`, `packages/electron-client-common`
-8. **backend service** — `packages/w-brazil` (cloudflare worker)
-9. **workflow library** - `packages/workflow`
-10. **shared ui** - `packages/ui`
-11. **extension** — `packages/extension`
-12. **migration library** — `packages/drifti`
-13. **otel library** — `packages/otel`
-14. **electron-bootstrap** — `packages/electron-bootstrap` (loads electron-core, critical for launching the app)
+1. Look for a monorepo layout (e.g. `packages/`, `apps/`, `libs/`, `services/`, `modules/`).
+2. If found, treat each immediate subdirectory as a domain.
+3. If the project is not a monorepo, split by top-level source directories (e.g. `src/api`, `src/ui`, `src/core`).
+4. If the structure is flat or ambiguous, treat the entire `src/` (or project root) as a single domain.
 
 ### Agent Prompt
 
@@ -45,7 +35,7 @@ The `find-domain-bugs` agent already knows the full bug-hunting workflow. You on
 
 After all subagents complete, gather their results and write `./FOUND_ISSUES.md`.
 
-**IMPORTANT:** The format below is a strict contract. Downstream tooling (`/issues-to-github` and `scripts/change-issue-status.ts`) parses this file with regex and depends on the exact field names, ordering, and markdown structure. Do NOT deviate from it.
+**IMPORTANT:** The format below is a strict contract. Do NOT deviate from the exact field names, ordering, and markdown structure.
 
 ### File structure
 
@@ -88,5 +78,5 @@ If no bugs are found across all domains, write that to the file and stop.
 
 ## Final Output
 
-Print a summary of how many issues were found per domain and per severity level. Remind the user they can run `/issues-to-github` to validate and create GitHub issues from the results.
+Print a summary of how many issues were found per domain and per severity level.
 

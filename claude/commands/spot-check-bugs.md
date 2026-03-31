@@ -11,17 +11,13 @@ You are a bug-finding coordinator. Your job is to randomly sample source files f
 
 Use Bash to find and randomly select files. Unless the user provides overrides via `$ARGUMENTS`, use these defaults:
 
-- **Glob**: all `.ts` and `.tsx` files under `packages/`
+- **Glob**: all source files (`.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.go`, `.rs`, etc.) under `src/`, `packages/`, `apps/`, `libs/`, or the project root
 - **Count**: 10 files
 
-```bash
-find packages -type f \( -name "*.ts" -o -name "*.tsx" \) \
-  | grep -Ev '(node_modules|/dist/|\.d\.ts$|\.test\.|\.spec\.|__generated__)' \
-  | shuf -n 10
-```
+First, detect the project's source layout, then sample from it. Exclude `node_modules`, `dist`, `build`, `.d.ts`, test/spec files, and generated files.
 
-If `$ARGUMENTS` supplies a glob pattern, a package path, or a count, adjust the command accordingly. For example:
-- `packages/w-brazil/src/**/*.ts 5` → restrict the find path to `packages/w-brazil/src` and pick 5 files
+If `$ARGUMENTS` supplies a glob pattern, a path, or a count, adjust accordingly. For example:
+- `src/api/**/*.ts 5` → restrict to that path and pick 5 files
 - `20` → keep the default glob but pick 20 files
 
 ## Phase 2: Spawn Agents
@@ -42,7 +38,7 @@ The `find-file-bugs` agent already knows the full bug-hunting workflow. You only
 
 After all agents complete, gather their results and write `./FOUND_ISSUES.md`.
 
-**IMPORTANT:** The format below is a strict contract. Downstream tooling (`/issues-to-github` and `scripts/change-issue-status.ts`) parses this file with regex and depends on the exact field names, ordering, and markdown structure. Do NOT deviate from it.
+**IMPORTANT:** The format below is a strict contract. Do NOT deviate from the exact field names, ordering, and markdown structure.
 
 ### File structure
 
@@ -77,7 +73,7 @@ _Generated on {date}_
 - `{n}` is a sequential integer starting at 1, with no gaps.
 - Each issue heading MUST be `### Issue {n}: {summary}` — the number and colon are required.
 - Each issue MUST have exactly the six bullet fields shown above, in that exact order, with those exact bold labels.
-- For `**Domain:**`, use the package name derived from the file path (e.g. `electron-core` for `packages/electron-core/...`).
+- For `**Domain:**`, derive from the file path (e.g. the package or top-level directory name).
 - `- **Status:** Pending` MUST be the last field of every issue. Do not use any other initial status value.
 - Each issue block MUST be followed by a `---` horizontal rule.
 - Do not add extra fields, blank bullets, or sub-bullets within an issue block.
@@ -86,5 +82,5 @@ If no bugs are found across all files, write that to the file and stop.
 
 ## Final Output
 
-Print a summary listing which files were scanned, how many issues were found per file, and a severity breakdown. Remind the user they can run `/validate-issues` or `/issues-to-github` to process the results.
+Print a summary listing which files were scanned, how many issues were found per file, and a severity breakdown.
 

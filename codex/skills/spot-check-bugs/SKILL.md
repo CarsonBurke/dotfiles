@@ -11,7 +11,7 @@ Use this skill when the user wants a randomized bug-finding pass over sampled fi
 
 ## Workflow
 
-1. Select random files with shell commands. Unless the user overrides it, sample 10 `.ts` and `.tsx` files under `packages/` and exclude `node_modules`, `dist`, declaration files, tests, specs, and generated files.
+1. Select random files with shell commands. Unless the user overrides it, detect the project's source layout (e.g. `src/`, `packages/`, `apps/`, `libs/`, or project root) and sample 10 source files, excluding `node_modules`, `dist`, `build`, declaration files, tests, specs, and generated files.
 2. Spawn one read-only subagent per selected file in parallel. Prefer `explorer` agents.
 3. Ask each subagent to inspect only its assigned file and report only confident, actual bugs with:
    - exact file and line numbers
@@ -21,7 +21,7 @@ Use this skill when the user wants a randomized bug-finding pass over sampled fi
    - suggested fix
 4. Gather all findings and write them to `./FOUND_ISSUES.md`.
 
-Default sampling command:
+Adapt the sampling command to the detected project layout. For example, in a monorepo with `packages/`:
 
 ```bash
 find packages -type f \( -name "*.ts" -o -name "*.tsx" \) \
