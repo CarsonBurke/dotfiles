@@ -362,6 +362,14 @@ window-rule {
     // block-out-from "screencast"
 }
 
+window-rule {
+    match app-id="Handy" title="Recording"
+    border { off; }
+    focus-ring { off; }
+    open-focused false
+    open-floating true
+}
+
 // Enable rounded corners for all windows and draw focus ring around (not behind).
 window-rule {
     geometry-corner-radius 12
@@ -391,11 +399,13 @@ binds {
     Mod+B hotkey-overlay-title="Open Browser: Zen" { spawn "flatpak" "run" "app.zen_browser.zen"; }
     Mod+Shift+B hotkey-overlay-title="Open Browser: Zen Private" { spawn "flatpak" "run" "app.zen_browser.zen" "-private-window"; }
     Mod+I hotkey-overlay-title="Open IDE: Code" { spawn "code"; }
+    Mod+Shift+I hotkey-overlay-title="Open IDE from Terminal" { spawn "niri-ide-from-terminal" "zed"; }
     Mod+F hotkey-overlay-title="Open Files: Nautilus" { spawn "nautilus"; }
     Mod+M hotkey-overlay-title="Toggle Mic Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
     Mod+Shift+Equal hotkey-overlay-title="Mic Volume Up" { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.05+ -l 1.0"; }
     Mod+Shift+Minus hotkey-overlay-title="Mic Volume Down" { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.05-"; }
     Mod+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Mod+X repeat=false hotkey-overlay-title="Toggle Handy" { spawn "/home/marvin/AppImages/handy.appimage" "--toggle-post-process"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
