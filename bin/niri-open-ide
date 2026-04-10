@@ -1,0 +1,5 @@
+#!/bin/sh
+# Open the IDE, resolving $IDE from fish universal variables if needed.
+
+IDE="${IDE:-$(fish -c 'echo $IDE' 2>/dev/null)}"
+exec "${IDE:-code}"

@@ -1,0 +1,32 @@
+#!/bin/sh
+# Open the IDE at the focused terminal's working directory.
+# Falls back to opening the IDE without a directory.
+
+IDE="${1:-${IDE:-$(fish -c 'echo $IDE' 2>/dev/null)}}"
+IDE="${IDE:-code}"
+
+WINDOW_JSON=$(niri msg -j focused-window 2>/dev/null) || exec "$IDE"
+WINDOW_PID=$(printf '%s' "$WINDOW_JSON" | jq -r '.pid // empty')
+
+# Find a shell child of the terminal and read its CWD.
+if [ -n "$WINDOW_PID" ]; then
+    DIR=$(
+        ps --ppid "$WINDOW_PID" -o pid=,comm= 2>/dev/null | while read -r cpid ccomm; do
+            case "$ccomm" in
+                bash|zsh|fish|sh|dash|ksh|tcsh|csh|nu|nushell|elvish|xonsh|pwsh)
+                    cwd=$(readlink "/proc/$cpid/cwd" 2>/dev/null)
+                    if [ -n "$cwd" ]; then
+                        printf '%s' "$cwd"
+                        break
+                    fi
+                    ;;
+            esac
+        done
+    )
+fi
+
+if [ -n "$DIR" ] && [ -d "$DIR" ]; then
+    exec "$IDE" "$DIR"
+fi
+
+exec "$IDE"
