@@ -12,13 +12,6 @@ Analyze the given stock ticker over the specified timeframe (default: last month
 
 ## Analysis
 
-Present a concise analysis covering:
-
-- **Price action** — trend, support/resistance, notable moves
-- **Sentiment** — overall market sentiment from news and analyst tone (bullish/bearish/mixed), with evidence
-- **Controversy & risk** — lawsuits, regulatory issues, executive departures, short seller reports, accounting concerns, or other red flags discovered via news
-- **Key events** — earnings, product launches, analyst upgrades/downgrades, insider activity
-- **Bull/bear case** — concise arguments for each side
-- **Current exposure** — position size and P&L if held
+Present a concise analysis. Examples of what to cover: price action, sentiment with evidence, controversy & risk (lawsuits, regulatory, short seller reports, etc.), key events, bull/bear case, current exposure if held — but use good judgement and include whatever else seems relevant.
 
 $ARGUMENTS
