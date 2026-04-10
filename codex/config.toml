@@ -1,0 +1,113 @@
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+personality = "pragmatic"
+approvals_reviewer = "user"
+[projects."/home/marvin"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/Agentic Programming"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/Agentic Programming/redact"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/redact"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/trading_bot_0"]
+trust_level = "untrusted"
+
+[projects."/home/marvin/Documents/GitHub/mamba-ssm"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/cleanrl"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/codex-desktop-linux"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/sauna-crm"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/futurechem"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/dotfiles"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/cb-bc"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/redact-worktrees"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/dreamer4"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/GitHub/mappo"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/dotfiles"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/cb-bc"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/Obsidian.md-Main"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/dreamer4"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/cleanrl"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/redact"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/redact-worktrees"]
+trust_level = "trusted"
+
+[projects."/home/marvin/interactive-brokers-mcp"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/trading_bot_0"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories"]
+trust_level = "trusted"
+
+[mcp_servers.linear]
+url = "https://mcp.linear.app/mcp"
+
+[mcp_servers.paper]
+url = "http://127.0.0.1:29979/mcp"
+
+[mcp_servers.ibkr]
+command = "target/release/ibkr-mcp"
+
+[notice]
+hide_gpt5_1_migration_prompt = true
+"hide_gpt-5.1-codex-max_migration_prompt" = true
+hide_rate_limit_model_nudge = true
+hide_full_access_warning = true
+
+[notice.model_migrations]
+"gpt-5.2" = "gpt-5.2-codex"
+"gpt-5.1-codex-max" = "gpt-5.2-codex"
+
+[agents.subagent]
+model = "gpt-5.4"
+description = "Default subagent for background tasks"
+
+[features]
+experimental_use_rmcp_client = true
+multi_agent = true
+
+[tui]
+theme = "catppuccin-mocha"
+
+[tui.model_availability_nux]
+"gpt-5.3-codex-spark" = 4

@@ -1,0 +1,6 @@
+# Track only config that matters
+*
+!.gitignore
+!AGENTS.md
+!config.toml
+!skills
