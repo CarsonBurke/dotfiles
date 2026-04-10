@@ -1,0 +1,19 @@
+ignored_dirs = [
+  "node_modules",
+  "\\.git/",
+  "venv",
+  "__pycache__",
+  "/home/marvin/go/",
+  "/home/marvin/Android/",
+  "/home/marvin/carla",
+  "/home/marvin/libtorch-shared-with-deps",
+  "/home/marvin/torch-nightly",
+  "/home/marvin/aws/",
+  "target/debug",
+  "target/release",
+  "\\.cache/",
+  "build/",
+  "dist/",
+  "/home/marvin/Documents/GitHub/",
+  "/home/marvin/Documents/repositories/"
+]
