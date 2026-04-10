@@ -272,8 +272,8 @@ spawn-sh-at-startup "kded6 & sleep 0.3 && busctl --user call org.kde.kded6 /kded
 spawn-at-startup "/usr/bin/walker" "--gapplication-service"
 
 // Set wallpaper
-spawn-at-startup "swww-daemon"
-spawn-at-startup "swww" "img" "/home/marvin/Pictures/myWallpapers/whytecliff_night_upscaled.jpg"
+spawn-at-startup "awww-daemon"
+spawn-at-startup "awww" "img" "/home/marvin/Pictures/myWallpapers/whytecliff_night_upscaled.jpg"
 
 // Night light / blue light filter
 spawn-at-startup "/usr/bin/sunsetr"
@@ -412,6 +412,7 @@ binds {
     Mod+Shift+Minus hotkey-overlay-title="Mic Volume Down" { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0.05-"; }
     Mod+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+X repeat=false hotkey-overlay-title="Toggle Handy" { spawn "/home/marvin/AppImages/handy.appimage" "--toggle-post-process"; }
+    Mod+Shift+S hotkey-overlay-title="Suspend" { spawn "systemctl suspend"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
