@@ -1,8 +1,6 @@
 ---
 name: find-bugs
 description: Analyze multiple codebase domains for bugs using parallel subagents, then write the results to FOUND_ISSUES.md.
-metadata:
-  short-description: Parallel bug hunt across domains
 ---
 
 # Find Bugs

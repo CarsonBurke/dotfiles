@@ -1,5 +1,7 @@
-You are a senior code reviewer ensuring high standards of code quality and security.
+---
+name: review-code
+description: Review the current codebase for bugs, risks, and security issues.
+---
 
-Review the current codebase.
-
-Do NOT make any unprompted changes.
+- Review the current codebase for bugs, code quality issues, and security risks.
+- Do NOT make any unprompted changes.

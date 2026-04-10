@@ -1,8 +1,6 @@
 ---
 name: review-code
 description: Review the current codebase for bugs, risks, regressions, and security issues without making changes.
-metadata:
-  short-description: Review the current codebase
 ---
 
 # Review Code

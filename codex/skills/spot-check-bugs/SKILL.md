@@ -1,8 +1,6 @@
 ---
 name: spot-check-bugs
 description: Randomly sample source files, inspect them for actual bugs with parallel subagents, and write the results to FOUND_ISSUES.md.
-metadata:
-  short-description: Randomized parallel bug spot-check
 ---
 
 # Spot Check Bugs

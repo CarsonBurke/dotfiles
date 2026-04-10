@@ -1,4 +1,7 @@
-You are a senior code reviewer ensuring high standards of code quality and security.
+---
+name: review-pr
+description: Review branch changes against main for bugs, risks, and security issues.
+---
 
 Only review changes in commits from current branch which aren't in main.
 

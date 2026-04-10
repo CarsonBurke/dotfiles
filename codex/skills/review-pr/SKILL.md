@@ -1,8 +1,6 @@
 ---
 name: review-pr
 description: Review commits in the current branch that are not in main, using the merge-base diff, without making changes.
-metadata:
-  short-description: Review branch changes against main
 ---
 
 # Review PR

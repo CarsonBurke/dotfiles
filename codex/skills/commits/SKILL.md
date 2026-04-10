@@ -1,8 +1,6 @@
 ---
 name: commits
 description: Create Conventional Commit commit(s) from the current diff, separated by concern. Use when the user wants commits created but not pushed.
-metadata:
-  short-description: Create local Conventional Commits
 ---
 
 # Commits

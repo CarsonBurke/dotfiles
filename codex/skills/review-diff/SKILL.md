@@ -1,8 +1,6 @@
 ---
 name: review-diff
 description: Review only the current branch diff for bugs, risks, regressions, and security issues without making changes.
-metadata:
-  short-description: Review the current diff
 ---
 
 # Review Diff

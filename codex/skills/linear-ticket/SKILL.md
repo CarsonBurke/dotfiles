@@ -1,8 +1,6 @@
 ---
 name: linear-ticket
 description: Work a Linear ticket end to end, using Linear MCP to read the ticket and a dedicated git worktree when appropriate.
-metadata:
-  short-description: Execute work from a Linear ticket
 ---
 
 # Linear Ticket

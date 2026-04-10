@@ -1,8 +1,6 @@
 ---
 name: find-domain-bugs
 description: Analyze a specific codebase domain or path for actual bugs and return structured findings with file and line references.
-metadata:
-  short-description: Focused domain bug hunt
 ---
 
 # Find Domain Bugs

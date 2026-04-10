@@ -1,8 +1,6 @@
 ---
 name: commits-push
 description: Create Conventional Commit commit(s) from the current diff, separated by concern, then push them.
-metadata:
-  short-description: Create and push Conventional Commits
 ---
 
 # Commits Push
