@@ -1,0 +1,6 @@
+# Track only config that matters
+*
+!.gitignore
+!GEMINI.md
+!settings.json
+!skills

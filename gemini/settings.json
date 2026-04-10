@@ -1,0 +1,35 @@
+{
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  },
+  "general": {
+    "previewFeatures": true,
+    "vimMode": true,
+    "sessionRetention": {
+      "warningAcknowledged": true,
+      "enabled": true,
+      "maxAge": "120d"
+    }
+  },
+  "ui": {
+    "hideContextSummary": false,
+    "footer": {
+      "hideContextPercentage": false
+    },
+    "useBackgroundColor": false
+  },
+  "tools": {
+    "shell": {
+      "showColor": true
+    }
+  },
+  "ide": {
+    "hasSeenNudge": true,
+    "enabled": true
+  },
+  "model": {
+    "name": "gemini-3.1-pro-preview"
+  }
+}
