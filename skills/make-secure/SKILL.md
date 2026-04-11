@@ -10,3 +10,4 @@ Use this skill when the user wants to harden changed code against security vulne
 - Review files in the current git diff (or a provided path) for security vulnerabilities.
 - Fix what you find. This is an action skill, not a review skill.
 - Examples: injection, auth gaps, data exposure, unsafe deserialization, path traversal, insecure defaults — but use good judgement.
+- After making your changes, spawn a subagent to review. Address reasonable concerns and follow up as necessary.
