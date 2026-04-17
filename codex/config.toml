@@ -79,6 +79,9 @@ trust_level = "trusted"
 [projects."/home/marvin/Documents/repositories"]
 trust_level = "trusted"
 
+[projects."/home/marvin/Documents/repositories/parameter-golf"]
+trust_level = "trusted"
+
 [mcp_servers.linear]
 url = "https://mcp.linear.app/mcp"
 
@@ -100,6 +103,7 @@ hide_full_access_warning = true
 
 [agents.subagent]
 model = "gpt-5.4"
+model_reasoning_effort = "medium"
 description = "Default subagent for background tasks"
 
 [features]
