@@ -1,7 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR --export AGENT_BROWSER_HEADED:TRUE
-SETUVAR --export CLAUDE_CODE_MAX_OUTPUT_TOKENS:200000
 SETUVAR --export CMAKE_POLICY_VERSION_MINIMUM:3\x2e5
 SETUVAR --export CUDA_HOME:/opt/cuda
 SETUVAR --export EDITOR:ox
