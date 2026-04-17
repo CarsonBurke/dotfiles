@@ -3,20 +3,82 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
-    "allow": [],
+    "allow": [
+      "Bash(bun add:*)",
+      "Bash(bun info:*)",
+      "Bash(bun install:*)",
+      "Bash(bun remove:*)",
+      "Bash(bun run build:*)",
+      "Bash(bun run fix:*)",
+      "Bash(bun run tsc:*)",
+      "Bash(bun tsc:*)",
+      "Bash(bunx shadcn@latest add:*)",
+      "Bash(bunx opensrc:*)",
+      "Bash(cat:*)",
+      "Bash(convert:*)",
+      "Bash(cp:*)",
+      "Bash(diff:*)",
+      "Bash(find:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr view:*)",
+      "Bash(git config user.email)",
+      "Bash(git config user.name)",
+      "Bash(git checkout:*)",
+      "Bash(git -C * checkout:*)",
+      "Bash(git diff-tree:*)",
+      "Bash(git -C * diff-tree:*)",
+      "Bash(git diff:*)",
+      "Bash(git -C * diff:*)",
+      "Bash(git log:*)",
+      "Bash(git -C * log:*)",
+      "Bash(git merge-base:*)",
+      "Bash(git -C * merge-base:*)",
+      "Bash(git mv:*)",
+      "Bash(git -C * mv:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git -C * rev-parse:*)",
+      "Bash(git show:*)",
+      "Bash(git -C * show:*)",
+      "Bash(git view:*)",
+      "Bash(git -C * view:*)",
+      "Bash(grep:*)",
+      "Bash(identify:*)",
+      "Bash(ls:*)",
+      "Bash(magick identify:*)",
+      "Bash(magick:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm info:*)",
+      "Bash(rg:*)",
+      "Bash(wc:*)",
+      "Bash(xargs:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:orpc.dev)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:react-spectrum.adobe.com)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebSearch"
+    ],
     "deny": [
       "Bash(bun run dev)"
     ],
-    "ask": [],
-    "defaultMode": "bypassPermissions"
+    "ask": [
+      "Bash(bun run dev)"
+    ],
+    "defaultMode": "auto",
+    "additionalDirectories": [
+      "../redact-agent-worktrees"
+    ]
   },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
     "figma@claude-plugins-official": true
   },
+  "effortLevel": "high",
+  "autoCompactWindow": 300000,
   "promptSuggestionEnabled": false,
-  "voiceEnabled": true,
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "effortLevel": "high"
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true
 }
