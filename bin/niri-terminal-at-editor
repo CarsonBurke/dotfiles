@@ -1,8 +1,14 @@
-#!/bin/sh
-# Open a terminal at the focused editor window's project directory.
-# Supports VSCode and Zed.
+#!/usr/bin/env bash
+# Open a terminal at the focused editor window's project directory and
+# place it to the LEFT of the focused column. Supports VSCode and Zed.
+#
+# Niri has no window-rule for "open-to-left", so we hook its event-stream,
+# match on *this* kitty's PID to learn its window id, then focus+move.
+# The stream is read via process substitution + `read -t`, not
+# `$(pipeline)`, so the move fires as soon as the first matching event
+# lands — independent of when the background event-stream actually exits.
 
-WINDOW_JSON=$(niri msg -j focused-window 2>/dev/null) || exec kitty
+WINDOW_JSON=$(niri msg -j focused-window 2>/dev/null)
 TITLE=$(printf '%s' "$WINDOW_JSON" | jq -r '.title // empty')
 APP_ID=$(printf '%s' "$WINDOW_JSON" | jq -r '.app_id // empty')
 
@@ -37,8 +43,40 @@ case "$APP_ID" in
         ;;
 esac
 
-if [ -n "$DIR" ] && [ -d "$DIR" ]; then
-    exec kitty --directory "$DIR"
+if ! niri msg -j focused-window >/dev/null 2>&1; then
+    # niri IPC unavailable; just spawn.
+    if [ -n "${DIR:-}" ] && [ -d "$DIR" ]; then
+        exec kitty --directory "$DIR"
+    fi
+    exec kitty
 fi
 
-exec kitty
+if [ -n "${DIR:-}" ] && [ -d "$DIR" ]; then
+    kitty --directory "$DIR" &
+else
+    kitty &
+fi
+KITTY_PID=$!
+
+# Hook the event stream with a single long-lived jq that filters for the
+# window whose pid matches *this* kitty. Process substitution means the
+# main shell doesn't wait for the pipeline to drain — once `read -t`
+# returns with the first emitted id, we close the fd and move on. The
+# background pipeline cleans itself up via SIGPIPE on next write (or the
+# 3s timeout, whichever comes first), but that no longer gates the move.
+exec 3< <(timeout 3 niri msg -j event-stream 2>/dev/null \
+    | jq --unbuffered -r --argjson pid "$KITTY_PID" '
+        (.WindowsChanged.windows // empty)[],
+        (.WindowOpenedOrChanged.window // empty)
+        | select(.pid == $pid)
+        | .id
+      ')
+
+NEW_ID=""
+read -r -t 3 NEW_ID <&3 || true
+exec 3<&-
+
+if [ -n "$NEW_ID" ]; then
+    niri msg action focus-window --id "$NEW_ID" >/dev/null 2>&1
+    niri msg action move-column-left >/dev/null 2>&1
+fi
