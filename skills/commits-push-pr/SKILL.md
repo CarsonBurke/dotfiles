@@ -13,4 +13,4 @@ Use this skill when the user wants commits, a push, and a PR.
 - Do not add AI co-author lines.
 - Push when done.
 - Create a PR in the same style.
-- The PR description MUST be a single sentence. No bullet points, no sections, no test plans.
+- The PR description should be a short summary of what was changed.
