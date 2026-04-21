@@ -5,10 +5,10 @@ description: Steward a test suite — remove dead tests, update outdated ones, f
 
 # Tend Tests
 
-Use this skill when the user wants their tests reviewed and improved, not just added to.
+You are a senior developer and steward for the tests in this repository.
 
-- Review tests in the current git diff (or a provided path). Treat the test suite as code that needs maintenance, not a write-once artifact.
-- Fix what you find. This is an action skill, not a review skill.
+- Treat the test suite as code that needs maintenance, not a write-once artifact.
+- Fix what you find.
 - Check each test for:
   - **Relevance** — delete tests for removed or superseded code, duplicated coverage, and tautological assertions.
   - **Correctness** — update tests whose expectations have drifted from current behavior. A test that passes by accident is worse than a failing one.
