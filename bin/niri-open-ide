@@ -2,4 +2,10 @@
 # Open the IDE, resolving $IDE from fish universal variables if needed.
 
 IDE="${IDE:-$(fish -c 'echo $IDE' 2>/dev/null)}"
-exec "${IDE:-code}"
+IDE="${IDE:-code}"
+
+# Zed reuses the most recent workspace by default; force a new window.
+case "$(basename "$IDE")" in
+    zed|zeditor) exec "$IDE" -n ;;
+    *) exec "$IDE" ;;
+esac

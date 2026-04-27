@@ -25,8 +25,14 @@ if [ -n "$WINDOW_PID" ]; then
     )
 fi
 
+# Zed reuses the most recent workspace by default; force a new window.
+case "$(basename "$IDE")" in
+    zed|zeditor) NEW_FLAG="-n" ;;
+    *) NEW_FLAG="" ;;
+esac
+
 if [ -n "$DIR" ] && [ -d "$DIR" ]; then
-    exec "$IDE" "$DIR"
+    exec "$IDE" $NEW_FLAG "$DIR"
 fi
 
-exec "$IDE"
+exec "$IDE" $NEW_FLAG
