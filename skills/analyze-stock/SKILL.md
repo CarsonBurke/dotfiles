@@ -1,6 +1,6 @@
 ---
 name: analyze-stock
-description: Analyze a stock using IBKR MCP data supplemented by web search. Covers price action, sentiment, controversy, and bull/bear case.
+description: Analyze a stock using IBKR MCP
 ---
 
 # Analyze Stock
