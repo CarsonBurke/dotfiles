@@ -69,6 +69,10 @@
       "../redact-agent-worktrees"
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "echo \"[$(basename \"$(pwd)\")]\""
+  },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
@@ -81,8 +85,7 @@
   "skipDangerousModePermissionPrompt": true,
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true,
-  "statusLine": {
-    "type": "command",
-    "command": "echo \"[$(basename \"$(pwd)\")]\""
-  }
+  "verbose": true,
+  "teammateMode": "in-process",
+  "agentPushNotifEnabled": false
 }
