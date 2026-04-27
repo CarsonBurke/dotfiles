@@ -1,0 +1,2 @@
+- Never add memories
+- use subagents to review your work where reasonable
