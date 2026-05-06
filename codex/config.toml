@@ -94,6 +94,33 @@ trust_level = "trusted"
 [projects."/home/marvin/Documents"]
 trust_level = "trusted"
 
+[projects."/home/marvin/Documents/repositories/keyboards"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/Groove-Engine"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/AIEvalSuite"]
+trust_level = "trusted"
+
+[projects."/home/marvin/AppImages"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/chem-development"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/reading-list"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/dotfiles/waybar"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/sauna-crm-worktrees"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/sauna-crm-worktrees/main"]
+trust_level = "trusted"
+
 [mcp_servers.linear]
 url = "https://mcp.linear.app/mcp"
 
@@ -102,6 +129,13 @@ url = "http://127.0.0.1:29979/mcp"
 
 [mcp_servers.ibkr]
 command = "target/release/ibkr-mcp"
+
+[mcp_servers.redact-archive]
+url = "http://127.0.0.1:4488/mcp"
+
+[mcp_servers.chebi]
+command = "/usr/bin/uv"
+args = ["--directory", "chebi-mcp", "run", "chebi-mcp"]
 
 [notice]
 hide_gpt5_1_migration_prompt = true
@@ -124,7 +158,7 @@ multi_agent = true
 
 [tui]
 theme = "catppuccin-mocha"
-status_line = ["model-with-reasoning", "git-branch", "project-root", "context-usage"]
+status_line = ["model-with-reasoning", "git-branch", "project-name", "context-used"]
 
 [tui.model_availability_nux]
 "gpt-5.3-codex-spark" = 4
