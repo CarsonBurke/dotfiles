@@ -15,5 +15,6 @@ ignored_dirs = [
   "build/",
   "dist/",
   "/home/marvin/Documents/GitHub/",
-  "/home/marvin/Documents/repositories/"
+  "/home/marvin/Documents/repositories/",
+  "/home/marvin/AppImages/"
 ]
