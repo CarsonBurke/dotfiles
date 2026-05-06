@@ -5,10 +5,8 @@ description: Use agent-browser directly to validate frontend-affecting changes i
 
 # Validate Frontend
 
-Use this skill when the task changes frontend behavior or presentation and the result should be validated in a real browser.
-
 - Use `agent-browser` directly. Do not use repo-specific wrappers like `bun ab` unless the user explicitly asks for them.
-- Use this for browser-accessible frontends: local dev servers, staging apps, production websites, or other web UIs.
+- Browser-accessible frontends include local dev servers, staging apps, production websites, and other web UIs.
 - Run browser validation after frontend-affecting changes instead of stopping at code inspection. This includes layout, styling, copy, forms, navigation, loading states, interactivity, responsive behavior, and console/runtime health.
 - If a more specialized skill exists for the exact environment, prefer that skill. Example: use an Electron-specific skill for Electron UI debugging.
 

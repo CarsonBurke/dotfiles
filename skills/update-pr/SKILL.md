@@ -5,8 +5,6 @@ description: Update the GitHub pull request title and description for the curren
 
 # Update PR
 
-Use this skill when the user wants to update the title and description of the open PR for the current branch.
-
 - Use exactly ``git diff `git merge-base main HEAD`..HEAD`` to get introduced changes.
 - Use exactly ``git log `git merge-base main HEAD`..HEAD --oneline --no-merges`` to list commits.
 - Do not use `$()` command substitution in bash for these commands.

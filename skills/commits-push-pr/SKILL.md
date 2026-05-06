@@ -5,8 +5,6 @@ description: Create Conventional Commit commit(s) from the current diff, separat
 
 # Commits Push PR
 
-Use this skill when the user wants commits, a push, and a PR.
-
 - Create idiomatic Conventional Commit commit(s) from the current diff.
 - Separate unrelated concerns into separate commits.
 - Prefer no commit body, or a very short one only when needed.

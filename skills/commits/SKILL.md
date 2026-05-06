@@ -1,11 +1,9 @@
 ---
 name: commits
-description: Create Conventional Commit commit(s) from the current diff, separated by concern. Use when the user wants commits created but not pushed.
+description: Create Conventional Commit commit(s) from the current diff, separated by concern, without pushing.
 ---
 
 # Commits
-
-Use this skill when the user wants commits created from the current diff.
 
 - Create idiomatic Conventional Commit commit(s) from the current diff.
 - Separate unrelated concerns into separate commits.

@@ -5,8 +5,6 @@ description: Analyze a specific codebase domain or path for actual bugs and retu
 
 # Find Domain Bugs
 
-Use this skill when the user wants a focused bug hunt for a specific domain, package, or path.
-
 Look for actual bugs, not style issues, TODOs, or missing tests. Focus on:
 
 - Logic errors, off-by-one errors, and incorrect conditions

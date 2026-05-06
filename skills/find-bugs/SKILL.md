@@ -5,8 +5,6 @@ description: Analyze multiple codebase domains for bugs using parallel subagents
 
 # Find Bugs
 
-Use this skill when the user wants a broad bug sweep across multiple codebase domains.
-
 ## Workflow
 
 1. Launch one read-only subagent per domain in parallel. Prefer `explorer` agents for this.
@@ -72,4 +70,4 @@ Rules:
 
 If no bugs are found, write that clearly to the file and stop.
 
-In the final response, summarize issue counts by domain and severity and mention that `FOUND_ISSUES.md` was written.
+In the final response, summarize findings in a temporary md file.

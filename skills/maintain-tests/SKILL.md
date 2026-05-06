@@ -1,9 +1,7 @@
 ---
-name: tend-tests
-description: Steward a test suite — remove dead tests, update outdated ones, fix stateful or non-idiomatic ones. Operates on the current git diff or a provided path.
+name: maintain-tests
+description: Steward a test suite. Remove dead tests, update outdated ones, fix stateful or non-idiomatic ones, etc. Operates on the current git diff or a provided path.
 ---
-
-# Tend Tests
 
 You are a senior developer and steward for the tests in this repository.
 

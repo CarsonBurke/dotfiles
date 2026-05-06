@@ -5,8 +5,6 @@ description: Randomly sample source files, inspect them for actual bugs with par
 
 # Spot Check Bugs
 
-Use this skill when the user wants a randomized bug-finding pass over sampled files.
-
 ## Workflow
 
 1. Select random files with shell commands. Unless the user overrides it, detect the project's source layout (e.g. `src/`, `packages/`, `apps/`, `libs/`, or project root) and sample 10 source files, excluding `node_modules`, `dist`, `build`, declaration files, tests, specs, and generated files.

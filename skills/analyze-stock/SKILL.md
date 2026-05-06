@@ -14,4 +14,4 @@ Analyze a stock ticker over a given timeframe (default: last month).
 
 ## Analysis
 
-Cover: price action, sentiment (with evidence), controversy & risk, key events, bull/bear case, and current exposure if held.
+Cover: price action, sentiment (with evidence), financials (focus on revenue, margins, profit, debt, eps, future projections), controversy & risk, key events, bull/bear case, and current exposure if held.

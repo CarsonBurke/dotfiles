@@ -5,8 +5,6 @@ description: Work a Linear ticket end to end, using Linear MCP to read the ticke
 
 # Linear Ticket
 
-Use this skill when the user provides a Linear ticket and wants implementation work done.
-
 - Use Linear MCP to fetch the ticket details.
 - Do not modify or create tickets unless the user explicitly asks.
 - Prefer independence; ask clarifying questions only when necessary.

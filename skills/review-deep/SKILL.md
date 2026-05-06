@@ -5,9 +5,7 @@ description: Review current changes, a pull request, or a specified domain with 
 
 # Review Deep
 
-Use this skill when the user wants a deep review of current changes, a pull request, or a specified codebase domain, especially when they ask for functionality, code smell, performance, overcomplexity, or better solution analysis.
-
-This is a review-only skill. Do not edit files. If the user wants automatic changes based on the deep review, use `review-deep-action` instead.
+This is a review-only skill. Do not edit files. For automatic changes based on the deep review, use `review-deep-action` instead.
 
 ## Intent
 

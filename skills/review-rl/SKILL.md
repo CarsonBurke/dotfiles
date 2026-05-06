@@ -5,8 +5,6 @@ description: Review an RL setup at a high level for policy/value learnability, s
 
 # Review RL
 
-Use this skill when the user wants a high-level analysis of how an RL setup is likely to learn, where its policy and value components are structurally strong or weak, and what shortcomings matter most.
-
 Think in terms of learning constraints, not implementation trivia.
 
 - Ask what the actor can actually represent, not just what it outputs.
