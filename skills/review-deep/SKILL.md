@@ -9,10 +9,7 @@ This is a review-only skill. Do not edit files. For automatic changes based on t
 
 ## Intent
 
-Act as a senior reviewer coordinating a deeper-than-normal critique. Use your judgment to decide whether the request calls for reviewing a local diff, a PR-style branch diff, a named path, or a broader domain. Prefer the smallest scope that can answer the user's question well, but widen it when surrounding context is necessary to evaluate the design.
-
-The goal is not to enforce a rigid process. The goal is to find the highest-impact issues and better solution directions that a single-pass review would likely miss.
-
+Act as a senior reviewer coordinating a deeper-than-normal critique. Use your judgment to decide whether the request calls for reviewing a local diff, a PR-style branch diff, a named path, or a broader domain.
 As the parent agent, consider all subagent responses, validate them, and report the findings or recommendations you judge reasonable.
 
 ## Delegation
@@ -24,22 +21,4 @@ Use specialist subagents when they will materially improve coverage or reduce bi
 - Performance: meaningful algorithmic costs, redundant work, allocation or copy pressure, I/O inefficiency, concurrency bottlenecks, GPU/CPU transfer mistakes, and missing benchmarks.
 - Overcomplexity: unnecessary branching, avoidable abstractions, fragmented behavior, excessive configuration, and simpler local patterns that would make the system easier to reason about.
 
-Shape the prompts to the task instead of following a template. Give each subagent enough context to be useful, keep its lens distinct, and ask it not to modify files. If the review is small enough that subagents would add noise, handle it yourself and say so briefly.
-
-## Review Standard
-
-- Prioritize findings that materially affect correctness, learnability, maintainability, runtime cost, or the ability to evolve the system.
-- Distinguish real risks from taste. A finding should explain the failure mode, the conditions that make it matter, and why the proposed direction is better.
-- Prefer recommendations that fit the repository's existing patterns, unless the current pattern is part of the problem.
-- For ML/RL systems, evaluate whether the implementation helps or hurts model performance, learning signal quality, observability, experiment velocity, and reproducibility.
-- Be willing to propose a deeper refactor or replacement design when local fixes would preserve the wrong shape.
-
-## Final Response
-
-Use a code-review shape, adapted to what you found:
-
-- Lead with findings, ordered by impact, with file and line references when possible.
-- Keep summaries secondary to issues.
-- Include open questions or assumptions when they affect confidence.
-- Add a concise better refactor or solution section when there is a meaningful design alternative.
-- If there are no findings, say that clearly and mention the most relevant residual risk or test gap.
+Shape the prompts to the task instead of following a template. Give each subagent enough context to be useful, keep its lens distinct, and ask it not to modify files. If the review is small enough that subagents would add noise, handle it yourself.
