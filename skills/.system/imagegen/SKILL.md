@@ -1,6 +1,6 @@
 ---
 name: "imagegen"
-description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Covers brand-new images, existing-image transformations, and visual variants derived from references when the output should be a bitmap asset rather than repo-native code or vector. Avoid when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
 ---
 
 # Image Generation Skill
@@ -12,7 +12,7 @@ Generates or edits images for the current project (for example website assets, g
 This skill has exactly two top-level modes:
 
 - **Default built-in tool mode (preferred):** built-in `image_gen` tool for normal image generation, editing, and simple transparent-image requests. Does not require `OPENAI_API_KEY`.
-- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Choose this only for explicit CLI/API/model-path requests, or after explicit confirmation of a true model-native transparency fallback with `gpt-image-1.5`. Requires `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for the CLI/API/model path, or after the user explicitly confirms a true model-native transparency fallback with `gpt-image-1.5`. Requires `OPENAI_API_KEY`.
 
 Within CLI fallback, the CLI exposes three subcommands:
 
@@ -73,13 +73,13 @@ Think about two separate questions:
 2. **Execution strategy:** is this one asset or many assets/variants?
 
 Intent:
-- For requests to modify an existing image while preserving parts of it, treat the request as **edit**.
+- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
 - If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
 - If the user provides no images, treat the request as **generate**.
 
 Built-in edit semantics:
 - Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
-- For local image file edits with the built-in tool, first load the image with built-in `view_image` so it is visible in the conversation context, then proceed with the built-in edit flow.
+- If the user wants to edit a local image file with the built-in tool, first load it with built-in `view_image` tool so the image is visible in the conversation context, then proceed with the built-in edit flow.
 - Do not promise arbitrary filesystem-path editing through the built-in tool.
 - If a local file still needs direct file-path control, masks, or other explicit CLI-only parameters, use the explicit CLI fallback only when the user asks for it.
 - For edits, preserve invariants aggressively and save non-destructively by default.
@@ -89,7 +89,7 @@ Execution strategy:
 - In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
 - For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
 
-Default to a new image unless the request clearly asks to change an existing one.
+Assume the user wants a new image unless they clearly ask to change an existing one.
 
 ## Workflow
 1. Decide the top-level mode: built-in by default, including simple transparent-output requests; fallback CLI only if explicitly requested or after the user explicitly confirms a transparent-output fallback.
