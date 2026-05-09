@@ -121,6 +121,12 @@ trust_level = "trusted"
 [projects."/home/marvin/Documents/repositories/sauna-crm-worktrees/main"]
 trust_level = "trusted"
 
+[projects."/home/marvin/Documents/repositories/dreamer4-worktrees"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/screeps-arena-videoizer"]
+trust_level = "trusted"
+
 [mcp_servers.linear]
 url = "https://mcp.linear.app/mcp"
 
