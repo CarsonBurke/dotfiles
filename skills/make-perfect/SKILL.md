@@ -6,11 +6,11 @@ description: Review changed code with parallel performance, security, and simpli
 # Make Perfect
 
 - Review files in the current git diff (or a provided path).
-- Spawn three subagents in parallel:
-  - one applying the spirit of `make-fast`
-  - one applying the spirit of `make-secure`
-  - one applying the spirit of `make-simple`
-- Have subagents report findings only, not edit files.
+- Spawn three read-only subagents in parallel doing:
+  - `make-fast`
+  - `make-secure`
+  - `make-simple`
+- Have subagents report findings, their task is read only
 - Consider all reports, validate the concerns, and fix what you judge real and worthwhile. This is an action skill, not a review skill.
 - Prefer fixes that improve multiple lenses at once. When recommendations conflict, preserve correctness first, address real security risk before performance or simplification, and avoid churn.
 - Run relevant validation when practical.
