@@ -83,6 +83,7 @@
   "promptSuggestionEnabled": false,
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "dark",
   "verbose": true,
   "teammateMode": "in-process",

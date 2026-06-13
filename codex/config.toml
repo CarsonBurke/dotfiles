@@ -127,6 +127,21 @@ trust_level = "trusted"
 [projects."/home/marvin/Documents/repositories/screeps-arena-videoizer"]
 trust_level = "trusted"
 
+[projects."/home/marvin/Documents/repositories/lejepa"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/voxel-world"]
+trust_level = "trusted"
+
+[projects."/home/marvin/.config/redact/logs"]
+trust_level = "trusted"
+
+[projects."/home/marvin/.config/redact"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/tensorboard"]
+trust_level = "trusted"
+
 [mcp_servers.linear]
 url = "https://mcp.linear.app/mcp"
 
