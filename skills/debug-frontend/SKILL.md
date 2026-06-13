@@ -29,7 +29,9 @@ Assume the current directory is the scope unless the user specifies a path, pack
 - Add or update tests when they would catch the bug without excessive setup. Browser validation is still required for user-visible behavior.
 - After editing, reload or restart as needed and repeat the relevant browser checks. Do not assume hot reload applied cleanly.
 
-## Reporting
+## Completion
+
+- Kill processes you started where reasonable
 
 Summarize the work in concrete terms:
 

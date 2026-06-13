@@ -10,3 +10,4 @@ description: Create Conventional Commit commit(s) from the current diff, separat
 - Prefer no commit body, or a very short one only when needed.
 - Do not add AI co-author lines.
 - Push when done.
+- Do not make any edits.

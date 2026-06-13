@@ -12,3 +12,4 @@ description: Create Conventional Commit commit(s) from the current diff, separat
 - Push when done.
 - Create a PR in the same style.
 - The PR description should be a short summary of what was changed.
+- Do not make any edits.

@@ -42,8 +42,9 @@ agent-browser --auto-connect snapshot -i
 agent-browser --cdp 9222 screenshot
 ```
 
-## Reporting
+## Completion
 
+- Kill processes you started where reasonable
 - Report what you validated, not just that you "checked it".
 - If validation fails, include the exact failing behavior, any visible error text, and whether the failure came from UI behavior, console errors, or page load issues.
 - If you could not validate, state the concrete blocker: missing URL, dev server not running, auth wall, broken build, missing browser connection, or similar.

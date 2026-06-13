@@ -3,9 +3,7 @@ name: make-simple
 description: Review changed code for unnecessary complexity and simplify it. Operates on the current git diff or a provided path.
 ---
 
-# Make Simple
-
-- Review files in the current git diff (or a provided path) for unnecessary complexity.
+- Review files in the current git diff (or a provided path) for unnecessary complexity and bloat.
 - Fix what you find. This is an action skill, not a review skill.
 - Examples: convoluted conditionals, excessive nesting, over-abstraction, dead code paths, unclear data flow — but use good judgement.
 - After making your changes, spawn a subagent to review. Address reasonable concerns and follow up as necessary.
