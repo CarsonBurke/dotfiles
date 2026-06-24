@@ -15,6 +15,7 @@
   "license": "MIT",
   "keywords": ["keyword1", "keyword2"],
   "skills": "./skills/",
+  "hooks": "./hooks.json",
   "mcpServers": "./.mcp.json",
   "apps": "./.app.json",
   "interface": {
@@ -60,9 +61,31 @@
 - `license` (`string`): License identifier (for example `MIT`, `Apache-2.0`).
 - `keywords` (`array` of `string`): Search/discovery tags.
 - `skills` (`string`): Relative path to skill directories/files.
-- `mcpServers` (`string`): MCP config path.
+- `hooks` (`string`): Hook config path.
+- `mcpServers` (`string` or `object`): MCP config path, or an object whose keys are MCP server names and whose values are MCP server config objects.
 - `apps` (`string`): App manifest path for plugin integrations.
 - `interface` (`object`): Interface/UX metadata block for plugin presentation.
+
+`mcpServers` may be declared as a companion file path:
+
+```json
+{
+  "mcpServers": "./.mcp.json"
+}
+```
+
+Or as an object directly in `plugin.json`:
+
+```json
+{
+  "mcpServers": {
+    "counter": {
+      "type": "http",
+      "url": "https://sample.example/counter/mcp"
+    }
+  }
+}
+```
 
 ### `interface` fields
 
@@ -89,7 +112,7 @@
 ### Path conventions and defaults
 
 - Path values should be relative and begin with `./`.
-- `skills` and `mcpServers` are supplemented on top of default component discovery; they do not replace defaults.
+- `skills`, `hooks`, and string-valued `mcpServers` are supplemented on top of default component discovery; they do not replace defaults.
 - Custom path values must follow the plugin root convention and naming/namespacing rules.
 - This repo’s scaffold writes `.codex-plugin/plugin.json`; treat that as the manifest location this skill generates.
 
@@ -184,8 +207,9 @@ personal marketplace unless the caller explicitly requests a repo-local destinat
   present.
 - `composerIcon`, `logo`, and `screenshots` must point to real files inside the plugin archive when
   present.
-- `apps` and `mcpServers` should appear in `plugin.json` only when `.app.json` and `.mcp.json`
-  actually exist.
+- `apps` should appear in `plugin.json` only when `.app.json` actually exists.
+- `mcpServers` may point to `.mcp.json` or contain the MCP server object directly in
+  `plugin.json`.
 - Validation rejects unsupported manifest fields such as `hooks`, so the scaffold keeps them out of
   generated manifests.
 - Run `scripts/validate_plugin.py <plugin-path>` before handing back a generated plugin. It adds one

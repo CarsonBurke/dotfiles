@@ -70,7 +70,7 @@ def build_plugin_json(plugin_name: str, *, with_mcp: bool, with_apps: bool) -> d
             "developerName": "Local developer",
             "category": DEFAULT_CATEGORY,
             "capabilities": [],
-            "defaultPrompt": [f"Help me use {display_name}."],
+            "defaultPrompt": f"Help me use {display_name}.",
         },
     }
     if with_mcp:

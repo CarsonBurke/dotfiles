@@ -1,6 +1,6 @@
 # Updating Existing Local Plugins
 
-Use this reference when a plugin already exists and the request is about updating the plugin during
+Use this reference when a plugin already exists and the request is about updating the plugin during 
 local development.
 
 All scripts here are specified relative to the skill root. Update the path for running the scripts
@@ -104,7 +104,7 @@ Examples:
 - `0.1.0` → `0.1.0+codex.local-20260519-184516`
 - `0.1.0+codex.old-token` → `0.1.0+codex.local-20260519-184516`
 - `1.2.3-beta.1+codex.prev` → `1.2.3-beta.1+codex.local-20260519-184516`
-- `1.2.3+other-tag` → `1.2.3+codex.local-20260519-184516`
+- `dev-build+other-tag` → `dev-build+codex.local-20260519-184516`
 
 Replace the existing Codex cachebuster instead of appending another one. Do not keep incrementing
 numeric version components just to trigger reinstall behavior.

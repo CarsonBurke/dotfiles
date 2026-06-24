@@ -12,14 +12,6 @@ from pathlib import Path
 
 
 CACHEBUSTER_PREFIX = "codex"
-SEMVER_RE = re.compile(
-    r"^(0|[1-9]\d*)\."
-    r"(0|[1-9]\d*)\."
-    r"(0|[1-9]\d*)"
-    r"(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\."
-    r"(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?"
-    r"(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$"
-)
 
 
 def parse_args() -> argparse.Namespace:
@@ -48,11 +40,6 @@ def main() -> None:
         raise ValueError(f"{manifest_path} must contain a non-empty string 'version'.")
     cachebuster = sanitize_cachebuster(args.cachebuster or default_cachebuster())
     next_version = with_cachebuster(version, cachebuster)
-    if SEMVER_RE.fullmatch(next_version) is None:
-        raise ValueError(
-            f"{manifest_path} version '{version}' cannot be rewritten to a valid semver "
-            "Codex cachebuster version."
-        )
     manifest["version"] = next_version
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
@@ -66,8 +53,6 @@ def load_manifest(manifest_path: Path) -> dict[str, object]:
     if not isinstance(payload, dict):
         raise ValueError(f"{manifest_path} must contain a JSON object.")
     return payload
-
-
 def sanitize_cachebuster(value: str) -> str:
     sanitized = re.sub(r"[^a-z0-9-]+", "-", value.strip().lower())
     sanitized = re.sub(r"-{2,}", "-", sanitized).strip("-")
