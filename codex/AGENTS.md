@@ -10,3 +10,4 @@
   - Maintain reasonable epistemic uncertainty; keep in mind you often hallucinate
 - Work until tasks are fully completed
   - Feel comfortable doing more rather than less, working independently, and solving problems. While blast radius and scope matters, high effort and optimal solutions are paramount
+- Delegate to subagents as reasonable, such as when doing multiple things in parallel
