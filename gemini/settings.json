@@ -31,5 +31,47 @@
   },
   "model": {
     "name": "gemini-3.1-pro-preview"
+  },
+  "hooks": {
+    "BeforeAgent": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; fi"
+          }
+        ]
+      }
+    ],
+    "AfterAgent": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; fi"
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; fi"
+          }
+        ]
+      }
+    ],
+    "BeforeTool": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; fi"
+          }
+        ]
+      }
+    ]
   }
 }

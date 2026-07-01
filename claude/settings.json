@@ -83,9 +83,87 @@
   "promptSuggestionEnabled": false,
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark",
   "verbose": true,
   "teammateMode": "in-process",
-  "agentPushNotifEnabled": false
+  "agentPushNotifEnabled": false,
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; fi"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; fi"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; fi"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; fi"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; fi"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; fi"
+          }
+        ]
+      }
+    ]
+  }
 }

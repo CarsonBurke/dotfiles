@@ -9,3 +9,4 @@ description: Create Conventional Commit commit(s) from the current diff, separat
 - Separate unrelated concerns into separate commits.
 - Prefer no commit body, or a very short one only when needed.
 - Do not add AI co-author lines.
+- Do not make any edits.

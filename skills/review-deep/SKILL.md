@@ -18,7 +18,7 @@ Use specialist subagents when they will materially improve coverage or reduce bi
 
 - Functionality: whether the code actually satisfies the intended behavior, user workflow, edge cases, integration contracts, tests, and observable outcomes.
 - Code smell: maintainability risks, weak boundaries, duplication, poor invariants, awkward APIs, missing tests, and signs that the design is fighting the problem.
-- Performance: meaningful algorithmic costs, redundant work, allocation or copy pressure, I/O inefficiency, concurrency bottlenecks, GPU/CPU transfer mistakes, and missing benchmarks.
+- Performance: meaningful algorithmic costs, redundant work, allocation or copy pressure, I/O inefficiency, concurrency bottlenecks, mistakes, and missing benchmarks.
 - Overcomplexity: unnecessary branching, avoidable abstractions, fragmented behavior, excessive configuration, and simpler local patterns that would make the system easier to reason about.
 
 Shape the prompts to the task instead of following a template. Give each subagent enough context to be useful, keep its lens distinct, and ask it not to modify files. If the review is small enough that subagents would add noise, handle it yourself.

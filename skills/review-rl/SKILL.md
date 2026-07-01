@@ -5,15 +5,8 @@ description: Review an RL setup at a high level for policy/value learnability, s
 
 # Review RL
 
-Think in terms of learning constraints, not implementation trivia.
-
-- Ask what the actor can actually represent, not just what it outputs.
-- Ask whether the critic is learning a clean value signal or a noisy proxy.
-- Separate capacity limits from target quality, credit assignment, exploration, and optimization.
-- Pay attention to what biases the system toward local/reactive play versus coordinated long-horizon play.
-- Be concrete. Prefer a few real bottlenecks over many vague observations.
-- Call out when a weakness is an intentional tradeoff for runtime or deployment constraints.
-
-Lead with the most important findings. Be explicit about both strengths and ceilings. Use code references when they help support a point.
-
-Do not turn this into a generic code review. Do not suggest code changes unless asked. Do not hand-wave.
+- Create a mental model of the model architecture. Especially how it constructs representations and how gradients flow.
+- Make sure you deeply understand every part of the model. Given context is limited, you may want to delegate.
+- From this, extrapolate: think of the most optimal version of the ideas and features, both granularly and at a higher level. Use your mental model to find bottlenecks. Be ambitious in your imagination.
+- Overall, be thorough and critical.
+- Identify bugs or mistakes hurting learning.

@@ -4,6 +4,7 @@ model = "gpt-5.5"
 model_reasoning_effort = "high"
 personality = "pragmatic"
 approvals_reviewer = "user"
+service_tier = "fast"
 [projects."/home/marvin"]
 trust_level = "trusted"
 
@@ -127,6 +128,33 @@ trust_level = "trusted"
 [projects."/home/marvin/Documents/repositories/screeps-arena-videoizer"]
 trust_level = "trusted"
 
+[projects."/home/marvin/Documents/repositories/lejepa"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/voxel-world"]
+trust_level = "trusted"
+
+[projects."/home/marvin/.config/redact/logs"]
+trust_level = "trusted"
+
+[projects."/home/marvin/.config/redact"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/tensorboard"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/aur-malware-check"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/Rubiks"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/llm-jepa"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/wellbore-geo"]
+trust_level = "trusted"
+
 [mcp_servers.linear]
 url = "https://mcp.linear.app/mcp"
 
@@ -169,3 +197,10 @@ status_line = ["model-with-reasoning", "git-branch", "project-name", "context-us
 [tui.model_availability_nux]
 "gpt-5.3-codex-spark" = 4
 "gpt-5.5" = 4
+
+[desktop]
+usePointerCursors = true
+followUpQueueMode = "steer"
+preventSleepWhileRunning = false
+keepRemoteControlAwakeWhilePluggedIn = false
+conversationDetailMode = "STEPS_EXECUTION"

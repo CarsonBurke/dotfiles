@@ -1,3 +1,13 @@
 - Never add memories
-- Use subagent(s) to review your work where reasonable (usually)
+- Use subagent(s) to review your work where reasonable
+  - Example: after non-insignificant code changes
+  - Use multiple subagents as needed to ensure full and deep coverage of domains
+  - Use critical or adversarial subagents to resolve uncertainty and cover blind spots
 - Do everything idiomatically
+  - Don't be lazy or take the easy way out
+- Use system 2 thinking:
+  - Don't jump to conclusions
+  - Maintain reasonable epistemic uncertainty; keep in mind you often hallucinate
+- Work until tasks are fully completed
+  - Feel comfortable doing more rather than less, working independently, and solving problems. While blast radius and scope matters, high effort and optimal solutions are paramount
+- Delegate to subagents as reasonable, such as when doing multiple things in parallel
