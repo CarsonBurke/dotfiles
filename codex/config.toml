@@ -4,7 +4,8 @@ model = "gpt-5.5"
 model_reasoning_effort = "high"
 personality = "pragmatic"
 approvals_reviewer = "user"
-service_tier = "fast"
+service_tier = "default"
+sqlite_home = "/home/marvin/.codex/sqlite-live"
 [projects."/home/marvin"]
 trust_level = "trusted"
 
@@ -153,6 +154,27 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/marvin/Documents/repositories/wellbore-geo"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/orca"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/hl-gauss-pytorch"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/mmbench2"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/unorganized/wither_imagination_hc"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/le-wm"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Downloads"]
+trust_level = "trusted"
+
+[projects."/home/marvin/.config/Bitwarden CLI"]
 trust_level = "trusted"
 
 [mcp_servers.linear]
