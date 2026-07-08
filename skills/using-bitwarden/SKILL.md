@@ -9,12 +9,12 @@ Use this skill when the user asks to find, inspect, or use credentials stored in
 
 ## Local setup
 
-The Bitwarden CLI is available as `bw` at `/home/marvin/.bun/bin/bw`.
+The Bitwarden CLI is available as `bw` at `$HOME/.bun/bin/bw`.
 
 Local profiles:
 
-- Default profile: `bw`, app data at `~/.config/Bitwarden CLI`, known email `carsonburke22@gmail.com`.
-- Redact profile: app data at `~/.config/Bitwarden CLI Redact`, known email `carson@redact.dev`.
+- Default profile: `bw`, app data at `~/.config/Bitwarden CLI`.
+- Secondary profile: app data at `~/.config/Bitwarden CLI Redact`.
 
 Use the profile that matches the account the user asked for. If the user does not specify an account, start with `bw status` and treat it as the default profile.
 
@@ -24,7 +24,7 @@ The user's interactive fish shell has a `bw-redact` helper. In Codex bash tool c
 BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact" bw status
 ```
 
-Use `bw status` or the Redact-prefixed `bw status` as the source of truth for that profile before relying on a session.
+Use `bw status` or the secondary-profile `bw status` as the source of truth for that profile before relying on a session.
 
 `BW_SESSION` is profile-specific. Do not reuse a `BW_SESSION` from one profile with another profile; unset or replace it before switching between the default and Redact profiles.
 
@@ -32,7 +32,7 @@ Do not store or add Bitwarden passwords, session keys, recovery codes, verificat
 
 ## Operating principles
 
-- Start with `bw status` for the default profile, or `BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact" bw status` for Redact. If the vault is locked or logged out, do not guess credentials. Ask the user to unlock/login, or use the non-secret login email context above if they only asked which account to use.
+- Start with `bw status` for the default profile, or `BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact" bw status` for the secondary profile. If the vault is locked or logged out, do not guess credentials. Ask the user to unlock/login, or ask which local profile to use if the request is ambiguous.
 - Search and inspect metadata first. Avoid printing `login.password`, `notes`, TOTP seeds, recovery codes, API keys, or hidden fields unless the user explicitly asks for the secret value.
 - Prefer giving the user item names, usernames, URLs, collection/org context, and confidence. Keep secret values out of summaries.
 - If a secret is needed for a user-requested action, pipe it directly into the target command or paste it into the intended login field without echoing it to the transcript.
