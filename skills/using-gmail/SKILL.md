@@ -9,25 +9,11 @@ Use this skill when the user asks to read, search, summarize, triage, or inspect
 
 ## Local setup
 
-The machine has isolated `gws` config directories under `$HOME/.config/gws-accounts/`, one directory per mailbox. Treat directory names and mailbox addresses as private local identifiers: use them to select the requested mailbox, but do not copy them into skill text, commits, logs, or user-facing summaries unless the user explicitly asks.
+Use the `gws` command or account-specific helper already available on `PATH`.
 
-Each account stores long-lived OAuth credentials as `credentials.enc` plus a local `0600` `.encryption_key`, which is the `gws` Linux encrypted-storage behavior. Do not delete `.encryption_key` unless replacing the storage mechanism and validating decryption first.
+Treat mailbox addresses and account helper names as private local identifiers: use them to select the requested mailbox, but do not copy them into skill text, commits, logs, or user-facing summaries unless the user explicitly asks.
 
-Use `GOOGLE_WORKSPACE_CLI_CONFIG_DIR` to select the account for every command:
-
-```bash
-GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws-accounts/<account-dir>" gws gmail ...
-```
-
-If the requested mailbox does not map cleanly to a known local label, discover configured account directories locally and choose the matching one without echoing the directory names:
-
-```bash
-mapfile -t account_dirs < <(
-  find "$HOME/.config/gws-accounts" -mindepth 1 -maxdepth 1 -type d -printf '%f\n'
-)
-```
-
-If discovery is ambiguous, ask the user which non-sensitive mailbox label to use.
+Use the mailbox command that matches the account the user asked for. If discovery is ambiguous, ask the user which non-sensitive mailbox label or local command to use.
 
 ## Operating principles
 
@@ -35,7 +21,7 @@ If discovery is ambiguous, ask the user which non-sensitive mailbox label to use
 - Avoid revealing secrets from email, including verification codes, reset links, auth URLs, session tokens, customer private data, and full message bodies unless the user explicitly asks for the sensitive content and it is necessary.
 - When reporting results, summarize the relevant facts. Include sender, subject, date, mailbox label, labels, and a short non-sensitive snippet when useful.
 - Use non-sensitive mailbox labels in user-facing summaries so the user can tell which mailbox was queried without exposing full addresses.
-- `gws` may recreate `token_cache.json` with a short-lived access token during reads. For sensitive cleanup tasks, remove `$HOME/.config/gws-accounts/*/token_cache.json` after the query.
+- `gws` may recreate short-lived access-token caches during reads. For sensitive cleanup tasks, remove token caches through the local account tooling after the query.
 - Do not run `gws auth logout`, delete encrypted credentials, or start OAuth reauth unless the user explicitly wants auth repair.
 
 ## Useful commands
@@ -43,29 +29,25 @@ If discovery is ambiguous, ask the user which non-sensitive mailbox label to use
 List the newest message:
 
 ```bash
-GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws-accounts/<account-dir>" \
-  gws gmail users messages list --params '{"userId":"me","maxResults":1}'
+<gws-cmd> gmail users messages list --params '{"userId":"me","maxResults":1}'
 ```
 
 Fetch metadata for a known message id:
 
 ```bash
-GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws-accounts/<account-dir>" \
-  gws gmail users messages get --params '{"userId":"me","id":"MESSAGE_ID","format":"metadata","metadataHeaders":["From","To","Subject","Date"]}'
+<gws-cmd> gmail users messages get --params '{"userId":"me","id":"MESSAGE_ID","format":"metadata","metadataHeaders":["From","To","Subject","Date"]}'
 ```
 
 Search mail with Gmail query syntax:
 
 ```bash
-GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws-accounts/<account-dir>" \
-  gws gmail users messages list --params '{"userId":"me","maxResults":10,"q":"from:example.com newer_than:30d"}'
+<gws-cmd> gmail users messages list --params '{"userId":"me","maxResults":10,"q":"from:example.com newer_than:30d"}'
 ```
 
 Get the authenticated mailbox profile:
 
 ```bash
-GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws-accounts/<account-dir>" \
-  gws gmail users getProfile --params '{"userId":"me"}'
+<gws-cmd> gmail users getProfile --params '{"userId":"me"}'
 ```
 
 ## Expected quality
