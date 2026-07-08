@@ -1,0 +1,356 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ORCA_CLI="${ORCA_CLI:-orca-ide}"
+HELIUM_ROOT="${HELIUM_ROOT:-$HOME/.config/net.imput.helium}"
+SOURCE_PROFILE="Default"
+TARGET_PROFILE_ID="default"
+CHROME_PROFILE_PATH="$HOME/.config/google-chrome"
+START_ORCA=0
+RESTART_ORCA_AFTER=0
+
+usage() {
+  cat <<'EOF'
+Usage: orca-import-helium-cookies [options]
+
+Imports Helium browser cookies into Orca's browser profile by temporarily
+presenting Helium as Google Chrome to Orca's native Chromium cookie importer.
+
+Options:
+  --helium-root <path>       Helium user-data root. Default: ~/.config/net.imput.helium
+  --source-profile <name>    Helium profile directory. Default: Default
+  --target-profile <id>      Orca browser profile id. Default: default
+  --start-orca               Start Orca if its runtime is not reachable.
+  --restart-orca-after       Restart Orca after import so staged cookies are picked up.
+                             This is never done unless this flag is passed.
+  -h, --help                 Show this help.
+
+Environment:
+  ORCA_CLI                   Orca CLI binary. Default: orca-ide
+  HELIUM_ROOT                Same as --helium-root.
+
+Notes:
+  - Cookie values are not printed.
+  - The script temporarily swaps:
+      ~/.config/google-chrome -> ~/.config/net.imput.helium
+      secret-tool application=chrome -> application=chromium secret
+    and restores both before exiting.
+EOF
+}
+
+log() {
+  printf '%s\n' "$*" >&2
+}
+
+die() {
+  log "error: $*"
+  exit 1
+}
+
+while (($# > 0)); do
+  case "$1" in
+    --helium-root)
+      HELIUM_ROOT="${2:-}"
+      shift 2
+      ;;
+    --source-profile)
+      SOURCE_PROFILE="${2:-}"
+      shift 2
+      ;;
+    --target-profile)
+      TARGET_PROFILE_ID="${2:-}"
+      shift 2
+      ;;
+    --start-orca)
+      START_ORCA=1
+      shift
+      ;;
+    --restart-orca-after)
+      RESTART_ORCA_AFTER=1
+      shift
+      ;;
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    *)
+      die "unknown argument: $1"
+      ;;
+  esac
+done
+
+for command_name in "$ORCA_CLI" node secret-tool; do
+  command -v "$command_name" >/dev/null 2>&1 || die "missing required command: $command_name"
+done
+
+[[ -d "$HELIUM_ROOT" ]] || die "Helium root not found: $HELIUM_ROOT"
+[[ -f "$HELIUM_ROOT/$SOURCE_PROFILE/Cookies" ]] ||
+  die "Helium Cookies DB not found: $HELIUM_ROOT/$SOURCE_PROFILE/Cookies"
+
+is_orca_reachable() {
+  local status_json
+  status_json="$("$ORCA_CLI" status --json 2>/dev/null || true)"
+  STATUS_JSON="$status_json" node -e '
+    try {
+      const status = JSON.parse(process.env.STATUS_JSON || "{}")
+      process.exit(status?.result?.runtime?.reachable === true ? 0 : 1)
+    } catch {
+      process.exit(1)
+    }
+  '
+}
+
+wait_for_orca() {
+  local deadline=$((SECONDS + 45))
+  until is_orca_reachable; do
+    if ((SECONDS >= deadline)); then
+      return 1
+    fi
+    sleep 0.5
+  done
+}
+
+if ! is_orca_reachable; then
+  if ((START_ORCA)); then
+    log "Orca runtime is not reachable; starting Orca because --start-orca was passed."
+    "$ORCA_CLI" open --json >/dev/null || true
+    wait_for_orca || die "Orca did not become reachable after starting."
+  else
+    die "Orca runtime is not reachable. Start Orca first, or rerun with --start-orca."
+  fi
+fi
+
+work_dir="$(mktemp -d /tmp/orca-helium-cookie-import.XXXXXX)"
+chmod 700 "$work_dir"
+chrome_secret_file="$work_dir/chrome-secret"
+chromium_secret_file="$work_dir/chromium-secret"
+chrome_path_backup="$work_dir/google-chrome-original"
+chrome_path_existed=0
+chrome_secret_existed=0
+
+restore_state() {
+  set +e
+
+  secret-tool clear application chrome >/dev/null 2>&1 || true
+  if ((chrome_secret_existed)) && [[ -s "$chrome_secret_file" ]]; then
+    secret-tool store --label='Chrome Safe Storage' application chrome \
+      <"$chrome_secret_file" >/dev/null 2>&1 || true
+  fi
+
+  if [[ -L "$CHROME_PROFILE_PATH" ]]; then
+    rm -f "$CHROME_PROFILE_PATH"
+  fi
+  if ((chrome_path_existed)) && [[ -e "$chrome_path_backup" || -L "$chrome_path_backup" ]]; then
+    mv "$chrome_path_backup" "$CHROME_PROFILE_PATH"
+  fi
+
+  rm -rf "$work_dir"
+}
+trap restore_state EXIT
+
+if secret-tool lookup application chrome >"$chrome_secret_file" 2>/dev/null; then
+  chrome_secret_existed=1
+fi
+chmod 600 "$chrome_secret_file"
+
+secret-tool lookup application chromium >"$chromium_secret_file" 2>/dev/null ||
+  die "Could not read Chromium keyring secret via secret-tool lookup application chromium."
+chmod 600 "$chromium_secret_file"
+
+if [[ -e "$CHROME_PROFILE_PATH" || -L "$CHROME_PROFILE_PATH" ]]; then
+  chrome_path_existed=1
+  mv "$CHROME_PROFILE_PATH" "$chrome_path_backup"
+fi
+ln -s "$HELIUM_ROOT" "$CHROME_PROFILE_PATH"
+
+secret-tool clear application chrome >/dev/null 2>&1 || true
+secret-tool store --label='Chrome Safe Storage' application chrome <"$chromium_secret_file" >/dev/null
+
+import_started_epoch="$(date +%s)"
+
+TARGET_PROFILE_ID="$TARGET_PROFILE_ID" SOURCE_PROFILE="$SOURCE_PROFILE" node <<'NODE'
+const fs = require('node:fs')
+const net = require('node:net')
+const os = require('node:os')
+const path = require('node:path')
+const { randomUUID } = require('node:crypto')
+
+const targetProfileId = process.env.TARGET_PROFILE_ID || 'default'
+const sourceProfile = process.env.SOURCE_PROFILE || 'Default'
+const metadataPath = path.join(os.homedir(), '.config', 'orca', 'orca-runtime.json')
+
+function readRuntimeMetadata() {
+  const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'))
+  const transports = Array.isArray(metadata.transports) ? metadata.transports : []
+  const transport =
+    transports.find((candidate) => candidate.kind === 'unix') ??
+    (metadata.transport?.kind === 'unix' ? metadata.transport : null)
+
+  if (!metadata.runtimeId || !metadata.authToken || !transport?.endpoint) {
+    throw new Error(`Orca runtime metadata is incomplete at ${metadataPath}`)
+  }
+
+  return { metadata, endpoint: transport.endpoint }
+}
+
+function callRuntime(method, params, timeoutMs = 120_000) {
+  const { metadata, endpoint } = readRuntimeMetadata()
+  const requestId = randomUUID()
+
+  return new Promise((resolve, reject) => {
+    const socket = net.createConnection(endpoint)
+    let buffer = ''
+    let settled = false
+
+    const timeout = setTimeout(() => {
+      finish(new Error(`Timed out waiting for Orca runtime method ${method}`))
+    }, timeoutMs)
+
+    function finish(error, result) {
+      if (settled) return
+      settled = true
+      clearTimeout(timeout)
+      socket.destroy()
+      if (error) reject(error)
+      else resolve(result)
+    }
+
+    socket.setEncoding('utf8')
+    socket.once('error', () => {
+      finish(new Error('Could not connect to the running Orca runtime.'))
+    })
+    socket.on('data', (chunk) => {
+      buffer += chunk
+      for (;;) {
+        const newlineIndex = buffer.indexOf('\n')
+        if (newlineIndex === -1) return
+        const line = buffer.slice(0, newlineIndex)
+        buffer = buffer.slice(newlineIndex + 1)
+        if (!line.trim()) continue
+
+        let frame
+        try {
+          frame = JSON.parse(line)
+        } catch {
+          finish(new Error('Orca runtime returned invalid JSON.'))
+          return
+        }
+
+        if (frame._keepalive === true) {
+          timeout.refresh?.()
+          continue
+        }
+        if (frame.id !== requestId) {
+          finish(new Error('Orca runtime returned a mismatched response id.'))
+          return
+        }
+        if (frame._meta?.runtimeId && frame._meta.runtimeId !== metadata.runtimeId) {
+          finish(new Error('Orca runtime changed while the request was in flight.'))
+          return
+        }
+        if (frame.ok === false) {
+          finish(new Error(frame.error?.message || frame.error?.code || 'Orca runtime call failed.'))
+          return
+        }
+        finish(null, frame.result)
+        return
+      }
+    })
+    socket.once('connect', () => {
+      socket.write(
+        `${JSON.stringify({
+          id: requestId,
+          authToken: metadata.authToken,
+          method,
+          params
+        })}\n`
+      )
+    })
+  })
+}
+
+;(async () => {
+  const detected = await callRuntime('browser.profileDetectBrowsers', undefined, 30_000)
+  const chrome = detected.browsers.find((browser) => browser.family === 'chrome')
+  if (!chrome) {
+    throw new Error('Orca did not detect the temporary Helium-as-Chrome profile.')
+  }
+  if (!chrome.profiles.some((profile) => profile.directory === sourceProfile)) {
+    throw new Error(`Orca detected Chrome, but profile "${sourceProfile}" was not available.`)
+  }
+
+  const result = await callRuntime(
+    'browser.profileImportFromBrowser',
+    {
+      profileId: targetProfileId,
+      browserFamily: 'chrome',
+      browserProfile: sourceProfile
+    },
+    180_000
+  )
+
+  const summary = result.summary || {}
+  console.log(
+    JSON.stringify(
+      {
+        ok: result.ok === true,
+        targetProfileId,
+        sourceProfile,
+        totalCookies: summary.totalCookies ?? null,
+        importedCookies: summary.importedCookies ?? null,
+        skippedCookies: summary.skippedCookies ?? null,
+        domainCount: Array.isArray(summary.domains) ? summary.domains.length : null
+      },
+      null,
+      2
+    )
+  )
+
+  if (result.ok !== true) {
+    process.exitCode = 1
+  }
+})().catch((error) => {
+  console.error(error?.stack || String(error))
+  process.exit(1)
+})
+NODE
+
+if command -v sqlite3 >/dev/null 2>&1; then
+  cookies_db="$HOME/.config/orca/Partitions/orca-browser/Cookies"
+  if [[ -f "$cookies_db" ]]; then
+    log "Orca cookie DB now reports:"
+    sqlite3 "$cookies_db" \
+      "select 'cookies=' || count(*) from cookies; select 'domains=' || count(distinct host_key) from cookies; select 'integrity=' || integrity_check from pragma_integrity_check;"
+  fi
+fi
+
+staging_dir="$HOME/.config/orca/cookie-import-staging"
+new_staging_count=0
+if [[ -d "$staging_dir" ]]; then
+  new_staging_count="$(
+    find "$staging_dir" -maxdepth 1 -type f -newermt "@$import_started_epoch" 2>/dev/null | wc -l
+  )"
+fi
+
+if [[ "$new_staging_count" != "0" ]]; then
+  log "Orca staged $new_staging_count cookie DB file(s) that require a cold Orca start to fully apply."
+  if ((RESTART_ORCA_AFTER)); then
+    log "Restarting Orca because --restart-orca-after was passed."
+    mapfile -t orca_pids < <(
+      pgrep -f '/home/marvin/AppImages/orca.appimage|/var/tmp/.mount_orca.*orca-ide --no-sandbox' || true
+    )
+    for pid in "${orca_pids[@]}"; do
+      [[ "$pid" == "$$" ]] && continue
+      kill "$pid" 2>/dev/null || true
+    done
+    for _ in $(seq 1 60); do
+      pgrep -f '/home/marvin/AppImages/orca.appimage|/var/tmp/.mount_orca.*orca-ide --no-sandbox' >/dev/null || break
+      sleep 0.25
+    done
+    "$ORCA_CLI" open --json >/dev/null || true
+    wait_for_orca || die "Orca did not become reachable after restart."
+    log "Orca restarted."
+  else
+    log "Not restarting Orca. Re-run with --restart-orca-after, or restart Orca manually when convenient."
+  fi
+fi
