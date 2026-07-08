@@ -14,25 +14,25 @@ The Bitwarden CLI is available as `bw` at `$HOME/.bun/bin/bw`.
 Local profiles:
 
 - Default profile: `bw`, app data at `~/.config/Bitwarden CLI`.
-- Secondary profile: app data at `~/.config/Bitwarden CLI Redact`.
+- Additional profiles: app data directories under `$HOME/.config/`, usually named with the `Bitwarden CLI` prefix.
 
 Use the profile that matches the account the user asked for. If the user does not specify an account, start with `bw status` and treat it as the default profile.
 
-The user's interactive fish shell has a `bw-redact` helper. In Codex bash tool commands, use the raw environment prefix instead:
+Named helper functions may exist in the user's interactive shell. In Codex bash tool commands, use the raw environment prefix instead:
 
 ```bash
-BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact" bw status
+BITWARDENCLI_APPDATA_DIR="$HOME/.config/<bitwarden-profile-dir>" bw status
 ```
 
 Use `bw status` or the secondary-profile `bw status` as the source of truth for that profile before relying on a session.
 
-`BW_SESSION` is profile-specific. Do not reuse a `BW_SESSION` from one profile with another profile; unset or replace it before switching between the default and Redact profiles.
+`BW_SESSION` is profile-specific. Do not reuse a `BW_SESSION` from one profile with another profile; unset or replace it before switching between profiles.
 
 Do not store or add Bitwarden passwords, session keys, recovery codes, verification codes, or item secrets in this skill.
 
 ## Operating principles
 
-- Start with `bw status` for the default profile, or `BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact" bw status` for the secondary profile. If the vault is locked or logged out, do not guess credentials. Ask the user to unlock/login, or ask which local profile to use if the request is ambiguous.
+- Start with `bw status` for the default profile, or `BITWARDENCLI_APPDATA_DIR="$HOME/.config/<bitwarden-profile-dir>" bw status` for another profile. If the vault is locked or logged out, do not guess credentials. Ask the user to unlock/login, or ask which local profile to use if the request is ambiguous.
 - Search and inspect metadata first. Avoid printing `login.password`, `notes`, TOTP seeds, recovery codes, API keys, or hidden fields unless the user explicitly asks for the secret value.
 - Prefer giving the user item names, usernames, URLs, collection/org context, and confidence. Keep secret values out of summaries.
 - If a secret is needed for a user-requested action, pipe it directly into the target command or paste it into the intended login field without echoing it to the transcript.
@@ -46,7 +46,7 @@ Check session state:
 
 ```bash
 bw status
-BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact" bw status
+BITWARDENCLI_APPDATA_DIR="$HOME/.config/<bitwarden-profile-dir>" bw status
 ```
 
 Search for candidate login items without printing passwords:
@@ -55,7 +55,7 @@ Search for candidate login items without printing passwords:
 bw list items --search "example" \
   | jq '[.[] | {id, name, type, username: .login.username, uris: [.login.uris[]?.uri], organizationId, collectionIds}]'
 
-BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact" \
+BITWARDENCLI_APPDATA_DIR="$HOME/.config/<bitwarden-profile-dir>" \
   bw list items --search "example" \
   | jq '[.[] | {id, name, type, username: .login.username, uris: [.login.uris[]?.uri], organizationId, collectionIds}]'
 ```
@@ -66,7 +66,7 @@ Get one item by id without printing its password:
 bw get item ITEM_ID \
   | jq '{id, name, type, username: .login.username, uris: [.login.uris[]?.uri], organizationId, collectionIds}'
 
-BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact" \
+BITWARDENCLI_APPDATA_DIR="$HOME/.config/<bitwarden-profile-dir>" \
   bw get item ITEM_ID \
   | jq '{id, name, type, username: .login.username, uris: [.login.uris[]?.uri], organizationId, collectionIds}'
 ```

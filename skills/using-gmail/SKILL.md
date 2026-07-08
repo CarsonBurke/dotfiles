@@ -19,6 +19,16 @@ Use `GOOGLE_WORKSPACE_CLI_CONFIG_DIR` to select the account for every command:
 GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws-accounts/<account-dir>" gws gmail ...
 ```
 
+If the requested mailbox does not map cleanly to a known local label, discover configured account directories locally and choose the matching one without echoing the directory names:
+
+```bash
+mapfile -t account_dirs < <(
+  find "$HOME/.config/gws-accounts" -mindepth 1 -maxdepth 1 -type d -printf '%f\n'
+)
+```
+
+If discovery is ambiguous, ask the user which non-sensitive mailbox label to use.
+
 ## Operating principles
 
 - Prefer Gmail metadata and snippets before fetching full message bodies. They are usually enough for "latest email", sender, subject, date, unread status, and triage.
