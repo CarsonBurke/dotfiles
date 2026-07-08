@@ -413,6 +413,7 @@ binds {
     Mod+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+X repeat=false hotkey-overlay-title="Toggle Handy" { spawn "/home/marvin/AppImages/handy.appimage" "--toggle-post-process"; }
     Mod+Shift+S hotkey-overlay-title="Suspend" { spawn "systemctl suspend"; }
+    Mod+Alt+S { spawn "true"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
