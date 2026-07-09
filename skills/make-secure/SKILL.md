@@ -1,11 +1,8 @@
 ---
 name: make-secure
-description: Review changed code for security vulnerabilities and fix them. Operates on the current git diff or a provided path.
+description: Find and fix concrete security vulnerabilities in the requested or implied scope. Use for security remediation, not a read-only review.
 ---
 
 # Make Secure
 
-- Review files in the current git diff (or a provided path) for security vulnerabilities.
-- Fix what you find. This is an action skill, not a review skill.
-- Examples: injection, auth gaps, data exposure, unsafe deserialization, path traversal, insecure defaults — but use good judgement.
-- After making your changes, spawn a subagent to review. Address reasonable concerns and follow up as necessary.
+Validate that a risk is reachable, then fix the whole affected trust boundary rather than one symptom. Prefer secure defaults and avoid leaking secrets or needless exploit detail in tests and reports. Do not commit or push unless requested.

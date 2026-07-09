@@ -1,48 +1,23 @@
 ---
 name: find-typos
-description: Scan user-facing strings for typos, report or fix them in a single PR.
+description: Audit user-facing text for typos and report without changes by default. Use when asked to find typos, explicitly fix high-confidence typos, or deliver typo fixes in one pull request.
 ---
 
 # Find Typos
 
-Scan user-facing strings across the project for typos, report them, and optionally fix them in a single PR.
+Use **report mode** by default. Use **fix mode** only when edits are requested, and **PR mode** only when the user explicitly requests a commit, push, and pull request.
 
-## Arguments
+Infer scope from the repository unless the user provides it. Scan user-facing UI, accessibility text, messages, CLI help, documentation, templates, and locale sources; exclude dependencies, generated or vendored content, identifiers, protocol literals, and intentional jargon.
 
-- `--domain PATH` — Restrict scan to a specific directory or package (default: all)
-- `--dry-run` — List typos without fixing; no branch, no PR
+Use bounded read-only delegation for large scopes, then have the parent verify and deduplicate findings in context. Preserve interpolation tokens, template controls, translation keys, and plural/select syntax. For generated catalogs, fix the source or report only when ownership is unclear.
 
-## Workflow
+Separate:
 
-### Phase 1: Discover Scan Targets
+- **Typo:** an objective spelling, accidental duplication/omission, punctuation, or capitalization error.
+- **Style:** valid wording with debatable grammar, tone, consistency, or preference.
 
-If `--domain` is provided, scan only that path. Otherwise auto-discover:
-- Monorepo with `packages/`: scan each package separately.
-- `src/` directory: scan it.
-- Root-level docs: `README.md`, `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING.md`.
-- Skip `node_modules/`, `vendor/`, `dist/`, `build/`, `.git/`.
+Report file, line, original text, proposed text, classification, confidence, and rationale. Never auto-fix style findings or medium-confidence typos.
 
-### Phase 2: Parallel Scanning
+In fix mode, make targeted high-confidence typo corrections, run relevant validation, and format only touched files. Inspect the diff and do not commit or push.
 
-Launch one agent per scan target in parallel. Each agent scans for:
-- Misspelled words in JSX text, placeholders, titles, aria-labels, alt text, error messages, UI constants
-- Doubled words ("the the"), inconsistent capitalization, grammar issues
-- Documentation prose in .md/.mdx files
-
-Ignoring: code identifiers, abbreviations, jargon, vendored code, template literals, CSS classes, URLs.
-
-Output per finding: file, line, original text, suggested fix, confidence (high/medium).
-
-### Phase 3: Report
-
-Print a summary table (directory, typos found, high, medium) and full list of findings.
-
-**If `--dry-run`: stop here.**
-
-### Phase 4: Fix
-
-Apply high-confidence fixes only using targeted edits. Run the project's formatter if available.
-
-### Phase 5: PR
-
-Create branch `chore/fix-typos`, commit, push, and open a PR with a summary of fixes.
+In PR mode, perform fix mode, preserve unrelated changes, commit only verified corrections, push the branch, and create or update one PR. Do not create an empty commit or PR.

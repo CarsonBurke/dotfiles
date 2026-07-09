@@ -1,10 +1,8 @@
 ---
 name: review-diff
-description: Review only the current branch diff for bugs, risks, regressions, and security issues without making changes.
+description: Deprecated compatibility alias for review-working-tree. Use only when the user explicitly invokes review-diff by name; do not trigger from ordinary diff-review requests.
 ---
 
 # Review Diff
 
-- Review only changes in the current branch diff.
-- Prioritize bugs, risks, behavioral regressions, performance and security issues.
-- Do not make unprompted changes.
+Follow `review-working-tree` exactly. Remain read-only and identify the skill as a deprecated alias only if that context helps the user.

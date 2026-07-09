@@ -1,73 +1,36 @@
 ---
 name: find-bugs
-description: Analyze multiple codebase domains for bugs using parallel subagents, then write the results to FOUND_ISSUES.md.
+description: Run a broad, multi-domain, or sampled bug campaign with read-only delegated review. Return findings directly unless the user asks to maintain FOUND_ISSUES.md; use find-domain-bugs for one focused path or domain.
 ---
 
 # Find Bugs
 
-## Workflow
+## Route and investigate
 
-1. Launch one read-only subagent per domain in parallel. Prefer `explorer` agents for this.
-2. Pass each subagent:
+- Route a focused audit of one path or domain to [find-domain-bugs](../find-domain-bugs/SKILL.md) unless the user explicitly requests a report-producing campaign.
+- For a campaign, infer coherent domains from the repository unless the user supplies scope. For a requested spot check, sample relevant source files reproducibly and report the selected files and seed.
+- Delegate disjoint scopes to read-only workers using `find-domain-bugs`, bounded by available concurrency. Workers may inspect related code needed to prove behavior but must not edit files or create issues.
+- Have the parent validate every candidate against the code and its contract, deduplicate common root causes, and normalize severity by impact. Keep only confident, reachable bugs—not style, TODOs, speculative hardening, or missing tests without faulty behavior.
 
-```text
-Domain: {domain}
-Paths: {paths}
-```
+## Optional FOUND_ISSUES.md
 
-3. Ask each subagent to inspect only its assigned paths and report only confident, actual bugs with:
-   - exact file and line numbers
-   - one-line summary
-   - details
-   - severity
-   - suggested fix
-4. Gather all findings and write them to `./FOUND_ISSUES.md`.
-
-If the user provides domains, use those. Otherwise, auto-discover domains by scanning the project structure:
-
-1. Look for a monorepo layout (e.g. `packages/`, `apps/`, `libs/`, `services/`, `modules/`).
-2. If found, treat each immediate subdirectory as a domain.
-3. If the project is not a monorepo, split by top-level source directories (e.g. `src/api`, `src/ui`, `src/core`).
-4. If the structure is flat or ambiguous, treat the entire `src/` (or project root) as a single domain.
-
-## FOUND_ISSUES.md Format
-
-Write the file in exactly this structure:
+Only write a report when the user asks for one. Use `./FOUND_ISSUES.md` unless they specify another path, with this compatible six-field form:
 
 ```markdown
-# Found Issues
-
-_Generated on {date}_
-
-## Summary
-
-- **Total issues found:** {count}
-- **Critical:** {count} | **High:** {count} | **Medium:** {count} | **Low:** {count}
-
----
-
-## Issues
-
 ### Issue {n}: {summary}
 
 - **Domain:** {domain}
-- **Severity:** {severity}
+- **Severity:** {critical | high | medium | low}
 - **File(s):** `{file}:{line}`
-- **Details:** {details}
-- **Suggested fix:** {fix}
+- **Details:** {evidence and observable failure}
+- **Suggested fix:** {minimal fix direction}
 - **Status:** Pending
 
 ---
 ```
 
-Rules:
+Keep the fields in that order and `Status` last. A new report uses the existing `# Found Issues`, generated date, severity summary, and `## Issues` structure.
 
-- Number issues sequentially starting at 1.
-- Keep the six fields in that exact order.
-- Keep `- **Status:** Pending` as the last field.
-- Follow every issue block with `---`.
-- Do not add extra fields or sub-bullets.
+When a report exists, parse it before writing. Preserve existing issue numbers, text, fields, and statuses; never reset created, rejected, duplicate, or manually edited entries. Append only newly validated, nonduplicate bugs, continue numbering, and refresh the summary. If parsing is ambiguous, leave the file unchanged and report the problem. If there are no new bugs, leave an existing report unchanged.
 
-If no bugs are found, write that clearly to the file and stop.
-
-In the final response, summarize findings in a temporary md file.
+Report the campaign scope, accepted findings by severity, and rejected or uncertain leads. Include sampled files and seed for a spot check, and the report path when one was written.

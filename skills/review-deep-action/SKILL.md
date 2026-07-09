@@ -1,8 +1,8 @@
 ---
 name: review-deep-action
-description: Improve, refactor, or fix current changes, a pull request, or a specified domain by using review-deep and then making the reasonable changes.
+description: Deeply review and improve current changes, a pull request, or a requested domain across correctness, security, performance, simplicity, and tests.
 ---
 
 # Review Deep Action
 
-Follow `review-deep` for scope, delegation, validation, and review judgment. The difference is the parent role: after considering and validating the subagent responses, make the changes you judge reasonable instead of only reporting them.
+Follow `review-deep`'s judgment and evidence standards, then fix validated, worthwhile findings. Preserve unrelated changes and public behavior unless the request says otherwise. Run affected checks, inspect the final diff, and use `review-own-changes` after non-trivial work. Report changes, declined findings, validation, and residual risk. Do not commit or push unless requested.
