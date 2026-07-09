@@ -1,6 +1,6 @@
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
-model = "gpt-5.5"
+model = "gpt-5.6-sol"
 model_reasoning_effort = "high"
 personality = "pragmatic"
 approvals_reviewer = "user"
@@ -202,11 +202,6 @@ hide_full_access_warning = true
 [notice.model_migrations]
 "gpt-5.2" = "gpt-5.2-codex"
 "gpt-5.1-codex-max" = "gpt-5.2-codex"
-
-[agents.subagent]
-model = "gpt-5.4"
-model_reasoning_effort = "medium"
-description = "Default subagent for background tasks"
 
 [features]
 experimental_use_rmcp_client = true
