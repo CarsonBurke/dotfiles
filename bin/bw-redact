@@ -6,8 +6,8 @@ export BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact"
 
 # BW_SESSION is a process-wide selector, so map the profile-specific session
 # only for this invocation. Never let the default profile's session leak in.
-if [[ -n "${BW_SESSION_REACT:-}" ]]; then
-  export BW_SESSION="$BW_SESSION_REACT"
+if [[ -n "${BW_SESSION_REDACT:-}" ]]; then
+  export BW_SESSION="$BW_SESSION_REDACT"
 else
   unset BW_SESSION
 fi
