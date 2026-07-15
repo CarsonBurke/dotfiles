@@ -1,6 +1,6 @@
 ---
 name: linear-ticket
-description: Deprecated compatibility alias for implement-linear-ticket. Use only when the user explicitly invokes linear-ticket by name; never trigger this alias implicitly.
+description: Compatibility alias for implement-linear-ticket. Use only when explicitly invoked as linear-ticket.
 ---
 
 # Linear Ticket Compatibility Alias

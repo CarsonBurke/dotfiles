@@ -1,6 +1,6 @@
 ---
 name: maintain-prs
-description: Audit open GitHub pull requests for staleness, base divergence, and unresolved review feedback, then perform requested maintenance safely.
+description: Maintain open GitHub pull requests by handling staleness, base divergence, and review feedback.
 ---
 
 # Maintain PRs

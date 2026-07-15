@@ -1,6 +1,6 @@
 ---
 name: issue-to-github
-description: Deprecated compatibility alias for github-issues single mode. Use only when the user explicitly invokes issue-to-github or asks for that legacy skill by name.
+description: Compatibility alias for github-issues single mode. Use only when explicitly invoked as issue-to-github.
 ---
 
 # Issue to GitHub

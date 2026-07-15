@@ -1,6 +1,6 @@
 ---
 name: make-simple
-description: Compatibility wrapper for refactor-action focused on simplification and debloating. Use when the user explicitly asks to make code simpler.
+description: Simplify and debloat code using refactor-action.
 ---
 
 # Make Simple

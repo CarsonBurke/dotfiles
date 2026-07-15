@@ -1,6 +1,6 @@
 ---
 name: using-bitwarden
-description: Use local Bitwarden CLI profiles to identify vault items or supply credentials for an explicitly requested action while minimizing secret exposure. Use only when Bitwarden-held credentials are needed.
+description: Use credentials from local Bitwarden vaults for an explicitly requested task.
 ---
 
 # Using Bitwarden

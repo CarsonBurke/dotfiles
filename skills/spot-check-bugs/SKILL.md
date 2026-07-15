@@ -1,6 +1,6 @@
 ---
 name: spot-check-bugs
-description: Deprecated compatibility alias for find-bugs sample mode. Use only when the user explicitly invokes spot-check-bugs or asks for that legacy skill by name.
+description: Compatibility alias for find-bugs sample mode. Use only when explicitly invoked as spot-check-bugs.
 ---
 
 # Spot Check Bugs

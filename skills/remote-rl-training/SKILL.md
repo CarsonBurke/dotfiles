@@ -1,6 +1,6 @@
 ---
 name: remote-rl-training
-description: Operate, supervise, diagnose, and scale long-running reinforcement-learning jobs on rented remote GPUs. Use for launches, recovery, monitoring, checkpoint lineage, throughput tuning, or distributed-training decisions.
+description: Run, monitor, recover, and scale reinforcement-learning training on rented remote GPUs.
 ---
 
 # Remote RL Training

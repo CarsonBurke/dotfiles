@@ -1,6 +1,6 @@
 ---
 name: review-diff
-description: Deprecated compatibility alias for review-working-tree. Use only when the user explicitly invokes review-diff by name; do not trigger from ordinary diff-review requests.
+description: Compatibility alias for review-working-tree. Use only when explicitly invoked as review-diff.
 ---
 
 # Review Diff

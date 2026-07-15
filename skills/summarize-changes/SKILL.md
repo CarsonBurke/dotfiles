@@ -1,6 +1,6 @@
 ---
 name: summarize-changes
-description: Deprecated compatibility alias for summarize-pushed-pr-changes. Use only when the user explicitly invokes summarize-changes by name; do not trigger from ordinary change-summary requests.
+description: Compatibility alias for summarize-pushed-pr-changes. Use only when explicitly invoked as summarize-changes.
 ---
 
 # Summarize Changes

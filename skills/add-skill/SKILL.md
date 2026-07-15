@@ -1,6 +1,6 @@
 ---
 name: add-skill
-description: Create or update a personal Codex skill in this dotfiles repository. Use when the user wants to add a repository-owned skill rather than install or modify an upstream system skill.
+description: Create or update a personal Codex skill in this dotfiles repository.
 ---
 
 # Add Skill

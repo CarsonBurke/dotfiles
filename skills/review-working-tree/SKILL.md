@@ -1,6 +1,6 @@
 ---
 name: review-working-tree
-description: Review staged, unstaged, and relevant untracked changes for concrete bugs, regressions, security risks, and performance problems without editing files.
+description: Review working-tree changes for bugs, regressions, security risks, and performance problems without making changes.
 ---
 
 # Review Working Tree

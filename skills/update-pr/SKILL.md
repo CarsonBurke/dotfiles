@@ -1,6 +1,6 @@
 ---
 name: update-pr
-description: Update an existing GitHub pull request title and body from its actual remote diff while preserving required template content.
+description: Update the current branch's GitHub pull request title and description.
 ---
 
 # Update PR

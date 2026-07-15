@@ -1,6 +1,6 @@
 ---
 name: summarize-pushed-pr-changes
-description: Summarize newly pushed PR commits from a known pre-push head SHA through the current remote head with exact GitHub links.
+description: Summarize newly pushed pull-request commits with exact GitHub commit-range links.
 ---
 
 # Summarize Pushed PR Changes

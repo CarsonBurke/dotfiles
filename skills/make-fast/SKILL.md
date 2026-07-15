@@ -1,6 +1,6 @@
 ---
 name: make-fast
-description: Find and fix material performance problems in the requested or implied scope. Use for optimization work, not a read-only review.
+description: Find and fix material performance problems in the requested scope.
 ---
 
 # Make Fast

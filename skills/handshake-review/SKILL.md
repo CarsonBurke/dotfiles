@@ -1,6 +1,6 @@
 ---
 name: handshake-review
-description: Deprecated wrapper for review-deep's explicit cross-model mode. Use only when the user invokes handshake-review by name; do not trigger from ordinary review requests.
+description: Compatibility alias for review-deep's cross-model mode. Use only when explicitly invoked as handshake-review.
 ---
 
 # Handshake Review

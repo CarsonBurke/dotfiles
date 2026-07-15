@@ -1,6 +1,6 @@
 ---
 name: review-rl
-description: Review a reinforcement-learning setup without editing it. Use for high-level analysis of policy and value learnability, representations, credit assignment, objectives, data generation, evaluation, bottlenecks, and likely failure modes.
+description: Review an RL setup's learnability, credit assignment, objectives, bottlenecks, and failure modes without making changes.
 ---
 
 # Review RL

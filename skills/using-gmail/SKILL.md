@@ -1,6 +1,6 @@
 ---
 name: using-gmail
-description: Read, search, summarize, or triage locally configured Gmail accounts through gws with minimal data exposure. Sending or changing mailbox state requires explicit user direction.
+description: Read, search, summarize, or triage locally configured Gmail accounts.
 ---
 
 # Using Gmail

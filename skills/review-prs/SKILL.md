@@ -1,6 +1,6 @@
 ---
 name: review-prs
-description: Deprecated compatibility alias for maintain-prs. Use only when the user explicitly invokes review-prs by name; do not trigger from ordinary pull-request audit requests.
+description: Compatibility alias for maintain-prs. Use only when explicitly invoked as review-prs.
 ---
 
 # Review PRs

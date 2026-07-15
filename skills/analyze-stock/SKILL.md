@@ -1,6 +1,6 @@
 ---
 name: analyze-stock
-description: Analyze a public stock with current IBKR market data, primary-source filings, relevant news, valuation context, and private portfolio exposure. Use for equity research, ticker reviews, bull/bear cases, or analysis of a held position.
+description: Analyze a public stock using IBKR data, current sources, valuation context, and portfolio exposure.
 ---
 
 # Analyze Stock

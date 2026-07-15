@@ -1,6 +1,6 @@
 ---
 name: review-own-changes
-description: Independently review changes made during the current task, fix validated concerns, and repeat as needed.
+description: Review and fix changes made during the current task.
 ---
 
 # Review Own Changes

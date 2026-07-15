@@ -1,6 +1,6 @@
 ---
 name: find-typos
-description: Audit user-facing text for typos and report without changes by default. Use when asked to find typos, explicitly fix high-confidence typos, or deliver typo fixes in one pull request.
+description: Find or fix typos in user-facing text.
 ---
 
 # Find Typos

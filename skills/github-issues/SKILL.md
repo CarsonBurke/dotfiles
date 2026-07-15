@@ -1,6 +1,6 @@
 ---
 name: github-issues
-description: Validate, deduplicate, and create one or more GitHub issues from an explicit problem or compatible FOUND_ISSUES.md report. Use only when the user explicitly asks to create GitHub issues.
+description: Create GitHub issues from described problems or a FOUND_ISSUES.md report.
 ---
 
 # GitHub Issues

@@ -1,6 +1,6 @@
 ---
 name: review-deep
-description: Perform a comprehensive, multi-lens, read-only review using independent specialists where useful. Use when the user explicitly asks for a deep or comprehensive review; use review-working-tree or review-pr for ordinary reviews.
+description: Perform a comprehensive, read-only code review. Use only for explicitly deep or multi-perspective reviews.
 ---
 
 # Review Deep

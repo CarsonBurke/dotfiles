@@ -1,6 +1,6 @@
 ---
 name: tutor
-description: Teach a subject from first principles with calibrated explanations, worked examples, and practice. Use when the user asks to learn, understand, practice, or be guided through a topic.
+description: Teach a topic through explanation, worked examples, and practice.
 ---
 
 # Tutor

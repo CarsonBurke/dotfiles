@@ -1,6 +1,6 @@
 ---
 name: sub-review-changes
-description: Deprecated compatibility alias for review-own-changes. Use only when the user explicitly invokes sub-review-changes by name; do not trigger from ordinary review requests.
+description: Compatibility alias for review-own-changes. Use only when explicitly invoked as sub-review-changes.
 ---
 
 # Sub Review Changes

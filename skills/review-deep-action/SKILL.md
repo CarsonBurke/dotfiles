@@ -1,6 +1,6 @@
 ---
 name: review-deep-action
-description: Deeply review and improve current changes, a pull request, or a requested domain across correctness, security, performance, simplicity, and tests.
+description: Deeply review and improve current changes, a pull request, or a codebase domain.
 ---
 
 # Review Deep Action

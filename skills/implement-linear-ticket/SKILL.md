@@ -1,6 +1,6 @@
 ---
 name: implement-linear-ticket
-description: Implement a named Linear ticket in a safe worktree, including reading the ticket, code changes, tests, and local validation. Use when the user asks to work or implement a Linear issue; Linear and GitHub mutations remain separately authorized.
+description: Implement a Linear ticket end to end in a dedicated worktree.
 ---
 
 # Implement Linear Ticket

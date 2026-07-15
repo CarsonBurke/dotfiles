@@ -1,6 +1,6 @@
 ---
 name: find-domain-bugs
-description: Perform a focused, read-only, evidence-driven bug audit of one codebase domain or path. Use directly for focused audits or as the worker protocol for find-bugs campaigns.
+description: Audit one codebase domain or path for concrete bugs without making changes.
 ---
 
 # Find Domain Bugs

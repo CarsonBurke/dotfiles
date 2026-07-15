@@ -1,6 +1,6 @@
 ---
 name: make-secure
-description: Find and fix concrete security vulnerabilities in the requested or implied scope. Use for security remediation, not a read-only review.
+description: Find and fix concrete security vulnerabilities in the requested scope.
 ---
 
 # Make Secure

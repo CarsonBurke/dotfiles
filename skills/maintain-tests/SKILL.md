@@ -1,6 +1,6 @@
 ---
 name: maintain-tests
-description: Improve tests in the requested or implied scope by removing dead coverage, fixing brittle or stateful tests, and adding meaningful missing cases.
+description: Improve a test suite by removing dead tests, fixing brittle tests, and adding meaningful missing coverage.
 ---
 
 # Maintain Tests

@@ -1,6 +1,6 @@
 ---
 name: find-bugs
-description: Run a broad, multi-domain, or sampled bug campaign with read-only delegated review. Return findings directly unless the user asks to maintain FOUND_ISSUES.md; use find-domain-bugs for one focused path or domain.
+description: Run a broad or sampled read-only bug audit across multiple codebase domains. Use find-domain-bugs for one focused domain.
 ---
 
 # Find Bugs
