@@ -1,6 +1,6 @@
 ---
 name: browser
-description: Deprecated compatibility alias for browser-harness. Use only when the user explicitly invokes browser by name; all browser work must run through browser-harness.
+description: Compatibility alias for browser-harness. Use only when explicitly invoked as browser.
 ---
 
 # Browser Compatibility Alias
