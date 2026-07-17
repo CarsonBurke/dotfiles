@@ -177,6 +177,12 @@ trust_level = "trusted"
 [projects."/home/marvin/.config/Bitwarden CLI"]
 trust_level = "trusted"
 
+[projects."/home/marvin/Documents/repositories/xxscreeps"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/tts"]
+trust_level = "trusted"
+
 [mcp_servers.linear]
 url = "https://mcp.linear.app/mcp"
 
@@ -214,6 +220,7 @@ status_line = ["model-with-reasoning", "git-branch", "project-name", "context-us
 [tui.model_availability_nux]
 "gpt-5.3-codex-spark" = 4
 "gpt-5.5" = 4
+"gpt-5.6-sol" = 4
 
 [desktop]
 usePointerCursors = true
@@ -221,3 +228,9 @@ followUpQueueMode = "steer"
 preventSleepWhileRunning = false
 keepRemoteControlAwakeWhilePluggedIn = false
 conversationDetailMode = "STEPS_EXECUTION"
+
+[projects."/home/marvin/Documents/repositories/redact-worktrees/main/worktrees/prototype-populator-browser-import"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/redact-worktrees/main/worktrees/carson-main-4442-populator-history-and-logs"]
+trust_level = "trusted"
