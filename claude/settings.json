@@ -69,7 +69,7 @@
       "../redact-agent-worktrees"
     ]
   },
-  "model": "claude-fable-5[1m]",
+  "model": "claude-opus-4-8[1m]",
   "hooks": {
     "UserPromptSubmit": [
       {
