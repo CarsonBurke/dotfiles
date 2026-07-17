@@ -1,16 +1,12 @@
 ---
 name: issue-to-github
-description: Create a single GitHub issue from a described problem or infer one from context.
+description: Validate a described problem and create one evidence-based GitHub issue while avoiding duplicates.
 ---
 
 # Issue to GitHub
 
-Create a single GitHub issue from either an explicit problem description or by inferring the problem from surrounding context (recent errors, code smells, failing tests, conversation clues).
+Create an issue only when the requested outcome includes GitHub issue creation. Describing, diagnosing, or finding a bug alone remains read-only.
 
-## Workflow
+Resolve the intended GitHub repository against its git remotes and `gh repo view`; stop on fork/upstream, multiple-remote, or ownership ambiguity. Validate the described problem against its code, contract, reachable trigger, and impact. If it is not a demonstrated problem, explain why and do not create an issue.
 
-1. **Understand the problem** — Use the description if provided, otherwise infer from context (terminal output, open files, git diff). Read relevant files to get exact locations.
-2. **Check for duplicates** — `gh issue list --search "<keywords>" --state open --limit 10`. Stop if a match exists.
-3. **Determine labels** — `bug` or `enhancement`, plus a priority label (`priority: low/medium/high/critical`). Create missing labels first.
-4. **Create the issue** — `gh issue create` with title, structured body (Description, Location, Steps to Reproduce, Expected vs Actual, Suggested Fix — omit sections that don't apply), and labels.
-5. **Output** — Print the issue URL and a one-line summary.
+Search open and closed issues for the same root cause and outcome. Return an open canonical issue or a closed duplicate, declined, or still-applicable issue; create a new issue for a verified regression after a prior fix and reference the old one. Otherwise create one concise, evidence-based issue without secrets or unsupported claims. Include relevant `file:line` locations and a minimal fix direction, use only existing labels unless the user requests a new one, and pass the body through a temporary file rather than shell interpolation. Verify and return the created issue URL; if the mutation result is uncertain, search recent issues before retrying.

@@ -1,15 +1,12 @@
 ---
 name: commits-push-pr
-description: Create Conventional Commit commit(s) from the current diff, separated by concern, push them, and create a PR.
+description: Commit all current changes, push the branch, and create or reuse its GitHub pull request.
 ---
 
 # Commits Push PR
 
-- Create idiomatic Conventional Commit commit(s) from the current diff.
-- Separate unrelated concerns into separate commits.
-- Prefer no commit body, or a very short one only when needed.
-- Do not add AI co-author lines.
-- Push when done.
-- Create a PR in the same style.
-- The PR description should be a short summary of what was changed.
-- Do not make any edits.
+1. Follow `commits`, but check GitHub before pushing. Reuse an open PR and stop on a closed or merged PR unless the user wants a new branch or PR.
+2. Use an existing PR's actual base; otherwise use the repository default branch. Inspect that diff, the PR template, and known validation.
+3. Follow the verified push policy from `commits-push`.
+4. When creating a PR, preserve required template sections and pass title, body, head, and base as data in a temporary JSON request to `gh api --input`. Never interpolate generated text into a shell command.
+5. Verify and report the PR URL, head/base, and commit range.

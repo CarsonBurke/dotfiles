@@ -376,6 +376,14 @@ window-rule {
     open-floating true
 }
 
+// Browser-harness supplies this title before its agent window is mapped, then
+// navigates normally. Keep only those agent-created Helium windows from taking
+// focus; manually opened browser windows retain Niri's default focus behavior.
+window-rule {
+    match app-id="helium" title=r#"^\[browser-harness\]"#
+    open-focused false
+}
+
 // Enable rounded corners for all windows and draw focus ring around (not behind).
 window-rule {
     geometry-corner-radius 12

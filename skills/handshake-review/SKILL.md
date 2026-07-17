@@ -1,32 +1,10 @@
 ---
 name: handshake-review
-description: Use Codex or Claude to review
+description: Perform a deep, read-only code review with at least one independent reviewer from a different model or tool.
 ---
 
-Use other agent for their strengths:
+# Handshake Review
 
-Claude is more exploratory but gets more things wrong. Use it to find a swath of issues.
+Follow `review-deep` in cross-model mode. Use at least one available independent reviewer from a different model or tool, keep it read-only, and validate its claims yourself. If no cross-model reviewer is available, report that the requested handshake cannot be completed instead of silently performing an ordinary review.
 
-Codex is focussed and smart. It will not find as many issues, but is more grounded and reasonable. Use it to validate claims from claude, and to find some errors on its own.
-
-## Workflow
-
-Generally spawn a codex and a claude subagent, then reasonably verify and resolve the concerns raised. You may want a separate codex subagent to verify claude's claims.
-
-## Invoking
-
-Claude asking Codex:
-
-```bash
-codex exec - <<'EOF'
-<review prompt>
-EOF
-```
-
-Codex asking Claude:
-
-```bash
-claude -p <<'EOF'
-<review prompt>
-EOF
-```
+Do not send non-public code or data to an external service without explicit user authorization. Scope the shared artifact narrowly and exclude secrets, credentials, personal data, and unrelated repository content.

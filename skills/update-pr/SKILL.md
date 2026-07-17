@@ -1,28 +1,11 @@
 ---
 name: update-pr
-description: Update the GitHub pull request title and description for the current branch using the merge-base diff and Conventional Commits format.
+description: Update the current branch's GitHub pull request title and description.
 ---
 
 # Update PR
 
-- Use exactly ``git diff `git merge-base main HEAD`..HEAD`` to get introduced changes.
-- Use exactly ``git log `git merge-base main HEAD`..HEAD --oneline --no-merges`` to list commits.
-- Do not use `$()` command substitution in bash for these commands.
-- Use `gh pr view --json number,title,body` to get the current PR. Stop if no PR exists.
-
-## Title format
-
-Conventional Commits: `<type>(<optional scope>): <description>`
-
-Types: `feat`, `fix`, `refactor`, `chore`, `docs`, `style`, `perf`, `test`, `revert`. Lowercase, imperative present tense, no trailing period, under 70 chars. Scope optional but encouraged. Append `!` before `:` for breaking changes.
-
-## Description format
-
-- Explain **why**, not what — the diff shows the what.
-- Contrast new vs previous behavior when helpful.
-- Imperative present tense, a few sentences or short paragraph.
-- Bullet list for multiple logical changes.
-- No heavy markdown (no headings/tables), inline markdown is fine.
-- Include `Fixes MAIN-1234` if the branch name contains a Linear issue ID.
-
-Update with `gh pr edit <number> --title "..." --body "..."`.
+1. Resolve the PR's existing metadata, actual `baseRefName`, and remote `headRefOid`. Stop if no PR exists.
+2. Derive the title and body only from the merge-base diff through `headRefOid`, never local `HEAD`; disclose unpushed or divergent local commits separately.
+3. Use a concise Conventional Commit-style title and an accurate body covering motivation, behavior, validation, compatibility, and established issue links. Preserve required template sections and useful user-authored content.
+4. Pass title and body as data in a temporary JSON request to `gh api --input`; never interpolate generated text into a shell command. Re-read and report the result.
