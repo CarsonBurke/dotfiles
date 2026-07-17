@@ -1,6 +1,6 @@
 ---
 name: handshake-review
-description: Compatibility alias for review-deep's cross-model mode. Use only when explicitly invoked as handshake-review.
+description: Perform a deep, read-only code review with at least one independent reviewer from a different model or tool.
 ---
 
 # Handshake Review

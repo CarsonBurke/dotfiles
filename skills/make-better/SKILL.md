@@ -1,6 +1,6 @@
 ---
 name: make-better
-description: Compatibility alias for review-deep-action. Use only when explicitly invoked as make-better.
+description: Deeply review and improve current changes, a pull request, or a codebase domain.
 ---
 
 # Make Better

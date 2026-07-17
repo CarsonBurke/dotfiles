@@ -1,6 +1,6 @@
 ---
 name: make-perfect
-description: Compatibility alias for review-deep-action. Use only when explicitly invoked as make-perfect.
+description: Deeply review and improve current changes, a pull request, or a codebase domain.
 ---
 
 # Make Perfect

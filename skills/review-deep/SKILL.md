@@ -1,6 +1,6 @@
 ---
 name: review-deep
-description: Perform a comprehensive, read-only code review. Use only for explicitly deep or multi-perspective reviews.
+description: Perform a comprehensive, multi-perspective, read-only review of current changes, a pull request, or a codebase domain.
 ---
 
 # Review Deep

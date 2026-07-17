@@ -1,8 +1,8 @@
 ---
 name: review-diff
-description: Compatibility alias for review-working-tree. Use only when explicitly invoked as review-diff.
+description: Review working-tree changes for bugs, regressions, security risks, and performance problems without making changes.
 ---
 
 # Review Diff
 
-Follow `review-working-tree` exactly. Remain read-only and identify the skill as a deprecated alias only if that context helps the user.
+Remain read-only. Inspect the complete working tree, infer the relevant change set, and disclose important exclusions. Validate concerns against surrounding code, contracts, and tests. Report only introduced, actionable findings with severity, evidence, and precise references; state when none remain and mention material validation gaps.
