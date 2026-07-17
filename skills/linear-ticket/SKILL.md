@@ -1,6 +1,6 @@
 ---
 name: linear-ticket
-description: Compatibility alias for implement-linear-ticket. Use only when explicitly invoked as linear-ticket.
+description: Implement a Linear ticket end to end in a dedicated worktree.
 ---
 
 # Linear Ticket Compatibility Alias
