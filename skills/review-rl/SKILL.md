@@ -1,12 +1,12 @@
 ---
 name: review-rl
-description: Review an RL setup at a high level for policy/value learnability, strengths, bottlenecks, credit assignment, and likely failure modes without making code changes.
+description: Review an RL setup's learnability, credit assignment, objectives, bottlenecks, and failure modes without making changes.
 ---
 
 # Review RL
 
-- Create a mental model of the model architecture. Especially how it constructs representations and how gradients flow.
-- Make sure you deeply understand every part of the model. Given context is limited, you may want to delegate.
-- From this, extrapolate: think of the most optimal version of the ideas and features, both granularly and at a higher level. Use your mental model to find bottlenecks. Be ambitious in your imagination.
-- Overall, be thorough and critical.
-- Identify bugs or mistakes hurting learning.
+Keep the review read-only. Understand the whole learning loop—observations, representations, actions, rewards, losses, gradients, rollout/data generation, and evaluation—before judging parts in isolation.
+
+Look for information or gradient bottlenecks, poor credit assignment, reward exploits, leakage, non-stationarity, weak exploration, sampling bias, and train/evaluation mismatch. Separate learning problems from throughput problems and measure the binding constraint before recommending hardware or batching changes.
+
+Distinguish demonstrated bugs from hypotheses. For uncertain claims, propose the experiment or metric that would resolve them. Delegate distinct lenses when useful, validate their claims, and report the strongest practical improvements with their expected benefit and tradeoffs.

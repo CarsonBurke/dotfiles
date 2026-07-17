@@ -1,10 +1,8 @@
 ---
 name: review-diff
-description: Review only the current branch diff for bugs, risks, regressions, and security issues without making changes.
+description: Review working-tree changes for bugs, regressions, security risks, and performance problems without making changes.
 ---
 
 # Review Diff
 
-- Review only changes in the current branch diff.
-- Prioritize bugs, risks, behavioral regressions, performance and security issues.
-- Do not make unprompted changes.
+Remain read-only. Inspect the complete working tree, infer the relevant change set, and disclose important exclusions. Validate concerns against surrounding code, contracts, and tests. Report only introduced, actionable findings with severity, evidence, and precise references; state when none remain and mention material validation gaps.

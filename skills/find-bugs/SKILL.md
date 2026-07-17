@@ -1,73 +1,25 @@
 ---
 name: find-bugs
-description: Analyze multiple codebase domains for bugs using parallel subagents, then write the results to FOUND_ISSUES.md.
+description: Audit code for concrete bugs and, when authorized, create GitHub issues for confirmed, nonduplicate findings.
 ---
 
 # Find Bugs
 
-## Workflow
+Issue creation is part of this workflow when the requested outcome authorizes GitHub mutation. A request to find, review, or diagnose bugs alone is read-only: return validated findings in the response without mutating GitHub or writing a local report.
 
-1. Launch one read-only subagent per domain in parallel. Prefer `explorer` agents for this.
-2. Pass each subagent:
+## Investigate
 
-```text
-Domain: {domain}
-Paths: {paths}
-```
+- For one path or domain, apply [find-domain-bugs](../find-domain-bugs/SKILL.md) directly or delegate that bounded scope.
+- For a campaign, infer coherent domains from the repository unless the user supplies scope. For a requested spot check, sample relevant source files reproducibly and report the selected files and seed.
+- Delegate disjoint scopes to read-only workers using `find-domain-bugs`, bounded by available concurrency. Workers may inspect related code needed to prove behavior but must not edit files or create issues.
+- Have the parent validate every candidate against the code and its contract, deduplicate common root causes, and normalize severity by impact. Keep only confident, reachable bugs—not style, TODOs, speculative hardening, or missing tests without faulty behavior.
 
-3. Ask each subagent to inspect only its assigned paths and report only confident, actual bugs with:
-   - exact file and line numbers
-   - one-line summary
-   - details
-   - severity
-   - suggested fix
-4. Gather all findings and write them to `./FOUND_ISSUES.md`.
+## Create issues
 
-If the user provides domains, use those. Otherwise, auto-discover domains by scanning the project structure:
+Resolve the intended GitHub repository against its git remotes and `gh repo view`; stop on fork/upstream, multiple-remote, or ownership ambiguity.
 
-1. Look for a monorepo layout (e.g. `packages/`, `apps/`, `libs/`, `services/`, `modules/`).
-2. If found, treat each immediate subdirectory as a domain.
-3. If the project is not a monorepo, split by top-level source directories (e.g. `src/api`, `src/ui`, `src/core`).
-4. If the structure is flat or ambiguous, treat the entire `src/` (or project root) as a single domain.
+Before each creation, search open and closed issues for the same root cause and outcome. Return an open canonical issue or a closed duplicate, declined, or still-applicable issue instead of creating another. A verified regression after a previously fixed issue normally warrants a new issue that references the prior one. Create issues serially so each result is known before continuing.
 
-## FOUND_ISSUES.md Format
+Write a concise title and an evidence-based body covering the contract, reachable trigger, relevant `file:line` locations, observed impact, and minimal fix direction. Distinguish repository evidence from inference; omit secrets and unsupported claims. Use only existing repository labels unless the user asks to create one. Pass generated bodies through a temporary file rather than interpolating them into a shell command.
 
-Write the file in exactly this structure:
-
-```markdown
-# Found Issues
-
-_Generated on {date}_
-
-## Summary
-
-- **Total issues found:** {count}
-- **Critical:** {count} | **High:** {count} | **Medium:** {count} | **Low:** {count}
-
----
-
-## Issues
-
-### Issue {n}: {summary}
-
-- **Domain:** {domain}
-- **Severity:** {severity}
-- **File(s):** `{file}:{line}`
-- **Details:** {details}
-- **Suggested fix:** {fix}
-- **Status:** Pending
-
----
-```
-
-Rules:
-
-- Number issues sequentially starting at 1.
-- Keep the six fields in that exact order.
-- Keep `- **Status:** Pending` as the last field.
-- Follow every issue block with `---`.
-- Do not add extra fields or sub-bullets.
-
-If no bugs are found, write that clearly to the file and stop.
-
-In the final response, summarize findings in a temporary md file.
+After each mutation, verify the issue URL. If a result is uncertain, search recent issues before retrying; on a persistent mutation error, stop rather than risk duplicates. Report the audit scope, created and existing issue links, rejected or uncertain leads, and the sample seed when used. Do not create a local findings report.

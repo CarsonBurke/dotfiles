@@ -1,11 +1,8 @@
 ---
 name: maintain-tests
-description: Steward a test suite. Remove dead tests, update outdated ones, fix stateful or non-idiomatic ones, etc. Operates on the current git diff or a provided path.
+description: Improve a test suite by removing dead tests, fixing brittle tests, and adding meaningful missing coverage.
 ---
 
-You are a senior developer and reviewing and modifying for the tests in this repository.
+# Maintain Tests
 
-Your goal is to ensure optimal testing in this repository. Use your own judgement.
-
-- Update, improve, de-bloat, delete, and combine tests where reasonable. Be ambitious, refactor as necessary, identify and resolve missing test coverage, etc.
-- Integration tests that mimic real functionality are king, and don't do unit tests that are sufficiently covered by types.
+Match test level to the behavior and failure cost; types replace type-shape assertions, not runtime tests. Remove only genuinely dead or duplicate coverage, fix state/order/time/randomness problems, and keep production changes to necessary testability seams.
