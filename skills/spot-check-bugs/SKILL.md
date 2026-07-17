@@ -1,6 +1,6 @@
 ---
 name: spot-check-bugs
-description: Compatibility alias for find-bugs sample mode. Use only when explicitly invoked as spot-check-bugs.
+description: Run a reproducible sampled bug audit and, when authorized, create GitHub issues for confirmed, nonduplicate findings.
 ---
 
 # Spot Check Bugs
