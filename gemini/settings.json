@@ -38,7 +38,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; fi",
+            "command": "if [ -f '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10000
           }
         ]
@@ -49,7 +49,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; fi",
+            "command": "if [ -f '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10000
           }
         ]
@@ -60,7 +60,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; fi",
+            "command": "if [ -f '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10000
           }
         ]
@@ -71,7 +71,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; fi",
+            "command": "if [ -f '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/gemini-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/gemini-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10000
           }
         ]
