@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML Change Report"
+  short_description: "Create evidence-grounded HTML change reports"
+  default_prompt: "Use $html-change-report to create a self-contained HTML report of the changes made in this task."
