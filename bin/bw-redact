@@ -4,12 +4,64 @@ set -euo pipefail
 # Keep the Redact profile separate from the default Bitwarden CLI profile.
 export BITWARDENCLI_APPDATA_DIR="$HOME/.config/Bitwarden CLI Redact"
 
+persist_session() {
+  local session="$1"
+
+  if ! command -v fish >/dev/null 2>&1; then
+    printf '%s\n' "warning: fish is unavailable; BW_SESSION_REDACT was not persisted" >&2
+    return 0
+  fi
+
+  # Pipe the session instead of passing it as a process argument, where it
+  # could be visible through the process list.
+  printf '%s\n' "$session" | fish -c '
+    read --local session
+    set --universal --export BW_SESSION_REDACT "$session"
+  '
+}
+
+clear_session() {
+  if command -v fish >/dev/null 2>&1; then
+    fish -c 'set --universal --erase BW_SESSION_REDACT'
+  fi
+}
+
+if [[ "${1:-}" == unlock ]]; then
+  shift
+  raw=0
+  for argument in "$@"; do
+    if [[ "$argument" == --raw ]]; then
+      raw=1
+      break
+    fi
+  done
+
+  session="$(bw unlock --raw "$@")"
+  persist_session "$session"
+
+  if ((raw)); then
+    printf '%s\n' "$session"
+  else
+    printf '%s\n' 'Your vault is now unlocked.'
+  fi
+  exit 0
+fi
+
 # BW_SESSION is a process-wide selector, so map the profile-specific session
 # only for this invocation. Never let the default profile's session leak in.
 if [[ -n "${BW_SESSION_REDACT:-}" ]]; then
   export BW_SESSION="$BW_SESSION_REDACT"
 else
   unset BW_SESSION
+fi
+
+if [[ "${1:-}" == lock || "${1:-}" == logout ]]; then
+  if bw "$@"; then
+    clear_session
+    exit 0
+  else
+    exit $?
+  fi
 fi
 
 exec bw "$@"
