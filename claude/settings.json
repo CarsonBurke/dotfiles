@@ -69,7 +69,6 @@
       "../redact-agent-worktrees"
     ]
   },
-  "model": "claude-opus-4-8[1m]",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -209,5 +208,6 @@
   "teammateMode": "in-process",
   "agentPushNotifEnabled": false,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "model": "claude-fable-5[1m]"
 }
