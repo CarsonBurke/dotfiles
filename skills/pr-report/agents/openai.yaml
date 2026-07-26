@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Report"
+  short_description: "Create evidence-rich HTML pull request reports"
+  default_prompt: "Use $pr-report to create a self-contained HTML report for the current pull request."

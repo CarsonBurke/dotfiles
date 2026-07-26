@@ -1,0 +1,71 @@
+{
+  "title": "Abort-aware retries",
+  "executive_summary": "The retry helper now forwards cancellation and stops retrying after an abort.",
+  "repository": "example/retry-service",
+  "scope": "Proposed change",
+  "base_sha": "abc1234",
+  "head_sha": "def5678",
+  "worktree_state": "Supplied example (no checkout)",
+  "outcome": {
+    "title": "Cancellation becomes terminal",
+    "summary": "AbortSignal is forwarded to fetch, and an aborted request is rethrown instead of retried."
+  },
+  "important_note": {
+    "title": "Evidence boundary",
+    "text": "This report records supplied code and observed validation; it is not a readiness review."
+  },
+  "coverage": [
+    {
+      "claim": "AbortSignal reaches fetch",
+      "evidence": "Before/after implementation excerpt",
+      "status": "covered"
+    },
+    {
+      "claim": "Abort stops later attempts",
+      "evidence": "Focused test result: 4 passed",
+      "status": "covered"
+    }
+  ],
+  "evidence": [
+    {
+      "type": "code",
+      "area": "Retry control flow",
+      "title": "Abort exits the retry loop",
+      "summary": "The new optional signal is passed to fetch and checked before another attempt.",
+      "before": {
+        "caption": "All failures retry",
+        "path_ref": "src/retry.ts · abc1234",
+        "code": "export async function fetchWithRetry(url: string) {\n  // focused before excerpt\n}"
+      },
+      "after": {
+        "caption": "Abort is terminal",
+        "path_ref": "src/retry.ts · def5678",
+        "code": "export async function fetchWithRetry(url: string, signal?: AbortSignal) {\n  // focused after excerpt\n}"
+      },
+      "note": "Repository-derived code must be copied exactly and HTML-escaped by the renderer."
+    }
+  ],
+  "validation": [
+    {
+      "status": "pass",
+      "name": "Focused tests",
+      "evidence": "bun test src/retry.test.ts — 4 passed"
+    },
+    {
+      "status": "gap",
+      "name": "Full suite",
+      "evidence": "Not supplied"
+    }
+  ],
+  "risk_summary": "Known evidence limits",
+  "risks": [
+    {
+      "title": "Scope",
+      "detail": "Only the supplied focused test result is reported; no full-suite result is implied."
+    }
+  ],
+  "provenance": {
+    "text": "Generated from the supplied proposed change and validation evidence.",
+    "links": []
+  }
+}
