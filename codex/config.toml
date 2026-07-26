@@ -229,8 +229,67 @@ preventSleepWhileRunning = false
 keepRemoteControlAwakeWhilePluggedIn = false
 conversationDetailMode = "STEPS_EXECUTION"
 
+[hooks.state]
+
+[hooks.state."/home/marvin/.codex/hooks.json:pre_tool_use:0:0"]
+trusted_hash = "sha256:8669d00862e7f1e8845a36b9626f3ff753db6451ebc0262256a2d759b23b61c9"
+
+[hooks.state."/home/marvin/.codex/hooks.json:permission_request:0:0"]
+trusted_hash = "sha256:98ea9d38ea4de946167dddc18990257fa2a58a70cf3d2f2aa1ebd864b43f7f66"
+
+[hooks.state."/home/marvin/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:9b55357c93fb693fd6fa46360f6e05b9e805ca59db0bceb8735bcddbbd0cae9a"
+
+[hooks.state."/home/marvin/.codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:c7b30eefde9d436806289c868fb2a1b0796a0640db11595e906f850b4c821144"
+
+[hooks.state."/home/marvin/.codex/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:41f357810370f6201247164144061829d2d7c91a6e9c00f7b749fd8226d116b1"
+
+[hooks.state."/home/marvin/.codex/hooks.json:subagent_start:0:0"]
+trusted_hash = "sha256:54a40595de32ae7e4b0fefbc2d0d4e7a34b2692bbf8333a7031b02ab3e305106"
+
+[hooks.state."/home/marvin/.codex/hooks.json:subagent_stop:0:0"]
+trusted_hash = "sha256:6110ed2900dcac4068557296148c09158225d7947980113198eaa03a5be40c14"
+
+[hooks.state."/home/marvin/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:fbd3e3648ed92ff59f10decd057fef095657b374852448e2ff6c2ca4c9867d4b"
+
+[hooks.state."/home/marvin/Documents/repositories/dotfiles/codex/hooks.json:pre_tool_use:0:0"]
+trusted_hash = "sha256:8669d00862e7f1e8845a36b9626f3ff753db6451ebc0262256a2d759b23b61c9"
+
+[hooks.state."/home/marvin/Documents/repositories/dotfiles/codex/hooks.json:permission_request:0:0"]
+trusted_hash = "sha256:98ea9d38ea4de946167dddc18990257fa2a58a70cf3d2f2aa1ebd864b43f7f66"
+
+[hooks.state."/home/marvin/Documents/repositories/dotfiles/codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:9b55357c93fb693fd6fa46360f6e05b9e805ca59db0bceb8735bcddbbd0cae9a"
+
+[hooks.state."/home/marvin/Documents/repositories/dotfiles/codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:c7b30eefde9d436806289c868fb2a1b0796a0640db11595e906f850b4c821144"
+
+[hooks.state."/home/marvin/Documents/repositories/dotfiles/codex/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:41f357810370f6201247164144061829d2d7c91a6e9c00f7b749fd8226d116b1"
+
+[hooks.state."/home/marvin/Documents/repositories/dotfiles/codex/hooks.json:subagent_start:0:0"]
+trusted_hash = "sha256:54a40595de32ae7e4b0fefbc2d0d4e7a34b2692bbf8333a7031b02ab3e305106"
+
+[hooks.state."/home/marvin/Documents/repositories/dotfiles/codex/hooks.json:subagent_stop:0:0"]
+trusted_hash = "sha256:6110ed2900dcac4068557296148c09158225d7947980113198eaa03a5be40c14"
+
+[hooks.state."/home/marvin/Documents/repositories/dotfiles/codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:fbd3e3648ed92ff59f10decd057fef095657b374852448e2ff6c2ca4c9867d4b"
+
 [projects."/home/marvin/Documents/repositories/redact-worktrees/main/worktrees/prototype-populator-browser-import"]
 trust_level = "trusted"
 
 [projects."/home/marvin/Documents/repositories/redact-worktrees/main/worktrees/carson-main-4442-populator-history-and-logs"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/Simulon"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/NorMuon"]
+trust_level = "trusted"
+
+[projects."/home/marvin/Documents/repositories/V2UXMock"]
 trust_level = "trusted"
