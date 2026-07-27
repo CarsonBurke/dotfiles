@@ -2,5 +2,5 @@
 *
 !.gitignore
 !AGENTS.md
-!config.example.toml
+!config.toml
 !skills

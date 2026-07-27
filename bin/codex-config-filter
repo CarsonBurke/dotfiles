@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+"""Git filter keeping machine-local state out of codex/config.toml.
+
+Codex writes per-machine state into the same file that holds the settings worth
+sharing: project trust entries and hook trust hashes, both keyed by absolute
+paths that are meaningless on another host. Tracking the file raw meant every
+sync churned or conflicted.
+
+  clean   working tree -> git   drop the machine-local sections, stash them
+  smudge  git -> working tree   append the stashed sections back
+
+So git only ever sees the authored config, while the file on disk keeps the
+state codex needs.
+
+The stash is a sidecar next to the config (.config.toml.local, ignored by
+codex/.gitignore) rather than the config itself, because git truncates the
+target file before streaming smudge output into it - by the time smudge runs
+there is nothing left to read back.
+
+Both directions fail open: on any unexpected input the content is passed
+through untouched, which shows up as ordinary churn rather than a mangled
+config.
+
+Register per machine, from the repo root:
+
+  git config filter.codex-config.clean  'bin/codex-config-filter clean %f'
+  git config filter.codex-config.smudge 'bin/codex-config-filter smudge %f'
+"""
+
+import os
+import re
+import sys
+
+# Sections codex rewrites per machine, matched against the table header line.
+LOCAL_SECTION = re.compile(
+    r"""^\[
+        (?: projects[.\]]
+          | hooks\.state[.\]]
+          | tui\.model_availability_nux\]
+        )""",
+    re.VERBOSE,
+)
+
+# Top-level keys holding a machine-specific path. These live above the first
+# table, so they are carried separately from the sections.
+LOCAL_KEY = re.compile(r"^\s*sqlite_home\s*=")
+
+
+def sidecar_for(path):
+    directory, name = os.path.split(path)
+    return os.path.join(directory, ".{}.local".format(name))
+
+
+def split(text):
+    """Return (preamble, sections) with sections as whole [header]+body chunks."""
+    preamble, sections, current = [], [], None
+
+    for line in text.splitlines(keepends=True):
+        if line.startswith("["):
+            current = [line]
+            sections.append(current)
+        elif current is None:
+            preamble.append(line)
+        else:
+            current.append(line)
+
+    return preamble, sections
+
+
+def is_local(section):
+    return bool(LOCAL_SECTION.match(section[0]))
+
+
+def render(keys, sections):
+    chunks = ["".join(keys).rstrip("\n")]
+    chunks.extend("".join(s).rstrip("\n") for s in sections)
+    return "\n\n".join(c for c in chunks if c)
+
+
+def clean(text, path):
+    preamble, sections = split(text)
+    local_keys = [l for l in preamble if LOCAL_KEY.match(l)]
+    local_sections = [s for s in sections if is_local(s)]
+
+    if path:
+        stash(sidecar_for(path), render(local_keys, local_sections))
+
+    # Render through the same path as smudge, so repeated round trips through
+    # the filter are byte-stable and git sees no phantom change.
+    kept_keys = [l for l in preamble if not LOCAL_KEY.match(l)]
+    kept_sections = [s for s in sections if not is_local(s)]
+    return render(kept_keys, kept_sections) + "\n"
+
+
+def stash(path, content):
+    """Persist this machine's sections so smudge can put them back."""
+    try:
+        if content:
+            with open(path, "w", encoding="utf-8") as handle:
+                handle.write(content + "\n")
+        elif os.path.exists(path):
+            os.remove(path)
+    except OSError:
+        # A read-only tree is not worth failing a diff over.
+        pass
+
+
+def smudge(text, path):
+    if not path:
+        return text
+
+    try:
+        with open(sidecar_for(path), encoding="utf-8") as handle:
+            stashed = handle.read().strip("\n")
+    except (OSError, UnicodeDecodeError):
+        return text
+
+    if not stashed:
+        return text
+
+    keys, sections = split(stashed + "\n")
+    preamble, incoming = split(text)
+    # Top-level keys must stay above the first table to remain top-level.
+    return render(preamble + keys, incoming + sections) + "\n"
+
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1] not in ("clean", "smudge"):
+        sys.exit("usage: codex-config-filter {clean|smudge} [path]")
+
+    mode = sys.argv[1]
+    path = sys.argv[2] if len(sys.argv) > 2 else None
+    text = sys.stdin.read()
+
+    try:
+        result = clean(text, path) if mode == "clean" else smudge(text, path)
+    except Exception:  # noqa: BLE001 - never corrupt the file over a filter bug
+        result = text
+
+    sys.stdout.write(result)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Codex rewrites per-machine trust state into its config; keep that out of git.
+# Needs the filter registered locally - see README.
+codex/config.toml filter=codex-config
