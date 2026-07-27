@@ -190,8 +190,8 @@
     "command": "echo \"[$(basename \"$(pwd)\")]\""
   },
   "enabledPlugins": {
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "clangd-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": false,
+    "clangd-lsp@claude-plugins-official": false,
     "figma@claude-plugins-official": false
   },
   "effortLevel": "high",
