@@ -75,7 +75,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
@@ -86,7 +86,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
@@ -97,7 +97,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
@@ -109,7 +109,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
@@ -121,7 +121,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
@@ -133,7 +133,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
@@ -145,7 +145,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
@@ -156,7 +156,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
@@ -167,7 +167,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
@@ -178,7 +178,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ -f '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -r '/home/marvin/.orca/agent-hooks/claude-hook.sh' ] && [ -x '/home/marvin/.orca/agent-hooks/claude-hook.sh' ]; then /bin/sh '/home/marvin/.orca/agent-hooks/claude-hook.sh'; else cat >/dev/null 2>&1 || :; fi",
+            "command": "if [ -f \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -r \"$HOME/.orca/agent-hooks/claude-hook.sh\" ] && [ -x \"$HOME/.orca/agent-hooks/claude-hook.sh\" ]; then /bin/sh \"$HOME/.orca/agent-hooks/claude-hook.sh\"; else cat >/dev/null 2>&1 || :; fi",
             "timeout": 10
           }
         ]
