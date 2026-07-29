@@ -229,15 +229,17 @@ complete -c grok -n "__fish_grok_using_subcommand login" -l device-auth -l devic
 complete -c grok -n "__fish_grok_using_subcommand login" -l devbox -d 'Authenticate for remote development environments (hidden)'
 complete -c grok -n "__fish_grok_using_subcommand login" -l debug -d 'Enable debug logging'
 complete -c grok -n "__fish_grok_using_subcommand login" -s h -l help -d 'Print help'
-complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove doctor help" -l leader-socket -d 'Use a custom leader socket path instead of the default `~/.grok/leader.sock`' -r -F
-complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove doctor help" -l debug-file -d 'Write debug logs to FILE' -r -F
-complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove doctor help" -l debug -d 'Enable debug logging'
-complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove doctor help" -s h -l help -d 'Print help'
-complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove doctor help" -f -a "list" -d 'List configured MCP servers'
-complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove doctor help" -f -a "add" -d 'Add or update an MCP server'
-complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove doctor help" -f -a "remove" -d 'Remove an MCP server'
-complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove doctor help" -f -a "doctor" -d 'Diagnose MCP server configuration and connectivity'
-complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove doctor help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -l leader-socket -d 'Use a custom leader socket path instead of the default `~/.grok/leader.sock`' -r -F
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -l debug-file -d 'Write debug logs to FILE' -r -F
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -l debug -d 'Enable debug logging'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -s h -l help -d 'Print help'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -f -a "list" -d 'List configured MCP servers'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -f -a "add" -d 'Add or update an MCP server'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -f -a "remove" -d 'Remove an MCP server'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -f -a "enable" -d 'Enable an MCP server'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -f -a "disable" -d 'Disable an MCP server'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -f -a "doctor" -d 'Diagnose MCP server configuration and connectivity'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and not __fish_seen_subcommand_from list add remove enable disable doctor help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from list" -l leader-socket -d 'Use a custom leader socket path instead of the default `~/.grok/leader.sock`' -r -F
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from list" -l debug-file -d 'Write debug logs to FILE' -r -F
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from list" -l json -d 'Emit machine-readable JSON output'
@@ -264,6 +266,14 @@ complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcomman
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from remove" -l debug-file -d 'Write debug logs to FILE' -r -F
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from remove" -l debug -d 'Enable debug logging'
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from remove" -s h -l help -d 'Print help (see more with \'--help\')'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from enable" -l leader-socket -d 'Use a custom leader socket path instead of the default `~/.grok/leader.sock`' -r -F
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from enable" -l debug-file -d 'Write debug logs to FILE' -r -F
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from enable" -l debug -d 'Enable debug logging'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from enable" -s h -l help -d 'Print help'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from disable" -l leader-socket -d 'Use a custom leader socket path instead of the default `~/.grok/leader.sock`' -r -F
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from disable" -l debug-file -d 'Write debug logs to FILE' -r -F
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from disable" -l debug -d 'Enable debug logging'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from disable" -s h -l help -d 'Print help'
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from doctor" -l leader-socket -d 'Use a custom leader socket path instead of the default `~/.grok/leader.sock`' -r -F
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from doctor" -l debug-file -d 'Write debug logs to FILE' -r -F
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from doctor" -l json -d 'Emit machine-readable JSON output'
@@ -272,6 +282,8 @@ complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcomman
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from help" -f -a "list" -d 'List configured MCP servers'
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from help" -f -a "add" -d 'Add or update an MCP server'
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from help" -f -a "remove" -d 'Remove an MCP server'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from help" -f -a "enable" -d 'Enable an MCP server'
+complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from help" -f -a "disable" -d 'Disable an MCP server'
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from help" -f -a "doctor" -d 'Diagnose MCP server configuration and connectivity'
 complete -c grok -n "__fish_grok_using_subcommand mcp; and __fish_seen_subcommand_from help" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
 complete -c grok -n "__fish_grok_using_subcommand plugin; and not __fish_seen_subcommand_from list install uninstall rm remove update enable disable details validate tag marketplace help" -l leader-socket -d 'Use a custom leader socket path instead of the default `~/.grok/leader.sock`' -r -F
@@ -626,6 +638,8 @@ complete -c grok -n "__fish_grok_using_subcommand help; and __fish_seen_subcomma
 complete -c grok -n "__fish_grok_using_subcommand help; and __fish_seen_subcommand_from mcp" -f -a "list" -d 'List configured MCP servers'
 complete -c grok -n "__fish_grok_using_subcommand help; and __fish_seen_subcommand_from mcp" -f -a "add" -d 'Add or update an MCP server'
 complete -c grok -n "__fish_grok_using_subcommand help; and __fish_seen_subcommand_from mcp" -f -a "remove" -d 'Remove an MCP server'
+complete -c grok -n "__fish_grok_using_subcommand help; and __fish_seen_subcommand_from mcp" -f -a "enable" -d 'Enable an MCP server'
+complete -c grok -n "__fish_grok_using_subcommand help; and __fish_seen_subcommand_from mcp" -f -a "disable" -d 'Disable an MCP server'
 complete -c grok -n "__fish_grok_using_subcommand help; and __fish_seen_subcommand_from mcp" -f -a "doctor" -d 'Diagnose MCP server configuration and connectivity'
 complete -c grok -n "__fish_grok_using_subcommand help; and __fish_seen_subcommand_from plugin" -f -a "list" -d 'List installed plugins'
 complete -c grok -n "__fish_grok_using_subcommand help; and __fish_seen_subcommand_from plugin" -f -a "install" -d 'Install a plugin from a git URL or local path'
