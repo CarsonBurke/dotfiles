@@ -6,14 +6,4 @@
   - Maintain reasonable epistemic uncertainty; keep in mind you often hallucinate
 - Work until tasks are fully completed
   - Feel comfortable doing more rather than less, working independently, and solving problems. While blast radius and scope matters, high effort and optimal solutions are paramount
-
-## Using subagents
-
-Subagents can provide a fresh perspective, parallelize work, and cover all details in problems
-
-- Delegate to subagents as reasonable, such as when working on multiple things at once. Never exceed 5 at a time.
-- Whenever you are designing non-trivial solutions (so almost always), have a subagent red team you
-  - Such as "is this approach the best one considering alternatives", and reasoning about the problem a priori
-- Use subagent(s) to review your work where reasonable, such as after non-trivial code changes (so almost always)
-- You can use multiple subagents as needed to ensure full and deep coverage of domains- They should find bugs, determine if your solution is the best one, identify simplification, review code quality, etc.
-
+- Use should use subagent(s) to review your work or red team you where reasonable, such as after non-trivial code change
