@@ -21,6 +21,42 @@ Codex user skills use the standard `~/.agents/skills` location. Do not link
 `~/.codex/skills` to this repository: Codex owns `$CODEX_HOME/skills`.
 Bundled system skills are disabled in `codex/config.toml`.
 
+Expose the shared skills through Codex's personal skill directory without
+replacing skills managed by Orca or another installer:
+
+    bin/link-codex-skills
+
+Remove the bundled Codex marketplace and its default Browser, Chrome, Computer
+Use, LaTeX, Record and Replay, Sites, and Visualize plugins:
+
+    bin/remove-codex-base-plugins
+
+The browser skill also needs its runtime:
+
+    uv tool install --python 3.12 browser-harness==0.1.8
+
+On macOS, Codex uses `bin/browser-harness` to start a persistent, dedicated
+Brave profile on demand and connect through a loopback-only debugging endpoint.
+Other platforms retain browser-harness's native browser discovery. Sign in to
+services once in the automation profile when a task requires an authenticated
+session. The launcher disables browser-harness telemetry so task code and page
+output remain local, and gives each invocation its own transient harness daemon
+control channel. The Brave profile, cookies, and tabs remain shared between
+local invocations.
+
+Loopback limits the debugging endpoint to the local machine, but it does not
+authenticate local processes. Any process running as the user can inspect the
+automation browser while it is running. Stop the dedicated browser after
+sensitive work when no other browser task is active:
+
+    bin/browser-harness --stop
+
+When explicitly authorized, `bin/browser-harness-import-helium-auth` can copy
+the current GitHub and Vercel session cookies from Helium into that Brave
+profile. The importer uses an allowlist, keeps cookie values out of output,
+verifies the transfer in memory, rolls back on failure, and removes its
+temporary Helium profile.
+
 Register the codex config filter once per machine, from the repo root:
 
     git config filter.codex-config.clean  'bin/codex-config-filter clean %f'

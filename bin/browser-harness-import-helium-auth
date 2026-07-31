@@ -1,0 +1,457 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+ulimit -c 0
+
+readonly helium_binary="/Applications/Helium.app/Contents/MacOS/Helium"
+readonly helium_profile="$HOME/Library/Application Support/net.imput.helium"
+readonly source_cookies="$helium_profile/Default/Cookies"
+readonly source_local_state="$helium_profile/Local State"
+readonly browser_launcher="$HOME/Documents/repositories/dotfiles/bin/browser-harness"
+readonly source_cdp_url="http://127.0.0.1:9224"
+readonly target_cdp_url="http://127.0.0.1:9223"
+
+transfer_dir=""
+helium_pid=""
+bun_pid=""
+
+# Invoked through the EXIT trap.
+# shellcheck disable=SC2329
+cleanup() {
+  local command_status=$?
+
+  trap - EXIT INT TERM
+
+  if [[ -n "$bun_pid" ]] && kill -0 "$bun_pid" 2>/dev/null; then
+    kill -TERM "$bun_pid" 2>/dev/null || true
+    wait "$bun_pid" 2>/dev/null || true
+  fi
+
+  if [[ -n "$helium_pid" ]] && kill -0 "$helium_pid" 2>/dev/null; then
+    kill -TERM "$helium_pid" 2>/dev/null || true
+    wait "$helium_pid" 2>/dev/null || true
+  fi
+
+  if [[ -n "$transfer_dir" ]]; then
+    case "$transfer_dir" in
+      /tmp/helium-auth-transfer.* | /private/tmp/helium-auth-transfer.*)
+        if ! find "$transfer_dir" -depth -delete 2>/dev/null; then
+          command_status=1
+        fi
+        if [[ -e "$transfer_dir" ]]; then
+          printf 'Sensitive Helium transfer data could not be removed: %s\n' \
+            "$transfer_dir" >&2
+          command_status=1
+        fi
+        ;;
+      *)
+        printf 'Refusing to clean an unexpected transfer path.\n' >&2
+        command_status=1
+        ;;
+    esac
+  fi
+
+  exit "$command_status"
+}
+trap cleanup EXIT
+
+# Invoked through the INT and TERM traps.
+# shellcheck disable=SC2329
+handle_signal() {
+  local signal_name="$1"
+  local signal_status="$2"
+  local child_status=0
+
+  trap - INT TERM
+  if [[ -n "$bun_pid" ]] && kill -0 "$bun_pid" 2>/dev/null; then
+    kill -s "$signal_name" "$bun_pid" 2>/dev/null || true
+    if wait "$bun_pid"; then
+      child_status=0
+    else
+      child_status=$?
+    fi
+    bun_pid=""
+  fi
+
+  if [[ "$child_status" -eq 70 ]]; then
+    exit 70
+  fi
+  exit "$signal_status"
+}
+trap 'handle_signal INT 130' INT
+trap 'handle_signal TERM 143' TERM
+
+for required_path in \
+  "$helium_binary" \
+  "$source_cookies" \
+  "$source_local_state" \
+  "$browser_launcher"; do
+  if [[ ! -e "$required_path" ]]; then
+    printf 'Required path is missing: %s\n' "$required_path" >&2
+    exit 1
+  fi
+done
+
+for required_command in bun curl lsof sqlite3; do
+  if ! command -v "$required_command" >/dev/null; then
+    printf 'Required command is missing: %s\n' "$required_command" >&2
+    exit 1
+  fi
+done
+
+if lsof -nP -iTCP:9224 -sTCP:LISTEN >/dev/null; then
+  printf 'Port 9224 is already in use.\n' >&2
+  exit 1
+fi
+
+printf 'print(page_info())\n' | "$browser_launcher" >/dev/null
+if ! "$browser_launcher" --doctor | grep -q '^ok: dedicated debugging endpoint:'; then
+  printf 'The dedicated Brave debugging endpoint is unavailable.\n' >&2
+  exit 1
+fi
+
+transfer_dir="$(mktemp -d /tmp/helium-auth-transfer.XXXXXX)"
+chmod 700 "$transfer_dir"
+mkdir -m 700 "$transfer_dir/Default"
+cp -p "$source_local_state" "$transfer_dir/Local State"
+sqlite3 "$source_cookies" ".backup '$transfer_dir/Default/Cookies'"
+chmod 600 "$transfer_dir/Local State" "$transfer_dir/Default/Cookies"
+
+"$helium_binary" \
+  --user-data-dir="$transfer_dir" \
+  --remote-debugging-address=127.0.0.1 \
+  --remote-debugging-port=9224 \
+  --headless=new \
+  --disable-background-networking \
+  --disable-breakpad \
+  --disable-component-update \
+  --disable-crash-reporter \
+  --disable-default-apps \
+  --disable-extensions \
+  --disable-sync \
+  --metrics-recording-only \
+  --no-default-browser-check \
+  --no-first-run \
+  --no-pings \
+  about:blank \
+  >/dev/null 2>&1 &
+helium_pid=$!
+
+for _ in {1..100}; do
+  if curl --fail --silent --max-time 1 \
+    "$source_cdp_url/json/version" >/dev/null 2>&1; then
+    break
+  fi
+  sleep 0.1
+done
+
+if ! curl --fail --silent --max-time 1 \
+  "$source_cdp_url/json/version" >/dev/null 2>&1; then
+  printf 'The temporary Helium debugging endpoint did not start.\n' >&2
+  exit 1
+fi
+
+SOURCE_CDP_URL="$source_cdp_url" TARGET_CDP_URL="$target_cdp_url" bun - <<'JS' &
+const allowlist = new Map([
+  ["github.com", new Set([
+    "__Host-user_session_same_site",
+    "_device_id",
+    "user_session",
+  ])],
+  [".github.com", new Set([
+    "dotcom_user",
+    "logged_in",
+  ])],
+  ["vercel.com", new Set([
+    "authorization",
+    "isLoggedIn",
+    "vercel_session_id",
+  ])],
+  [".vercel.com", new Set([
+    "KP_UIDz",
+    "KP_UIDz-ssn",
+  ])],
+]);
+
+const required = new Set([
+  "github.com:user_session",
+  "github.com:__Host-user_session_same_site",
+  "vercel.com:authorization",
+]);
+
+const sourceCdpUrl = process.env.SOURCE_CDP_URL;
+const targetCdpUrl = process.env.TARGET_CDP_URL;
+
+if (!sourceCdpUrl || !targetCdpUrl) {
+  throw new Error("CDP endpoints are unavailable.");
+}
+
+async function browserSocket(endpoint) {
+  const response = await fetch(`${endpoint}/json/version`, {
+    signal: AbortSignal.timeout(5000),
+  });
+  if (!response.ok) {
+    throw new Error("A CDP version endpoint was unavailable.");
+  }
+
+  const version = await response.json();
+  if (
+    typeof version.webSocketDebuggerUrl !== "string" ||
+    !version.webSocketDebuggerUrl.startsWith("ws://127.0.0.1:")
+  ) {
+    throw new Error("A CDP WebSocket endpoint was invalid.");
+  }
+
+  return version.webSocketDebuggerUrl;
+}
+
+async function cdp(endpoint, method, params = {}) {
+  const socketUrl = await browserSocket(endpoint);
+
+  return await new Promise((resolve, reject) => {
+    const socket = new WebSocket(socketUrl);
+    const timeout = setTimeout(() => {
+      socket.close();
+      reject(new Error(`CDP ${method} timed out.`));
+    }, 10000);
+
+    socket.addEventListener("open", () => {
+      socket.send(JSON.stringify({ id: 1, method, params }));
+    });
+
+    socket.addEventListener("message", (event) => {
+      let message;
+      try {
+        message = JSON.parse(event.data);
+      } catch {
+        return;
+      }
+
+      if (message.id !== 1) {
+        return;
+      }
+
+      clearTimeout(timeout);
+      socket.close();
+      if (message.error) {
+        reject(new Error(`CDP ${method} failed.`));
+        return;
+      }
+      resolve(message.result);
+    });
+
+    socket.addEventListener("error", () => {
+      clearTimeout(timeout);
+      reject(new Error(`CDP ${method} could not connect.`));
+    });
+  });
+}
+
+function identity(cookie) {
+  return `${cookie.domain}:${cookie.path}:${cookie.name}`;
+}
+
+function isAllowed(cookie) {
+  const names = allowlist.get(cookie.domain);
+  if (!names?.has(cookie.name)) {
+    return false;
+  }
+  if (cookie.partitionKey) {
+    return false;
+  }
+  return cookie.expires <= 0 || cookie.expires > Date.now() / 1000;
+}
+
+function toCookieParam(cookie) {
+  const param = {
+    name: cookie.name,
+    value: cookie.value,
+    path: cookie.path,
+    secure: cookie.secure,
+    httpOnly: cookie.httpOnly,
+  };
+
+  if (cookie.domain.startsWith(".")) {
+    param.domain = cookie.domain;
+  } else {
+    param.url = `https://${cookie.domain}/`;
+  }
+
+  if (cookie.expires > 0) {
+    param.expires = cookie.expires;
+  }
+  if (["Strict", "Lax", "None"].includes(cookie.sameSite)) {
+    param.sameSite = cookie.sameSite;
+  }
+  if (["Low", "Medium", "High"].includes(cookie.priority)) {
+    param.priority = cookie.priority;
+  }
+  if (["Secure", "NonSecure"].includes(cookie.sourceScheme)) {
+    param.sourceScheme = cookie.sourceScheme;
+  }
+  if (Number.isInteger(cookie.sourcePort)) {
+    param.sourcePort = cookie.sourcePort;
+  }
+
+  return param;
+}
+
+async function deleteCookie(cookie) {
+  const params = {
+    name: cookie.name,
+    path: cookie.path,
+  };
+  if (cookie.domain.startsWith(".")) {
+    params.domain = cookie.domain;
+  } else {
+    params.url = `https://${cookie.domain}/`;
+  }
+  await cdp(targetCdpUrl, "Storage.deleteCookies", params);
+}
+
+const sourceResult = await cdp(sourceCdpUrl, "Storage.getCookies");
+const sourceCookies = sourceResult.cookies.filter(isAllowed);
+const found = new Set(sourceCookies.map((cookie) => `${cookie.domain}:${cookie.name}`));
+
+for (const requiredCookie of required) {
+  if (!found.has(requiredCookie)) {
+    throw new Error("A required source authentication cookie is unavailable.");
+  }
+}
+
+const targetBeforeResult = await cdp(targetCdpUrl, "Storage.getCookies");
+const targetBefore = targetBeforeResult.cookies.filter(isAllowed);
+let importStarted = false;
+let importOperation = null;
+let rollbackPromise = null;
+let signalHandling = false;
+
+async function rollbackTarget() {
+  if (rollbackPromise) {
+    return await rollbackPromise;
+  }
+
+  rollbackPromise = (async () => {
+    const rollbackErrors = [];
+
+    for (const sourceCookie of sourceCookies) {
+      try {
+        await deleteCookie(sourceCookie);
+      } catch {
+        rollbackErrors.push("delete");
+      }
+    }
+    if (targetBefore.length > 0) {
+      try {
+        await cdp(targetCdpUrl, "Storage.setCookies", {
+          cookies: targetBefore.map(toCookieParam),
+        });
+      } catch {
+        rollbackErrors.push("restore");
+      }
+    }
+
+    try {
+      const restoredResult = await cdp(targetCdpUrl, "Storage.getCookies");
+      const restored = new Map(
+        restoredResult.cookies.filter(isAllowed).map((cookie) => [identity(cookie), cookie]),
+      );
+      const expected = new Map(
+        targetBefore.map((cookie) => [identity(cookie), cookie]),
+      );
+
+      for (const sourceCookie of sourceCookies) {
+        const restoredCookie = restored.get(identity(sourceCookie));
+        const expectedCookie = expected.get(identity(sourceCookie));
+        if (
+          (!expectedCookie && restoredCookie) ||
+          (expectedCookie && restoredCookie?.value !== expectedCookie.value)
+        ) {
+          rollbackErrors.push("verify");
+          break;
+        }
+      }
+    } catch {
+      rollbackErrors.push("verify");
+    }
+
+    if (rollbackErrors.length > 0) {
+      throw new Error("Authentication rollback was incomplete.");
+    }
+  })();
+
+  return await rollbackPromise;
+}
+
+async function handleSignal(exitStatus) {
+  if (signalHandling) {
+    return;
+  }
+  signalHandling = true;
+
+  if (importOperation) {
+    await importOperation.catch(() => {});
+  }
+  if (importStarted) {
+    try {
+      await rollbackTarget();
+    } catch {
+      console.error("Authentication transfer was interrupted and rollback was incomplete.");
+      process.exit(70);
+    }
+  }
+  process.exit(exitStatus);
+}
+
+process.once("SIGINT", () => {
+  void handleSignal(130);
+});
+process.once("SIGTERM", () => {
+  void handleSignal(143);
+});
+
+try {
+  importStarted = true;
+  importOperation = cdp(targetCdpUrl, "Storage.setCookies", {
+    cookies: sourceCookies.map(toCookieParam),
+  });
+  await importOperation;
+  importOperation = null;
+
+  const targetAfterResult = await cdp(targetCdpUrl, "Storage.getCookies");
+  const targetAfter = new Map(
+    targetAfterResult.cookies.filter(isAllowed).map((cookie) => [identity(cookie), cookie]),
+  );
+
+  for (const sourceCookie of sourceCookies) {
+    const importedCookie = targetAfter.get(identity(sourceCookie));
+    if (!importedCookie || importedCookie.value !== sourceCookie.value) {
+      throw new Error("An imported authentication cookie could not be verified.");
+    }
+  }
+} catch {
+  try {
+    await rollbackTarget();
+  } catch {
+    throw new Error("Authentication transfer failed and rollback was incomplete.");
+  }
+  throw new Error("Authentication transfer failed and was rolled back.");
+}
+
+const domains = [...new Set(sourceCookies.map((cookie) => cookie.domain))].sort();
+console.log(JSON.stringify({
+  transferredCookies: sourceCookies.length,
+  domains,
+}));
+importStarted = false;
+JS
+bun_pid=$!
+
+bun_status=0
+if wait "$bun_pid"; then
+  bun_status=0
+else
+  bun_status=$?
+fi
+bun_pid=""
+exit "$bun_status"

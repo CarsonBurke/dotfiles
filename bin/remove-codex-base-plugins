@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly marketplace="openai-bundled"
+readonly base_plugins=(
+  browser
+  chrome
+  computer-use
+  latex
+  record-and-replay
+  sites
+  visualize
+)
+
+error_file="$(mktemp "${TMPDIR:-/tmp}/codex-plugin-remove.XXXXXX")"
+cleanup() {
+  rm -f -- "$error_file"
+}
+trap cleanup EXIT
+
+for plugin in "${base_plugins[@]}"; do
+  if codex plugin remove "$plugin@$marketplace" --json \
+    >/dev/null 2>"$error_file"; then
+    continue
+  fi
+  if grep -Eqi \
+    'not installed|not found|unknown marketplace|marketplace.*not configured' \
+    "$error_file"; then
+    continue
+  fi
+  cat "$error_file" >&2
+  exit 1
+done
+
+if codex plugin marketplace list --json |
+  jq -e --arg marketplace "$marketplace" \
+    '.marketplaces[] | select(.name == $marketplace)' >/dev/null; then
+  codex plugin marketplace remove "$marketplace" --json >/dev/null
+fi
+
+if codex plugin list --available --json |
+  jq -e --arg marketplace "$marketplace" \
+    '(.installed + .available)[] | select(.marketplace == $marketplace)' \
+    >/dev/null; then
+  printf 'Base plugins remain visible after removal.\n' >&2
+  exit 1
+fi

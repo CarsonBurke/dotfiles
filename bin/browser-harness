@@ -1,0 +1,293 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly cdp_url="http://127.0.0.1:9223"
+readonly browser_app="/Applications/Brave Browser.app"
+readonly browser_binary="$browser_app/Contents/MacOS/Brave Browser"
+readonly profile_dir="$HOME/Library/Application Support/browser-harness/brave-profile"
+readonly harness_python="$HOME/.local/share/uv/tools/browser-harness/bin/python"
+readonly requested_bu_name="${BU_NAME:-}"
+
+platform="$(uname -s)"
+readonly platform
+
+export BH_TELEMETRY=0
+auto_named_daemon=false
+harness_pid=""
+if [[ -z "${BU_NAME:-}" && -n "${CODEX_THREAD_ID:-}" ]]; then
+  readonly sanitized_thread_id="${CODEX_THREAD_ID//[^[:alnum:]._-]/_}"
+  export BU_NAME="codex-$sanitized_thread_id-$$"
+  auto_named_daemon=true
+fi
+
+browser_is_ready() {
+  curl --fail --silent --show-error --max-time 1 \
+    "$cdp_url/json/version" >/dev/null 2>&1
+}
+
+endpoint_belongs_to_profile() {
+  local listener_pid
+  local listener_command
+
+  while IFS= read -r listener_pid; do
+    listener_command="$(ps -p "$listener_pid" -o command=)"
+    if [[ "$listener_command" == "$browser_binary"* ]] &&
+      [[ "$listener_command" == *"--user-data-dir=$profile_dir"* ]] &&
+      [[ "$listener_command" == *"--remote-debugging-address=127.0.0.1"* ]] &&
+      [[ "$listener_command" == *"--remote-debugging-port=9223"* ]] &&
+      [[ "$listener_command" != *"--remote-allow-origins="* ]] &&
+      lsof -nP -a -p "$listener_pid" \
+        -iTCP@127.0.0.1:9223 -sTCP:LISTEN >/dev/null; then
+      return 0
+    fi
+  done < <(lsof -nP -tiTCP:9223 -sTCP:LISTEN)
+
+  return 1
+}
+
+run_doctor() {
+  local failed=false
+
+  if [[ "$platform" != "Darwin" ]]; then
+    if [[ -x "$harness_python" ]]; then
+      printf 'ok: browser-harness runtime: %s\n' "$harness_python"
+      printf 'ok: platform uses browser-harness native browser discovery: %s\n' \
+        "$platform"
+      return
+    fi
+    printf 'error: browser-harness runtime is missing: %s\n' \
+      "$harness_python" >&2
+    return 1
+  fi
+
+  if [[ -x "$browser_binary" ]]; then
+    printf 'ok: Brave executable: %s\n' "$browser_binary"
+  else
+    printf 'error: Brave executable is missing: %s\n' "$browser_binary" >&2
+    failed=true
+  fi
+
+  if [[ -x "$harness_python" ]]; then
+    printf 'ok: browser-harness runtime: %s\n' "$harness_python"
+  else
+    printf 'error: browser-harness runtime is missing: %s\n' "$harness_python" >&2
+    failed=true
+  fi
+
+  if browser_is_ready; then
+    if endpoint_belongs_to_profile; then
+      printf 'ok: dedicated debugging endpoint: %s\n' "$cdp_url"
+    else
+      printf 'error: %s is owned by an unexpected process or bind address\n' \
+        "$cdp_url" >&2
+      failed=true
+    fi
+  elif lsof -nP -iTCP:9223 -sTCP:LISTEN >/dev/null; then
+    printf 'error: port 9223 is listening but does not expose a CDP endpoint\n' >&2
+    failed=true
+  elif pgrep -f -- "--user-data-dir=$profile_dir" >/dev/null; then
+    printf 'error: dedicated Brave is running without its CDP endpoint\n' >&2
+    failed=true
+  else
+    printf 'ok: dedicated Brave is stopped and will start on demand\n'
+  fi
+
+  if [[ "$failed" == "true" ]]; then
+    return 1
+  fi
+}
+
+stop_browser() {
+  local listener_pid
+  local stopped=false
+
+  if ! browser_is_ready; then
+    printf 'Dedicated Brave is already stopped.\n'
+    return
+  fi
+  if ! endpoint_belongs_to_profile; then
+    printf 'Refusing to stop an unexpected process on port 9223.\n' >&2
+    return 1
+  fi
+
+  while IFS= read -r listener_pid; do
+    kill -TERM "$listener_pid"
+    stopped=true
+  done < <(lsof -nP -tiTCP:9223 -sTCP:LISTEN)
+
+  for _ in {1..100}; do
+    if ! browser_is_ready; then
+      break
+    fi
+    sleep 0.1
+  done
+
+  if browser_is_ready; then
+    printf 'Dedicated Brave did not stop cleanly.\n' >&2
+    return 1
+  fi
+  if [[ "$stopped" == "true" ]]; then
+    printf 'Dedicated Brave stopped.\n'
+  fi
+}
+
+if [[ "${1:-}" == "--doctor" ]]; then
+  run_doctor
+  exit
+fi
+
+if [[ "${1:-}" == "--stop" ]]; then
+  if [[ "$platform" != "Darwin" ]]; then
+    printf '%s\n' '--stop is only available for the dedicated macOS Brave profile.' >&2
+    exit 1
+  fi
+  stop_browser
+  exit
+fi
+
+if [[ "${1:-}" == "--remote-admin" ]]; then
+  shift
+  unset BU_CDP_URL BU_CDP_WS
+  "$harness_python" -m browser_harness.run "$@"
+  exit
+fi
+
+if [[ "${1:-}" == "--remote" ]]; then
+  shift
+  if [[ -z "$requested_bu_name" ]]; then
+    printf 'BU_NAME is required for a remote browser session.\n' >&2
+    exit 1
+  fi
+  export BU_NAME="$requested_bu_name"
+  if ! BU_NAME="$BU_NAME" "$harness_python" -c \
+    'from browser_harness import _ipc as ipc
+from browser_harness.admin import daemon_browser_kind
+import os
+import sys
+
+name = os.environ["BU_NAME"]
+connection = None
+try:
+    if daemon_browser_kind(name) != "cloud":
+        sys.exit(1)
+    connection, token = ipc.connect(name, timeout=3)
+    response = ipc.request(
+        connection,
+        token,
+        {"method": "Target.getTargets", "params": {}},
+    )
+    sys.exit(0 if isinstance(response, dict) and "result" in response else 1)
+except Exception:
+    sys.exit(1)
+finally:
+    if connection:
+        connection.close()'; then
+    printf 'Remote browser daemon %s is unavailable or is not cloud-backed.\n' \
+      "$BU_NAME" >&2
+    exit 1
+  fi
+  unset BU_CDP_URL
+  export BU_CDP_WS="ws://127.0.0.1:1/browser-harness-fail-closed"
+  "$harness_python" -m browser_harness.run "$@"
+  exit
+fi
+
+case "${1:-}" in
+  -h | --help | --reload | --update | auth | recordings | skill | telemetry | video)
+    "$harness_python" -m browser_harness.run "$@"
+    exit
+    ;;
+esac
+
+if [[ "$platform" != "Darwin" ]]; then
+  "$harness_python" -m browser_harness.run "$@"
+  exit
+fi
+
+# Invoked through the EXIT trap.
+# shellcheck disable=SC2329
+cleanup_auto_daemon() {
+  local command_status=$?
+
+  trap - EXIT
+  if [[ -n "$harness_pid" ]] && kill -0 "$harness_pid" 2>/dev/null; then
+    kill -TERM "$harness_pid" 2>/dev/null || true
+    wait "$harness_pid" 2>/dev/null || true
+  fi
+  if [[ "$auto_named_daemon" == "true" ]]; then
+    "$harness_python" -m browser_harness.run --reload >/dev/null 2>&1 || true
+  fi
+  exit "$command_status"
+}
+trap cleanup_auto_daemon EXIT
+
+# Route cancellation through the EXIT cleanup.
+# shellcheck disable=SC2329
+handle_launcher_signal() {
+  local signal_name="$1"
+  local signal_status="$2"
+
+  trap - INT TERM
+  if [[ -n "$harness_pid" ]] && kill -0 "$harness_pid" 2>/dev/null; then
+    kill -s "$signal_name" "$harness_pid" 2>/dev/null || true
+    wait "$harness_pid" 2>/dev/null || true
+    harness_pid=""
+  fi
+  exit "$signal_status"
+}
+trap 'handle_launcher_signal INT 130' INT
+trap 'handle_launcher_signal TERM 143' TERM
+
+if browser_is_ready && ! endpoint_belongs_to_profile; then
+  printf 'Port 9223 is already used by a different debugging browser.\n' >&2
+  exit 1
+fi
+
+if ! browser_is_ready; then
+  if [[ ! -x "$browser_binary" ]]; then
+    printf 'Brave is not installed at %s\n' "$browser_app" >&2
+    exit 1
+  fi
+
+  if [[ ! -x "$harness_python" ]]; then
+    printf '%s\n' \
+      'browser-harness is not installed. Run: uv tool install --python 3.12 browser-harness==0.1.8' >&2
+    exit 1
+  fi
+
+  mkdir -p "$profile_dir"
+  open -n "$browser_app" --args \
+    "--user-data-dir=$profile_dir" \
+    "--remote-debugging-address=127.0.0.1" \
+    "--remote-debugging-port=9223" \
+    --no-default-browser-check \
+    --no-first-run
+
+  for _ in {1..100}; do
+    if browser_is_ready; then
+      break
+    fi
+    sleep 0.1
+  done
+
+  if ! browser_is_ready || ! endpoint_belongs_to_profile; then
+    printf 'Brave did not expose its debugging endpoint at %s\n' "$cdp_url" >&2
+    exit 1
+  fi
+fi
+
+export BU_CDP_URL="$cdp_url"
+exec 3<&0
+"$harness_python" -m browser_harness.run "$@" <&3 &
+harness_pid=$!
+exec 3<&-
+
+harness_status=0
+if wait "$harness_pid"; then
+  harness_status=0
+else
+  harness_status=$?
+fi
+harness_pid=""
+exit "$harness_status"

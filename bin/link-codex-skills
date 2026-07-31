@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+dotfiles_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+skill_source="$dotfiles_root/skills"
+skill_target="$HOME/.agents/skills"
+
+mkdir -p "$skill_target"
+
+find "$skill_source" -mindepth 1 -maxdepth 1 -type d -print0 |
+  while IFS= read -r -d '' source_dir; do
+    if [[ ! -f "$source_dir/SKILL.md" ]]; then
+      continue
+    fi
+
+    skill_name="${source_dir##*/}"
+    target_path="$skill_target/$skill_name"
+
+    if [[ -L "$target_path" ]]; then
+      if [[ "$(realpath "$target_path")" == "$(realpath "$source_dir")" ]]; then
+        continue
+      fi
+      printf 'warning: preserving conflicting skill link: %s\n' "$target_path" >&2
+      continue
+    fi
+
+    if [[ -e "$target_path" ]]; then
+      printf 'warning: preserving managed skill directory: %s\n' "$target_path" >&2
+      continue
+    fi
+
+    ln -s "$source_dir" "$target_path"
+  done
