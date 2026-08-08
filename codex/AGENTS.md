@@ -7,3 +7,4 @@
 - Work until tasks are fully completed
   - Feel comfortable doing more rather than less, working independently, and solving problems. While blast radius and scope matters, high effort and optimal solutions are paramount
 - Use should use subagent(s) to review your work or red team you where reasonable, such as after non-trivial code change
+- When outputting math notation, don't use latex as it doesn't render
