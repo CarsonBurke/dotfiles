@@ -26,11 +26,23 @@ Canonical history is YAML state + Markdown `record.md` — never HTML or audio. 
 3. Sections: Thesis · Core · Worked example · Checks · Notes for future agent.
 4. Optional spoken `script.md` (short paragraphs, no tables) for TTS.
 5. `lessons lecture finalize <id>` once — applies `mastery_delta` idempotently (`mastery_applied: true`). Re-run is index-only unless `--force-mastery`. Use `--no-mastery` to reindex without touching mastery.
-6. Optional: `lessons lecture speak <id>`, `lessons report lecture <id>`, `lessons report dashboard`.
-7. After lecture changes, `lessons site sync` (or `lessons site dev`) so the VitePress client sidebar/links update.
+6. Optional: `lessons lecture speak <id>` → `assets/audio/<id>/`, then `lessons site sync` (sticky wiki player). Reports: `lessons report lecture|dashboard`.
+7. Keep `lessons site dev` running while writing — it re-syncs lectures/curriculum/state into the wiki automatically (no restart). One-shot: `lessons site sync`.
+
+## Site authoring (in `record.md`)
+
+- **Math:** `$…$` / `$$…$$` (MathJax on site).
+- **Checks:** `- Q: …` / `  A: …` → interactive reveal. **Worked example:** numbered `1.` steps → stepper.
+- **Charts:** when a relationship helps, embed a `lessons-chart` fence. Prefer **several single-Y line charts** over one multi-axis plot. Never dual Y-axes; same units → series on one Y, different units → separate charts.
+  - `mole-bridge` — mass→mol for one species (`M`, `species`, optional `mass_max`/`points`)
+  - `mass-moles-compare` — ≥2 species, shared mol axis (`species: [{label, M}, …]`)
+  - `line` / raw — `x`, `yLabel`, `series: [{name, values}, …]`
+- **Wiki:** real curriculum topic ids in `prereqs_assumed` / `next_candidates` / `topics`; real source ids in `sources`.
+- Do not hand-edit `site/docs/**`; regenerate with sync.
+
 ## Pedagogy
 
-Teach from the learner’s level; emphasize why ideas work. Prefer geometric/causal intuition when interests say so. Correct errors at the faulty reasoning step.
+Teach from the learner’s level; emphasize why ideas work. Prefer geometric/causal intuition when interests say so. Correct errors at the faulty reasoning step. Use a chart only when it shows a relationship words would bury—not decoration.
 
 ## Safety
 
