@@ -1,0 +1,4 @@
+interface:
+  display_name: "Solve Ticket"
+  short_description: "Own tickets from ambiguity to verified delivery"
+  default_prompt: "Use $solve-ticket to take this ticket through the furthest authorized, evidence-backed terminal state."

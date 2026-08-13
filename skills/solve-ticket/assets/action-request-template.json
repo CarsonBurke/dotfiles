@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "kind": "push",
+  "work_unit": "implementation",
+  "target_kind": "remote",
+  "target_digest": "<sha256-of-the-exact-target>",
+  "revision_digest": "<sha256-coordinate-of-the-work-unit-head>",
+  "payload_digest": "<sha256-of-the-sanitized-provider-request-body>",
+  "effects": [],
+  "predecessor_action": null
+}

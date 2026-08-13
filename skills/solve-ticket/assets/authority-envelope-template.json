@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "trusted_turn_digest": "<sha256-of-the-direct-trusted-user-request>",
+  "ticket_digest": "<sha256-of-the-ticket-locator>",
+  "repository_digest": "<sha256-of-the-absolute-git-common-directory>",
+  "parent_digest": null,
+  "requested_endpoint": "local",
+  "allowed_scopes": [
+    "local-change"
+  ],
+  "allowed_action_kinds": [],
+  "allowed_effects": [],
+  "allowed_target_digests": [],
+  "denials": [
+    "external-writes",
+    "production-access",
+    "customer-data",
+    "destructive-financial",
+    "contact-users",
+    "merge",
+    "deploy",
+    "release",
+    "close-ticket",
+    "branch-rewrite",
+    "auto-merge",
+    "rollback",
+    "production-read",
+    "customer-read",
+    "cleanup",
+    "paid-action"
+  ],
+  "max_actions": 0,
+  "expires_at": null,
+  "delegable": false
+}

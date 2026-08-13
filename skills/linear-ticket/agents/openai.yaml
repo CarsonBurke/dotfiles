@@ -1,0 +1,6 @@
+interface:
+  display_name: "Linear Ticket (Legacy)"
+  short_description: "Compatibility alias for Solve Ticket"
+  default_prompt: "Use $linear-ticket to solve this Linear ticket within the authority of my request."
+policy:
+  allow_implicit_invocation: false
