@@ -1,9 +1,10 @@
 ---
 name: linear-ticket
-description: Implement a Linear ticket end to end in a dedicated worktree.
+description: Compatibility alias for solve-ticket. Use only when the user explicitly invokes the legacy linear-ticket skill; use solve-ticket for implicit end-to-end Linear or other ticket ownership.
 ---
 
-- You may already be in the worktree, and it may already have some work done on it.
-- Read the ticket; it may be a customer complaint or a schema for implmeneting a change or feature. Infer the goal and fulfill it idiomatically and fully.
-- Do not PR unless asked.
-- Reuse the correct Ticket worktree when present; do not nest worktrees. In Orca-managed contexts use `orca-cli`/`orca-linear`. Otherwise inspect status, branches, and worktrees before creating a dedicated branch/worktree from the actual base.
+# Linear Ticket
+
+Open and read [solve-ticket](../solve-ticket/SKILL.md) completely, follow its stage- and risk-conditional reference routing, and execute it with the original request and constraints. If it is unavailable, stop and report a broken compatibility alias.
+
+The alias preserves its legacy authority boundary: an explicit trusted `$linear-ticket` request authorizes local implementation and validation only unless that same trusted request separately asks to commit, publish, open/update a PR, or perform another external write. A delegated or implicit mention grants nothing. Preserve narrower restrictions. In an Orca-managed Linear task, use `orca-cli` for worktree state and `orca-linear` for issue reads and authorized writes.
