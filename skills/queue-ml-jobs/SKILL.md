@@ -6,7 +6,9 @@ description: Queue and manage local machine-learning workloads with mlq. Use for
 # Queue local ML work
 
 - Submit managed workloads with `mlq submit`; never run them directly or bypass
-  the queue. Leave work queued when busy; restore `mlqd` when unavailable.
+  the queue.
+- You may want to follow the job with `mlq wait JOB`.
+- You  may need to start `mlqd` if it fails.
 - Keep each workload and its descendants foregrounded in the runner's process
   group. Restructure commands that daemonize or call `setsid`.
 - Choose `--max-parallel-runs N` explicitly for every submission. It asserts
@@ -24,21 +26,23 @@ mlq submit --name NAME --max-parallel-runs N \
   --cwd /absolute/repository/path -- COMMAND...
 ```
 
-- Encode sequencing with repeatable `--after-success JOB` or
-  `--after-completion JOB` dependencies instead of shell backgrounding.
-- Enqueue all immediately known independent jobs or dependency-DAG nodes before
-  waiting. Then run `mlq wait JOB` for each independent job or terminal leaf
-  and continue from their results. Treat submission alone as incomplete unless
-  the user explicitly requests detached or fire-and-forget execution.
+- Add `--time-limit DURATION` when a hard per-attempt wall-clock bound is
+  operationally reasonable. Choose a defensible, generous duration from
+  workload evidence; queue wait is excluded, but command startup, compilation,
+  and descendants count toward the limit. Prefer a limit when an overlong run
+  likely indicates a hang or would waste shared resources. Leave the job
+  unlimited when valid runtimes are too variable to bound safely.
+- Don't waste tokens constantly polling.
 - Pass required environment explicitly. Values supplied through `--env` are
   stored as plaintext; make workloads read secrets from credential files.
 - Change a queued or running job with
-  `mlq set-max-parallel-runs JOB N` when evidence changes its safe limit. A
-  decrease below the active-lease count is rejected; wait for enough jobs to
-  finish and retry.
+  `mlq set-max-parallel-runs JOB N` when evidence changes its safe limit.
+  Lowering below the current active-lease count is allowed: existing work
+  keeps running, and new admissions wait until the set drains.
 - Change a queued or held job's order with `mlq set-priority JOB P`. Running
   jobs cannot change priority (no preemption). Do not raise priority merely to
   jump the queue for your own work.
 - Use `mlq status`, `show`, and `logs` to observe work, and `cancel` or
   `retry` to control it. Report the submitted job ID, chosen parallel limit,
-  and any nonzero priority.
+  chosen time limit (or the decision to leave it unlimited), and any nonzero
+  priority.

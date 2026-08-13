@@ -1,6 +1,6 @@
 ---
 name: browser
-description: Automate, test, scrape, or interact with web pages in a dedicated background window in the user's running Chrome.
+description: Automate, inspect, live-test, authenticate, scrape, or interact with web pages in Chrome or Chromium, including existing browser windows launched by desktop apps, Electron, Playwright, or Patchright. Use this first for any task whose target is web content or a browser login flow; use desktop/window-manager automation only when the browser harness cannot attach to the required target.
 ---
 
 # Browser
@@ -24,7 +24,10 @@ PY
 
 ## Mechanics
 
-- Start each task with `new_window(...)`, which creates a dedicated background window and attaches without focusing it. Navigate that target with `goto_url(...)`; create another background window when a separate page must stay open.
+- For a new browsing task, start with `new_window(...)`, which creates a dedicated background window and attaches without focusing it. Navigate that target with `goto_url(...)`; create another background window when a separate page must stay open.
+- For live auth, app debugging, or another workflow whose state already exists in a browser window, enumerate `list_tabs()` and deliberately `attach_tab(...)` to the matching URL/title. This can include Chromium launched by another app only when that browser exposes a CDP endpoint the harness can reach.
+- A Playwright/Patchright browser controlled through `--remote-debugging-pipe` is not attachable by this harness. Prove an existing target is unavailable with the harness connection status and target enumeration, then use an explicit CDP/browser test seam or a dedicated harness window and report the coverage limitation. Do not silently switch to OS-level focus, screenshots, keyboard injection, or window-manager commands for web content.
+- Never mix browser-harness actions with OS-level focus or input for the same web flow.
 - Do not use `new_tab(...)` for isolated work: Chrome may place a background tab in an existing user window rather than the task window.
 - Use `attach_tab(...)` to change the harness target without focusing its window. Never call `Target.activateTarget`, OS-level application activation, or window-manager focus commands.
 - `new_window(...)` uses a temporary `[browser-harness]` title so platform window rules can identify agent-created windows. Keep any platform-specific no-focus rule limited to that marker; do not suppress focus for manually created browser windows.
