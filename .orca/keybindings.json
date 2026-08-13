@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "keybindings": {},
+  "platforms": {
+    "darwin": {},
+    "linux": {
+      "tab.previousSameType": [
+        "Mod+Alt+A"
+      ],
+      "tab.newAgent.claude": [
+        "Mod+Alt+C"
+      ],
+      "tab.newAgent.codex": [
+        "Mod+Alt+V"
+      ],
+      "tab.newAgent.opencode": [
+        "Mod+Alt+X"
+      ],
+      "floatingTerminal.toggle": [
+        "Mod+Alt+E"
+      ],
+      "tab.nextSameType": [
+        "Mod+Alt+F"
+      ],
+      "terminal.splitRight": [
+        "Mod+Alt+S"
+      ],
+      "terminal.splitDown": [],
+      "sidebar.left.toggle": [],
+      "tab.nextAllTypes": [
+        "Mod+Alt+BracketRight"
+      ],
+      "tab.previousAllTypes": [
+        "Mod+Alt+BracketLeft"
+      ]
+    },
+    "win32": {}
+  }
+}
