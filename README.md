@@ -8,8 +8,13 @@ their runtime state directly into this working tree:
 
     ~/.claude       -> claude
     ~/.codex        -> codex
+    ~/.omp          -> omp
     ~/.config/fish  -> fish
     ~/.config/nvim  -> nvim
+
+`omp/` is config only (no sessions, auth db, or logs). After the `~/.omp`
+symlink: copy `omp/bin/path-omp` to `~/.grok/bin/omp` if you want PATH-first
+resume remapping, and enable `omp/systemd/user/omp-resume-shim.{path,service}`.
 
 Register the codex config filter once per machine, from the repo root:
 

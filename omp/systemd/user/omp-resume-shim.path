@@ -1,0 +1,9 @@
+[Unit]
+Description=Re-apply OMP resume shim when bun overwrites cli.js
+
+[Path]
+PathChanged=%h/.bun/install/global/node_modules/@oh-my-pi/pi-coding-agent/dist/cli.js
+PathModified=%h/.bun/install/global/node_modules/@oh-my-pi/pi-coding-agent/dist/cli.js
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec omp --model grok-4.6 --thinking high "$@"

@@ -1,0 +1,19 @@
+# Runtime / secrets written once ~/.omp points here.
+agent/sessions/
+agent/terminal-sessions/
+agent/blobs/
+agent/cache/
+agent/tools/
+agent/*.db
+agent/*.db-wal
+agent/*.db-shm
+agent/last-changelog-version
+logs/
+cache/
+wt/
+run/
+puppeteer/
+autoqa.db
+install-id
+gpu_cache.json
+*.log

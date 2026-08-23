@@ -1,0 +1,54 @@
+symbolPreset: nerd
+theme: 
+  dark: dark-github
+  light: light
+setupVersion: 1
+model: 
+  loopGuard: 
+    enabled: false
+    checkAssistantContent: false
+    toolCallReminder: false
+  toolCallLoopGuard: 
+    enabled: false
+stt: 
+  enabled: false
+tui: 
+  codexResetFireworks: true
+  tight: true
+tier: 
+  openai: none
+display: 
+  cacheMissMarker: true
+  showTokenUsage: true
+  shimmer: disabled
+  collapseCompacted: false
+modelRoles: 
+  {}
+dev: 
+  autoqaConsent: granted
+advisor: 
+  enabled: false
+steeringMode: all
+followUpMode: all
+interruptMode: wait
+magicKeywords: 
+  ultrathink: false
+read: 
+  defaultLimit: 300
+  renderMarkdown: true
+edit: 
+  mode: hashline
+bash: 
+  autoBackground: 
+    enabled: true
+github: 
+  enabled: true
+speechgen: 
+  enabled: false
+compaction: 
+  enabled: true
+  thresholdTokens: 300000
+doubleEscapeAction: tree
+retry: 
+  usageAwareFallback: true
+  usageReservePolicy: confirm
