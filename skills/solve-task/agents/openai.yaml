@@ -1,0 +1,4 @@
+interface:
+  display_name: "Solve Task"
+  short_description: "Solve engineering tasks end to end"
+  default_prompt: "Use $solve-task to solve this task end to end, test the actual result, and deliver it according to the repository workflow."
