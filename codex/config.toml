@@ -6,40 +6,6 @@ personality = "pragmatic"
 approvals_reviewer = "user"
 service_tier = "default"
 
-[mcp_servers.linear]
-url = "https://mcp.linear.app/mcp"
-
-[mcp_servers.paper]
-url = "http://127.0.0.1:29979/mcp"
-
-[mcp_servers.ibkr]
-command = "target/release/ibkr-mcp"
-
-[mcp_servers.redact-archive]
-url = "http://127.0.0.1:4488/mcp"
-
-[mcp_servers.chebi]
-command = "/usr/bin/uv"
-args = ["--directory", "chebi-mcp", "run", "chebi-mcp"]
-
-[mcp_servers.node_repl]
-args = []
-command = "/home/marvin/Documents/repositories/codex-desktop-linux/codex-app/resources/node_repl"
-startup_timeout_sec = 120
-
-[mcp_servers.node_repl.env]
-NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = ""
-NODE_REPL_NODE_PATH = "/home/marvin/Documents/repositories/codex-desktop-linux/codex-app/resources/node-runtime/bin/node"
-NODE_REPL_TRUSTED_CODE_PATHS = "/home/marvin/.codex"
-CODEX_HOME = "/home/marvin/.codex"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "27dca86fd6b571c49414a4b78e46b57bcf683a46cd1319799c11fbb6cfae3110,fbb43c1823a437e53c290a96a552343953833138320b862835c1779488c3e94b,b939d00b823958b4092cbfcf99ee2e16565f49d557e2de8c6ddb47558897903a"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.609.41114"
-
 [notice]
 hide_gpt5_1_migration_prompt = true
 "hide_gpt-5.1-codex-max_migration_prompt" = true

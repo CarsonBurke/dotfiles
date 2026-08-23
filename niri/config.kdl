@@ -265,8 +265,8 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// Start kded6 for StatusNotifierItem tray support, then launch waybar
-spawn-sh-at-startup "kded6 & sleep 0.3 && busctl --user call org.kde.kded6 /kded org.kde.kded6 loadModule s statusnotifierwatcher && waybar"
+// Start kded6 for StatusNotifierItem tray support, then launch the bar
+spawn-sh-at-startup "kded6 & sleep 0.3 && busctl --user call org.kde.kded6 /kded org.kde.kded6 loadModule s statusnotifierwatcher && exec /home/marvin/.cargo/bin/cosmicbar"
 
 // Start walker service for fast app launching
 spawn-at-startup "/usr/bin/walker" "--gapplication-service"
@@ -391,6 +391,17 @@ window-rule {
     draw-border-with-background false
 }
 
+// Override default recent-windows binds so Alt+Tab is free.
+// Adding binds {} here replaces all defaults; keep only Mod variants.
+recent-windows {
+    binds {
+        Mod+Tab         { next-window; }
+        Mod+Shift+Tab   { previous-window; }
+        Mod+grave       { next-window     filter="app-id"; }
+        Mod+Shift+grave { previous-window filter="app-id"; }
+    }
+}
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -410,8 +421,11 @@ binds {
     Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+Shift+T hotkey-overlay-title="Terminal at Editor Project" { spawn "niri-terminal-at-editor"; }
     Mod+D hotkey-overlay-title="Run an Application: walker" { spawn "walker"; }
-    Mod+B hotkey-overlay-title="Open Browser: Helium" { spawn "/home/marvin/AppImages/helium.appimage"; }
-    Mod+Shift+B hotkey-overlay-title="Open Browser: Helium Private" { spawn "/home/marvin/AppImages/helium.appimage" "--incognito"; }
+    Mod+Slash hotkey-overlay-title="Open Calculator: walker" { spawn "walker" "--provider" "calc"; }
+    Mod+Period hotkey-overlay-title="Open Symbols and Emojis: walker" { spawn "walker" "--provider" "symbols"; }
+    Mod+Semicolon hotkey-overlay-title="Open Clipboard History: walker" { spawn "walker" "--provider" "clipboard"; }
+    Mod+B hotkey-overlay-title="Open Browser: Helium" { spawn "helium"; }
+    Mod+Shift+B hotkey-overlay-title="Open Browser: Helium Private" { spawn "helium" "--incognito"; }
     Mod+I hotkey-overlay-title="Open IDE" { spawn "niri-open-ide"; }
     Mod+Shift+I hotkey-overlay-title="Open IDE from Terminal" { spawn "niri-ide-from-terminal"; }
     Mod+F hotkey-overlay-title="Open Files: Nautilus" { spawn "nautilus"; }
@@ -421,7 +435,6 @@ binds {
     Mod+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+X repeat=false hotkey-overlay-title="Toggle Handy" { spawn "/home/marvin/AppImages/handy.appimage" "--toggle-post-process"; }
     Mod+Shift+S hotkey-overlay-title="Suspend" { spawn "systemctl suspend"; }
-    Mod+Alt+S { spawn "true"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
@@ -593,7 +606,7 @@ binds {
     // Consume one window from the right to the bottom of the focused column.
     Mod+Comma  { consume-window-into-column; }
     // Expel the bottom window from the focused column to the right.
-    Mod+Period { expel-window-from-column; }
+    Mod+Shift+Period { expel-window-from-column; }
 
     Mod+R { switch-preset-column-width; }
     // Cycling through the presets in reverse order is also possible.
@@ -663,5 +676,5 @@ binds {
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
-    Mod+Shift+P { power-off-monitors; }
+    Mod+P { power-off-monitors; }
 }
