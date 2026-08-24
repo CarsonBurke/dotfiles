@@ -1,0 +1,14 @@
+# The queue cell is an extension now, so the layout names it explicitly; every
+# other region is the shipped default.
+right = [
+    "extension:mlq",
+    "mpris",
+    "volume",
+    "brightness",
+    "battery",
+    "power",
+]
+
+[[extensions]]
+name = "mlq"
+command = ["/home/marvin/.local/bin/cosmicbar-mlq"]

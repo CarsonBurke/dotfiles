@@ -11,6 +11,7 @@ their runtime state directly into this working tree:
     ~/.omp          -> omp
     ~/.config/fish  -> fish
     ~/.config/nvim  -> nvim
+    ~/.config/cosmicbar -> cosmicbar
 
 `omp/` is config only (no sessions, auth db, or logs). After the `~/.omp`
 symlink: copy `omp/bin/path-omp` to `~/.grok/bin/omp` if you want PATH-first
