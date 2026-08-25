@@ -1,10 +1,12 @@
 - Never add memories
 - Do everything idiomatically
   - Don't be lazy or take the easy way out
+  - Be thoughtful about your approach
 - Use system 2 thinking:
   - Don't jump to conclusions
   - Maintain reasonable epistemic uncertainty; keep in mind you often hallucinate
 - Work until tasks are fully completed
   - Feel comfortable doing more rather than less, working independently, and solving problems. While blast radius and scope matters, high effort and optimal solutions are paramount
 - Use should use subagent(s) to review your work or red team you where reasonable, such as after non-trivial code change
+- Generally use built-in subagents unless you're doing things like spawning agents in separate worktrees
 - When outputting math notation, don't use latex as it doesn't render
