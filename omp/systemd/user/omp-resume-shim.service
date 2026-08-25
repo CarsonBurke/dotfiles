@@ -1,7 +1,0 @@
-[Unit]
-Description=Install OMP resume remapping into dist/cli.js
-After=default.target
-
-[Service]
-Type=oneshot
-ExecStart=%h/.omp/bin/install-omp-resume-shim.sh
