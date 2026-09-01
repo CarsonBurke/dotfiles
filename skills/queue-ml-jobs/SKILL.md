@@ -3,46 +3,38 @@ name: queue-ml-jobs
 description: Queue and manage local machine-learning workloads with mlq. Use for local training, evaluation, preprocessing, or benchmarks that consume shared CPU or GPU resources, and for inspecting or controlling the mlq queue or daemon.
 ---
 
-# Queue local ML work
+# Queue Local ML Work
 
-- Submit managed workloads with `mlq submit`; never run them directly or bypass
-  the queue.
-- You may want to follow the job with `mlq wait JOB`.
-- You  may need to start `mlqd` if it fails.
-- Keep each workload and its descendants foregrounded in the runner's process
-  group. Restructure commands that daemonize or call `setsid`.
-- Choose `--max-parallel-runs N` explicitly for every submission. It asserts
-  that the job is safe while at most `N` total managed jobs are running,
-  regardless of workload type; it is not a utilization target. Use `1` for
-  unknown, exclusive, multi-GPU, or benchmark-sensitive work. Raise it only
-  from evidence that mixed concurrent workloads remain safe.
-- Omit `--priority` for the default priority `0`. Use a signed value only when
-  queue precedence is intentional. Higher-priority eligible jobs rank first;
-  equal priorities retain the queue's FIFO/backfill rules, and running jobs
-  are never preempted. Never increase priority merely to advance your own work.
+Run local training, evaluation, preprocessing, and benchmarks through `mlq`; never bypass the queue for resource-intensive work.
 
-```bash
+## Submit
+
+```text
 mlq submit --name NAME --max-parallel-runs N \
   --cwd /absolute/repository/path -- COMMAND...
 ```
 
-- Add `--time-limit DURATION` when a hard per-attempt wall-clock bound is
-  operationally reasonable. Choose a defensible, generous duration from
-  workload evidence; queue wait is excluded, but command startup, compilation,
-  and descendants count toward the limit. Prefer a limit when an overlong run
-  likely indicates a hang or would waste shared resources. Leave the job
-  unlimited when valid runtimes are too variable to bound safely.
-- Don't waste tokens constantly polling.
-- Pass required environment explicitly. Values supplied through `--env` are
-  stored as plaintext; make workloads read secrets from credential files.
-- Change a queued or running job with
-  `mlq set-max-parallel-runs JOB N` when evidence changes its safe limit.
-  Lowering below the current active-lease count is allowed: existing work
-  keeps running, and new admissions wait until the set drains.
-- Change a queued or held job's order with `mlq set-priority JOB P`. Running
-  jobs cannot change priority (no preemption). Do not raise priority merely to
-  jump the queue for your own work.
-- Use `mlq status`, `show`, and `logs` to observe work, and `cancel` or
-  `retry` to control it. Report the submitted job ID, chosen parallel limit,
-  chosen time limit (or the decision to leave it unlimited), and any nonzero
-  priority.
+- Set `--max-parallel-runs` on every job. It is the maximum safe total number of concurrent managed jobs, not desired utilization. Use `1` for unknown, exclusive, multi-GPU, or benchmark-sensitive work; raise it only from coexistence evidence.
+- Keep the command and descendants in the runner's foreground process group. Do not daemonize or call `setsid`.
+- Add a generous `--time-limit` when excess runtime indicates a hang or cannot produce useful evidence. Queue time is excluded; startup, compilation, and descendants count.
+- Omit default priority `0`. Higher values outrank eligible queued work but never preempt running jobs; do not raise priority merely to advance your own work.
+- Pass required environment explicitly. `--env` values are stored as plaintext, so keep secrets in credential files.
+- Use `--after-success` for strict prerequisites and `--after-terminal` for cleanup or aggregation that must include failed and culled runs.
+
+## Cull Uninformative Runs
+
+Long iterative runs should expose a framework-native pruning callback or use [scripts/autocull_hook.py](scripts/autocull_hook.py) at evaluation boundaries. Configure task-specific warmup, patience, and absolute material-improvement thresholds; persist the hook state with checkpoints.
+
+Cull only after warmup when neither a smoothed return metric nor a meaningful loss has materially improved for the full patience window. Improvement in either resets patience. For RL, prefer EMA evaluation returns; use loss only when its direction is expected to track learning. For supervised work, prefer held-out loss. Raw episodic returns, noisy batch loss, one regression, or a short plateau are insufficient.
+
+Choose patience from evaluation cadence and signal noise, with enough room for delayed learning; err toward one extra evidence window when uncertain. The goal is to stop runs that have become uninformative, not merely runs that are behind.
+
+On cull, emit the triggering metrics and decision, preserve the latest useful checkpoint when cheap, and mark the trial pruned through the training framework. Without native pruning, emit a structured `AUTOCULL` record and use a documented exit code. `mlq` retries all nonzero exits uniformly, so keep `--max-attempts 1` unless a wrapper distinguishes culls from retryable failures; downstream collection should use `--after-terminal`.
+
+## Operate
+
+- Use `mlq wait JOB`, `mlq logs JOB --follow`, or `mlq subscribe` instead of polling.
+- Inspect with `status`, `show`, and `logs`; control with `hold`, `release`, `cancel`, `retry`, `set-max-parallel-runs`, and `set-priority`.
+- Running priority cannot change. Lowering a live parallel limit does not preempt work; it blocks new admission until the active set becomes compatible.
+- Check `mlq daemon status` when the client cannot connect. If absent, run `mlqd` through the available process supervisor; do not install, uninstall, or replace the shared daemon unless requested.
+- Report the job ID, parallel limit, time limit or deliberate omission, nonzero priority, and any autocull policy.
