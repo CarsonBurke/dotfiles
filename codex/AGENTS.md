@@ -9,4 +9,7 @@
   - Feel comfortable doing more rather than less, working independently, and solving problems. While blast radius and scope matters, high effort and optimal solutions are paramount
 - Use should use subagent(s) to review your work or red team you where reasonable, such as after non-trivial code change
 - Generally use built-in subagents unless you're doing things like spawning agents in separate worktrees
+- Never create worktrees, repository clones, build trees, browser profiles, or other durable/large state under `/tmp` or `/dev/shm`; `/tmp` is RAM-backed on this workstation
+  - Prefer the tool's managed worktree root; otherwise use `${XDG_CACHE_HOME:-$HOME/.cache}/agent-worktrees/<repo>/<task>`
+  - Use `$TMPDIR` (`/var/tmp`) only for disposable files, and always remove manually created worktrees with `git worktree remove` when finished
 - When outputting math notation, don't use latex as it doesn't render
