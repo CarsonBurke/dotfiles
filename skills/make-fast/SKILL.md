@@ -1,8 +1,10 @@
 ---
 name: make-fast
-description: Find and fix material performance problems in the requested scope.
+description: Use to guide performance improvements.
 ---
 
-# Make Fast
-
-Measure or otherwise establish the real bottleneck before optimizing it. Compare equivalent before/after behavior and do not trade correctness, security, or maintainability for unimportant speedups. Do not commit or push unless requested.
+- Create a mental model of performance bottlenecks, especially the most significant ones.
+- Consider what the most optimal performant solution(s) would entail. Use that abstract to evaluate the current solutions.
+- Where reasonable, build, maintain and/or use existing benchmarking and profiling tools.
+- Use good judgement. For example, generally do not trade correctness, security, or maintainability. Do not introduce new bugs.
+- Be ambitious. Do not settle for a local minima or lazy solution if an alternative is much better.

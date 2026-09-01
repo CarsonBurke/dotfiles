@@ -14,5 +14,7 @@ description: Apply rigorous, ambitious engineering judgment to machine-learning 
 
 - Never do smoke-style runs or use deliberately reduced training runs as evidence.
 - Queue all local GPU use through `mlq`; never launch local GPU work directly. Follow the `queue-ml-jobs` skill when available.
-- Be considerate of GPU time. If you have performance improvements, a run is doing poorly or no longer improving, etc. it's sensible to kill the run.
-- Basically never run anything on the CPU. For tests, unless they are integration tets, keep CPU usage limited (no full model runs, etc.).
+- We're always compute limited, so make generally make reasonable sacrifices. Examples: 
+  - Don't do multiple seeds.
+  - Don't have runs continue if they aren't providing more information, they're performing poorly, or they've plateaued. This includes sensible auto culling.
+- Model should never run on the CPU or fall back to worse versions. Examples: if the model supports f8 or bf16, it should never fall back to f32; if the model supports compiled, it should never fall back to eager. And generally it should pursue performance optimums.
