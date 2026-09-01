@@ -1,0 +1,14 @@
+[Unit]
+Description=Persistent IVPN opt-in proxy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/libexec/ivpn-optin-proxy-supervisor
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+
+[Install]
+WantedBy=default.target

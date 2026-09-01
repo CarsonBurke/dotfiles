@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -u
+
+readonly proxy_binary="${HOME}/.local/libexec/ivpn-optin-proxy"
+readonly listen_port="18080"
+child_pid=""
+
+ivpn_ready() {
+  local status
+  status="$(/usr/bin/ivpn status 2>/dev/null)" || return 1
+  [[ "$status" == *": CONNECTED"* && "$status" == *"INVERSE MODE"* ]]
+}
+
+port_is_listening() {
+  [[ -n "$(/usr/bin/ss -H -ltn "sport = :${listen_port}" 2>/dev/null)" ]]
+}
+
+stop_child() {
+  if [[ -n "$child_pid" ]] && kill -0 "$child_pid" 2>/dev/null; then
+    kill -TERM "$child_pid" 2>/dev/null || true
+    wait "$child_pid" 2>/dev/null || true
+  fi
+  child_pid=""
+}
+
+trap 'stop_child; exit 0' TERM INT
+
+while true; do
+  if port_is_listening; then
+    sleep 5
+    continue
+  fi
+
+  if ! ivpn_ready; then
+    sleep 5
+    continue
+  fi
+
+  /usr/bin/ivpn splittun -appadd "$proxy_binary" &
+  child_pid=$!
+
+  while kill -0 "$child_pid" 2>/dev/null; do
+    if ! ivpn_ready; then
+      stop_child
+      break
+    fi
+    sleep 5
+  done
+
+  wait "$child_pid" 2>/dev/null || true
+  child_pid=""
+  sleep 2
+done
