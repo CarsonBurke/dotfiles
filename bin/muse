@@ -1,0 +1,8 @@
+#!/bin/sh
+# Canonical `muse` wrapper: always run with approval prompts and the
+# filesystem/network sandbox disabled.
+# Installed as a COPY at ~/.local/bin/muse (not a symlink: Meta's launcher
+# self-updates by overwriting its own resolved path and follows symlinks,
+# so a symlink here would get clobbered or point into this repo).
+# Re-copy after editing: cp dotfiles/bin/muse ~/.local/bin/muse
+exec /home/marvin/.local/bin/muse-upstream --approval-mode never --disable-sandbox "$@"
