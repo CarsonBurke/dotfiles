@@ -43,6 +43,8 @@ bash:
     enabled: true
 github: 
   enabled: true
+skills:
+  enableClaudeUser: true
 speechgen: 
   enabled: false
 compaction: 
