@@ -6,6 +6,9 @@ personality = "pragmatic"
 approvals_reviewer = "user"
 service_tier = "default"
 
+[skills.bundled]
+enabled = false
+
 [notice]
 hide_gpt5_1_migration_prompt = true
 "hide_gpt-5.1-codex-max_migration_prompt" = true

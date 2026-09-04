@@ -8,10 +8,15 @@ their runtime state directly into this working tree:
 
     ~/.claude       -> claude
     ~/.codex        -> codex
+    ~/.agents/skills -> skills
     ~/.omp          -> omp
     ~/.config/fish  -> fish
     ~/.config/nvim  -> nvim
     ~/.config/cosmicbar -> cosmicbar
+
+Codex user skills use the standard `~/.agents/skills` location. Do not link
+`~/.codex/skills` to this repository: Codex owns `$CODEX_HOME/skills`.
+Bundled system skills are disabled in `codex/config.toml`.
 
 Register the codex config filter once per machine, from the repo root:
 
