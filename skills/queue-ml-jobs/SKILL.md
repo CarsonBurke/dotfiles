@@ -31,9 +31,18 @@ Choose patience from evaluation cadence and signal noise, with enough room for d
 
 On cull, emit the triggering metrics and decision, preserve the latest useful checkpoint when cheap, and mark the trial pruned through the training framework. Without native pruning, emit a structured `AUTOCULL` record and use a documented exit code. `mlq` retries all nonzero exits uniformly, so keep `--max-attempts 1` unless a wrapper distinguishes culls from retryable failures; downstream collection should use `--after-terminal`.
 
+## Follow
+
+- Use `mlq follow JOB` in place of the removed `wait` command. It subscribes without polling and prints only the final outcome by default; no intermediate events, checks, hooks, or LLM calls.
+- It follows retries through the final job outcome and exits with the command's status (or `128 + signal`; `1` when no command outcome exists). `--timeout DURATION` bounds observation and exits `124`. Stopping or timing out the follower never cancels the job.
+- Opt into actionable intermediate events with `--events started,retry,attention`; add `warning` for configured local checks. Use `--config PATH` for explicit TOML check/hook configuration; nothing is discovered automatically.
+- `--only-finish` overrides intermediate events, checks, and intermediate hooks. `--no-hooks` also disables finish hooks; `--no-checks` disables checks without disabling lifecycle events.
+- Keep metric checks local and cheap. Stable finding keys suppress repeats; report increasing metric steps only for fresh observations. Notifications are bounded and deduplicated. Never poll an LLM to interpret metrics, and keep pruning decisions in the workload rather than notification hooks.
+- `--json` emits compact NDJSON events, not full attempt history. Use `mlq show JOB --json` when that detail is needed.
+
 ## Operate
 
-- Use `mlq wait JOB`, `mlq logs JOB --follow`, or `mlq subscribe` instead of polling.
+- Use `mlq follow JOB` for quiet following (generally do this if you aren't working on something while the run is going)
 - Inspect with `status`, `show`, and `logs`; control with `hold`, `release`, `cancel`, `retry`, `set-max-parallel-runs`, and `set-priority`.
 - Running priority cannot change. Lowering a live parallel limit does not preempt work; it blocks new admission until the active set becomes compatible.
 - Check `mlq daemon status` when the client cannot connect. If absent, run `mlqd` through the available process supervisor; do not install, uninstall, or replace the shared daemon unless requested.
