@@ -5,8 +5,10 @@ fish_add_path /home/marvin/.opencode/bin
 fish_add_path $HOME/.grok/bin
 # <<< grok installer <<<
 
-# User-installed binaries override vendor-managed tool directories.
-fish_add_path --move $HOME/.local/bin
+# Keep local binaries available without letting them shadow mise-managed tools.
+fish_add_path --append --move $HOME/.local/bin
+# Prefer mise-managed executables when duplicate tools are installed.
+fish_add_path --prepend --move $HOME/.local/share/mise/shims
 
 # CachyOS-style listings (eza). Install: `sudo pacman -S eza` or `cargo install eza`
 if command -q eza

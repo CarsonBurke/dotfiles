@@ -1,7 +1,7 @@
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
-model = "gpt-5.6-sol"
-model_reasoning_effort = "high"
+model = "gpt-6-astra"
+model_reasoning_effort = "low"
 personality = "pragmatic"
 approvals_reviewer = "user"
 service_tier = "default"
@@ -33,12 +33,99 @@ usePointerCursors = true
 followUpQueueMode = "steer"
 preventSleepWhileRunning = false
 keepRemoteControlAwakeWhilePluggedIn = false
-conversationDetailMode = "STEPS_EXECUTION"
+conversationDetailMode = "STEPS_COMMANDS"
+appearanceLightCodeThemeId = "raycast"
+appearanceDarkCodeThemeId = "vscode-plus"
+
+[desktop.appearanceLightChromeTheme]
+accent = "#ff6363"
+accentSource = "custom"
+contrast = 45
+ink = "#030303"
+opaqueWindows = false
+surface = "#ffffff"
+
+[desktop.appearanceLightChromeTheme.fonts]
+code = '"Jetbrains Mono"'
+ui = "Inter"
+
+[desktop.appearanceLightChromeTheme.semanticColors]
+diffAdded = "#006b4f"
+diffRemoved = "#b12424"
+skill = "#9a1b6e"
+
+[desktop.appearanceDarkChromeTheme]
+accent = "#007acc"
+accentSource = "custom"
+contrast = 50
+ink = "#d4d4d4"
+opaqueWindows = true
+surface = "#1e1e1e"
+
+[desktop.appearanceDarkChromeTheme.fonts]
+code = '"SFMono-Medium"'
+ui = "Geist, Inter"
+
+[desktop.appearanceDarkChromeTheme.semanticColors]
+diffAdded = "#369432"
+diffRemoved = "#f44747"
+skill = "#000080"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-07-30T03:12:27Z"
 source_type = "local"
 source = "/home/marvin/Documents/repositories/dotfiles/codex/.tmp/bundled-marketplaces/openai-bundled"
 
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/home/marvin/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
 [plugins."browser@openai-bundled"]
 enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = false
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = false
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = false
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = false
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = false
+
+[mcp_servers.node_repl]
+args = []
+command = "/usr/lib/chatgpt/resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/usr/lib/chatgpt/resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/home/marvin/.codex:/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
+CODEX_HOME = "/home/marvin/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.901.51231"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/marvin/.codex/plugins/cache/openai-bundled/browser/26.901.51231/scripts/browser-service.mjs"}'
+CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
+
+[mcp_servers.cua_repl]
+command = "/usr/lib/chatgpt/ChatGPT"
+enabled = false
+
+[apps.connector_5f3c8c41a1e54ad7a76272c89e2554fa]
+enabled = false
+
+[apps.connector_2128aebfecb84f64a069897515042a44]
+enabled = false
+
+[apps.connector_20205bf7d4e99a89d7154bb849718324]
+enabled = false

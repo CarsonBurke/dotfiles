@@ -272,8 +272,7 @@ spawn-sh-at-startup "kded6 & sleep 0.3 && busctl --user call org.kde.kded6 /kded
 spawn-at-startup "/usr/bin/walker" "--gapplication-service"
 
 // Set wallpaper
-spawn-at-startup "awww-daemon"
-spawn-at-startup "awww" "img" "/home/marvin/Pictures/myWallpapers/whytecliff_night_upscaled.jpg"
+spawn-at-startup "/usr/bin/swaybg" "-i" "/home/marvin/Pictures/myWallpapers/whytecliff_night_upscaled.jpg" "-m" "fill"
 
 // Night light / blue light filter
 spawn-at-startup "/usr/bin/sunsetr"
