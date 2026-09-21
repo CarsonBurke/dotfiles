@@ -1,6 +1,6 @@
 ---
 name: fix-frontend
-description: Fix frontend UI or browser behavior, including reproduction, implementation, tests, and browser validation.
+description: Fix browser-based UI or UX, including reproduction, implementation, tests, and browser validation.
 ---
 
 # Fix Frontend

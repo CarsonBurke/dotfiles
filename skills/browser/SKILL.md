@@ -1,6 +1,6 @@
 ---
 name: browser
-description: Automate, inspect, live-test, authenticate, scrape, or interact with web pages in Chrome or Chromium, including existing browser windows launched by desktop apps, Electron, Playwright, or Patchright. Use this first for any task whose target is web content or a browser login flow; use desktop/window-manager automation only when the browser harness cannot attach to the required target.
+description: Use this for browser automation, as in when you need to control a browser using cdp-like control
 ---
 
 # Browser
