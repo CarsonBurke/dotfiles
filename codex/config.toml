@@ -1,7 +1,7 @@
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
 model = "gpt-6-astra"
-model_reasoning_effort = "low"
+model_reasoning_effort = "medium"
 personality = "pragmatic"
 approvals_reviewer = "user"
 service_tier = "default"
@@ -36,6 +36,8 @@ keepRemoteControlAwakeWhilePluggedIn = false
 conversationDetailMode = "STEPS_COMMANDS"
 appearanceLightCodeThemeId = "raycast"
 appearanceDarkCodeThemeId = "vscode-plus"
+sansFontSize = 15
+codeFontSize = 13
 
 [desktop.appearanceLightChromeTheme]
 accent = "#ff6363"
@@ -63,8 +65,7 @@ opaqueWindows = true
 surface = "#1e1e1e"
 
 [desktop.appearanceDarkChromeTheme.fonts]
-code = '"SFMono-Medium"'
-ui = "Geist, Inter"
+code = '"Droid Sans Mono SW"'
 
 [desktop.appearanceDarkChromeTheme.semanticColors]
 diffAdded = "#369432"
@@ -120,6 +121,17 @@ CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
 [mcp_servers.cua_repl]
 command = "/usr/lib/chatgpt/ChatGPT"
 enabled = false
+
+[mcp_servers.davinci-resolve]
+command = "/home/marvin/Documents/repositories/davinci-resolve-mcp/venv/bin/python"
+args = ["/home/marvin/Documents/repositories/davinci-resolve-mcp/src/server.py"]
+startup_timeout_sec = 60
+tool_timeout_sec = 180
+
+[mcp_servers.davinci-resolve.env]
+RESOLVE_SCRIPT_API = "/opt/resolve/resolve/Developer/Scripting"
+RESOLVE_SCRIPT_LIB = "/opt/resolve/resolve/libs/Fusion/fusionscript.so"
+PYTHONPATH = "/opt/resolve/resolve/Developer/Scripting/Modules"
 
 [apps.connector_5f3c8c41a1e54ad7a76272c89e2554fa]
 enabled = false
