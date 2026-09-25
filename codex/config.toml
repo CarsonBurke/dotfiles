@@ -1,6 +1,6 @@
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
-model = "gpt-6-astra"
+model = "gpt-6-sol"
 model_reasoning_effort = "medium"
 personality = "pragmatic"
 approvals_reviewer = "user"
@@ -27,6 +27,7 @@ js_repl = false
 [tui]
 theme = "catppuccin-mocha"
 status_line = ["model-with-reasoning", "git-branch", "project-name", "context-used"]
+screen_reader_detection_done = true
 
 [desktop]
 usePointerCursors = true

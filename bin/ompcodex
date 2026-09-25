@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec omp --model gpt-6-astra --thinking low "$@"
+exec omp --model gpt-6-astra --thinking medium "$@"

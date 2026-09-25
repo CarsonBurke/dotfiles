@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec claude --model claude-opus-5 --effort high "$@"
+exec claude --model claude-opus-5-5 --effort medium "$@"

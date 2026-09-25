@@ -1,6 +1,8 @@
 # dotfiles
  my dotfiles for various apps
 
+See [bin/README.md](bin/README.md) for the executable scripts and model aliases.
+
 ## Setup on a new machine
 
 The config directories are symlinked straight into place, so the apps write
