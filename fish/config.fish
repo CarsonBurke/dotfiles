@@ -1,5 +1,3 @@
-# opencode
-fish_add_path /home/marvin/.opencode/bin
 
 # >>> grok installer >>>
 fish_add_path $HOME/.grok/bin
