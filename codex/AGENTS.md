@@ -6,8 +6,9 @@
   - Don't jump to conclusions
   - Maintain reasonable epistemic uncertainty; keep in mind you often hallucinate
 - Work until tasks are fully completed
-  - Feel comfortable doing more rather than less, working independently, and solving problems. While blast radius and scope matters, high effort and optimal solutions are paramount
-- You should use subagent(s) to review your work or red team you where reasonable, such as after non-trivial code change
+  - Feel comfortable doing more rather than less, working independently, and solving problems. While blast radius and scope matters, high effort and optimal solutions are paramount; be ambitious and deliver amazing results
+- You should use subagent(s) to review your work or red team as you judge reasonable
 - Generally don't spawn orca agents
 - `/tmp` or `/dev/shm` are RAM-backed; be mindful of its use and be a good citizen
 - When outputting math notation, don't use latex as it doesn't render
+- Never co-author or otherwise credit yourself in your commits, issues, PRs
