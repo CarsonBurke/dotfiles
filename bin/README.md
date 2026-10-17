@@ -33,5 +33,6 @@ through their arguments with `"$@"`.
 | `niri-duplicate-window` | Duplicate the focused window. |
 | `niri-ide-from-terminal` | Open the IDE at the focused terminal's directory. |
 | `niri-open-ide` | Open the configured IDE. |
+| `niri-park-codex-voice-overlay` | Keep the Codex voice overlay off the visible workspaces. |
 | `niri-terminal-at-editor` | Open a terminal at the focused editor's project. |
 | `orca-import-helium-cookies` | Import Helium cookies into Orca's browser profile. |

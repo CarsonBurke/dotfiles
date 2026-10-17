@@ -1,0 +1,223 @@
+#!/usr/bin/env python3
+"""Keep the Codex desktop voice overlay off the visible workspaces.
+
+During realtime voice, Codex shows a transparent, always-on-top avatar overlay
+window and hides it again between turns. On Wayland every show maps a new
+toplevel, so niri assigns a new window id each time, and a one-off move does not
+stick. niri cannot tell the overlay from the main window at open time either:
+both report app-id "chatgpt" and title "ChatGPT", and open-time rules cannot
+match on is-floating. What does differ is that the overlay is fixed-size, so niri
+auto-floats it, while main windows open tiled.
+
+This watches the niri event stream and treats each newly opened floating Codex
+window as an overlay. An overlay is kept alone on an inactive workspace: when it
+opens, and whenever its workspace is shown or another window joins it, it is
+moved to the empty workspace at the end of an output, without moving focus. The
+overlay stays open, so the voice session it hosts keeps running; only its
+presentation moves. Main Codex windows open tiled and are never touched.
+
+Limits: niri focuses the overlay as it opens, so it flashes on screen and can
+take a keystroke before it is moved. Codex's global-hotkey home window is also
+fixed-size and titled "ChatGPT", so it would be parked too if that hotkey is
+ever configured.
+"""
+
+import fcntl
+import json
+import os
+import socket
+import sys
+import time
+
+APP_ID = "chatgpt"
+TITLE = "ChatGPT"
+RETRY_SECONDS = 2
+
+
+def log(message):
+    print(f"niri-park-codex-voice-overlay: {message}", file=sys.stderr, flush=True)
+
+
+def request(socket_path, body):
+    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as conn:
+        conn.connect(socket_path)
+        conn.sendall(json.dumps(body).encode() + b"\n")
+        reply = json.loads(conn.makefile("rb").readline())
+    if "Err" in reply:
+        raise RuntimeError(reply["Err"])
+    return reply["Ok"]
+
+
+def is_overlay(window):
+    if window.get("app_id") != APP_ID or not window.get("is_floating"):
+        return False
+    if window.get("title") != TITLE:
+        log(f"skipped floating {APP_ID} window {window['id']} titled {window.get('title')!r}")
+        return False
+    return True
+
+
+class Layout:
+    """Workspace and window placement, kept current from the event stream alone."""
+
+    def __init__(self):
+        self.workspaces = {}
+        self.window_workspace = {}
+        self.overlays = set()
+        self.stuck = set()
+        self.requested = {}
+
+    def apply(self, event):
+        if "WorkspacesChanged" in event:
+            self.workspaces = {ws["id"]: ws for ws in event["WorkspacesChanged"]["workspaces"]}
+        elif "WorkspaceActivated" in event:
+            activated = self.workspaces.get(event["WorkspaceActivated"]["id"])
+            if activated is not None:
+                for ws in self.workspaces.values():
+                    if ws["output"] == activated["output"]:
+                        ws["is_active"] = ws is activated
+        elif "WindowsChanged" in event:
+            # niri sends this once, before any window event, so windows already
+            # open when the stream starts, such as a main window someone floated
+            # by hand, are never treated as overlays.
+            windows = event["WindowsChanged"]["windows"]
+            self.window_workspace = {w["id"]: w["workspace_id"] for w in windows}
+        elif "WindowOpenedOrChanged" in event:
+            window = event["WindowOpenedOrChanged"]["window"]
+            if window["id"] not in self.window_workspace and is_overlay(window):
+                self.overlays.add(window["id"])
+            self.window_workspace[window["id"]] = window["workspace_id"]
+        elif "WindowClosed" in event:
+            window_id = event["WindowClosed"]["id"]
+            self.window_workspace.pop(window_id, None)
+            self.overlays.discard(window_id)
+            self.stuck.discard(window_id)
+            self.requested.pop(window_id, None)
+
+    def exposed_overlays(self):
+        """Return overlays on an active workspace or sharing one with a non-overlay window.
+
+        Overlays may share a workspace with each other, or two of them parked
+        together would keep moving each other along.
+        """
+        exposed = []
+        for window_id in self.overlays:
+            workspace_id = self.window_workspace[window_id]
+            # A window being dragged has no workspace until it is dropped.
+            if workspace_id is None:
+                continue
+            shared = any(
+                ws == workspace_id
+                for w, ws in self.window_workspace.items()
+                if w not in self.overlays
+            )
+            if shared or self.workspaces.get(workspace_id, {}).get("is_active"):
+                exposed.append(window_id)
+        return exposed
+
+    def parking_workspace(self, window_id):
+        """Return an empty, inactive trailing workspace id, preferring the window's output.
+
+        niri keeps one empty workspace at the end of each output, so filling it
+        never shifts the indices of the workspaces in use.
+        """
+        occupied = set(self.window_workspace.values())
+        home = self.workspaces.get(self.window_workspace[window_id], {}).get("output")
+        outputs = sorted({ws["output"] for ws in self.workspaces.values()}, key=lambda o: o != home)
+        for output in outputs:
+            last = max(
+                (ws for ws in self.workspaces.values() if ws["output"] == output),
+                key=lambda ws: ws["idx"],
+            )
+            if last["id"] not in occupied and not last["is_active"]:
+                return last["id"]
+        return None
+
+
+def park(socket_path, layout, window_id):
+    # niri answers Ok even when it drops an action, as it does while the
+    # session is locked, so a move has only happened once the window's own
+    # event says so. Until then, events already queued behind the request
+    # would ask again; hold off briefly, then retry.
+    workspace_id = layout.window_workspace[window_id]
+    requested = layout.requested.get(window_id)
+    retry = requested is not None and requested[0] == workspace_id
+    if retry and time.monotonic() - requested[1] < RETRY_SECONDS:
+        return
+    target = layout.parking_workspace(window_id)
+    if target is None:
+        if window_id not in layout.stuck:
+            layout.stuck.add(window_id)
+            log(f"no inactive empty workspace for window {window_id}; leaving it in place")
+        return
+    request(
+        socket_path,
+        {
+            "Action": {
+                "MoveWindowToWorkspace": {
+                    "window_id": window_id,
+                    "reference": {"Id": target},
+                    "focus": False,
+                }
+            }
+        },
+    )
+    layout.requested[window_id] = (workspace_id, time.monotonic())
+    layout.stuck.discard(window_id)
+    if not retry:
+        log(f"moving window {window_id} to workspace {target}")
+
+
+def watch(socket_path):
+    layout = Layout()
+    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as conn:
+        conn.connect(socket_path)
+        conn.sendall(b'"EventStream"\n')
+        stream = conn.makefile("rb")
+        reply = json.loads(stream.readline())
+        if "Err" in reply:
+            raise RuntimeError(reply["Err"])
+        for line in stream:
+            layout.apply(json.loads(line))
+            for window_id in layout.exposed_overlays():
+                try:
+                    park(socket_path, layout, window_id)
+                except Exception as error:
+                    log(f"could not park window {window_id}: {error!r}")
+
+
+def hold_single_instance_lock(socket_path):
+    runtime_dir = os.environ.get("XDG_RUNTIME_DIR", "/tmp")
+    name = os.path.basename(socket_path)
+    lock = open(os.path.join(runtime_dir, f"niri-park-codex-voice-overlay.{name}.lock"), "w")
+    try:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        log("already running for this niri instance")
+        sys.exit(0)
+    return lock
+
+
+def main():
+    socket_path = os.environ.get("NIRI_SOCKET")
+    if not socket_path:
+        sys.exit("niri-park-codex-voice-overlay: NIRI_SOCKET is not set")
+    _lock = hold_single_instance_lock(socket_path)
+
+    # niri drops stream clients that fall behind, so reconnect until this niri
+    # instance stops accepting connections. A crashed niri leaves its socket
+    # file behind, so the file existing is not enough.
+    while True:
+        try:
+            watch(socket_path)
+            log("event stream ended; reconnecting")
+        except (FileNotFoundError, ConnectionRefusedError):
+            log("niri is gone; exiting")
+            return
+        except Exception as error:
+            log(f"event stream failed: {error!r}; reconnecting")
+        time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()

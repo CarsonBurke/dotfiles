@@ -280,6 +280,10 @@ spawn-at-startup "/usr/bin/sunsetr"
 // Power usage monitoring daemon (samples every 60s)
 spawn-at-startup "/home/marvin/Documents/unorganized/total-power-use" "daemon" "60"
 
+// Park each Codex voice overlay on an empty trailing workspace; window rules
+// cannot tell it apart from the main Codex window when it opens.
+spawn-at-startup "/usr/bin/systemd-cat" "-t" "niri-park-codex-voice-overlay" "/home/marvin/Documents/repositories/dotfiles/bin/niri-park-codex-voice-overlay"
+
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
