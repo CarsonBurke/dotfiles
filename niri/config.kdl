@@ -433,6 +433,7 @@ binds {
     Mod+D hotkey-overlay-title="Run an Application: walker" { spawn "walker"; }
     Mod+Slash hotkey-overlay-title="Open Calculator: walker" { spawn "walker" "--provider" "calc"; }
     Mod+Period hotkey-overlay-title="Open Symbols and Emojis: walker" { spawn "walker" "--provider" "symbols"; }
+    Mod+apostrophe hotkey-overlay-title="Open Math Symbols" { spawn "math-picker"; }
     Mod+Semicolon hotkey-overlay-title="Open Clipboard History: walker" { spawn "walker" "--provider" "clipboard"; }
     Mod+B hotkey-overlay-title="Open Default Browser" { spawn "niri-open-default-browser"; }
     Mod+Shift+B hotkey-overlay-title="Open Default Browser Private" { spawn "niri-open-default-browser" "--private"; }
