@@ -5,4 +5,4 @@ description: Improve a test suite by removing dead tests, fixing brittle tests, 
 
 # Maintain Tests
 
-Match test level to the behavior and failure cost; types replace type-shape assertions, not runtime tests. Remove only genuinely dead or duplicate coverage, fix state/order/time/randomness problems, and keep production changes to necessary testability seams.
+Choose each test's level by what it protects and what a failure would cost. Types make assertions about shape redundant, but not tests of runtime behavior. Remove a test only when it's dead or duplicates other coverage. Brittle tests usually depend on shared state, ordering, time, or randomness, and the fix is removing that dependency rather than adding retries. Change production code only as far as testability needs.

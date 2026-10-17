@@ -5,7 +5,6 @@ description: Update the current branch's GitHub pull request title and descripti
 
 # Update PR
 
-1. Resolve the PR's existing metadata, actual `baseRefName`, and remote `headRefOid`. Stop if no PR exists.
-2. Derive the title and body only from the merge-base diff through `headRefOid`, never local `HEAD`; disclose unpushed or divergent local commits separately.
-3. Use a concise Conventional Commit-style title and an accurate body covering motivation, behavior, validation, compatibility, and established issue links. Preserve required template sections and useful user-authored content.
-4. Pass title and body as data in a temporary JSON request to `gh api --input`; never interpolate generated text into a shell command. Re-read and report the result.
+Rewrite the title and body of the current branch's existing PR so they describe what it actually contains; stop if there is no PR. What it contains is the diff from the merge-base with its real `baseRefName` to the remote `headRefOid`, not local `HEAD`. Mention unpushed or divergent local commits separately rather than describing them as part of the PR.
+
+Use a concise Conventional Commit-style title. The body covers motivation, behavior, validation, compatibility, and established issue links, and should keep any template sections the repository requires and anything useful the user wrote. `writing-copy` applies. Pass the text to `gh api --input` as a temporary JSON file rather than interpolating it into a shell command, since generated text contains quotes and backticks. Re-read the PR afterward and report the result.

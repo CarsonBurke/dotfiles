@@ -5,4 +5,4 @@ description: Find and fix concrete security vulnerabilities in the requested sco
 
 # Make Secure
 
-Validate that a risk is reachable, then fix the whole affected trust boundary rather than one symptom. Prefer secure defaults and avoid leaking secrets or needless exploit detail in tests and reports. Do not commit or push unless requested.
+Show that a risk is reachable before fixing it. Then fix the trust boundary it crosses rather than the one symptom that revealed it, preferring secure defaults. Keep secrets and unneeded exploit detail out of tests and reports. Don't commit or push unless asked.

@@ -5,20 +5,21 @@ description: Run, monitor, recover, and scale reinforcement-learning training on
 
 # Remote RL Training
 
-Read repository instructions, configs, launcher, and save/load code before acting.
+Read the repository instructions, configs, launcher, and save and load code before acting.
 
 ## Authority
 
-- Require explicit authority to start, provision, resize, extend, or terminate paid resources; change architecture; discard checkpoints; or exceed the agreed budget/duration. An available API key is not permission.
-- Before launch, record instance/hourly cost, spend or time ceiling, storage limit, and the authorized deadline action. If shutdown/termination is not authorized, stop the workload at the deadline and warn that idle charges may continue.
+- Paid resources need explicit authority to start, provision, resize, extend, or terminate, and so do changing the architecture, discarding checkpoints, or exceeding the agreed budget or duration. An available API key isn't permission.
+- Before launch, record the instance and hourly cost, the spend or time ceiling, the storage limit, and what's authorized at the deadline. If shutting down isn't authorized, stop the workload at the deadline and warn that idle charges may continue.
 - Restart only when crash supervision was authorized and a verified resumable checkpoint exists.
 
 ## Operate
 
-- Measure rollout/environment and optimization time separately with CPU, GPU, VRAM, memory, disk, network when relevant, and task throughput. Tune only the measured bottleneck; low VRAM alone is not evidence of poor throughput.
-- Record commit/diff or artifact hash, config, seed, command, environment, hardware, and run directory. Verify checkpoint hash, metrics, architecture/spaces/flags, optimizer state, and actual load compatibility; never silently fall back to stale weights or scratch.
-- Use unique logs/checkpoints and preserve a verified recovery copy when authorized. Never overwrite the only recoverable checkpoint or expose secrets.
-- Supervise detached runs with a monotonic deadline and spend ceiling. Default to 1/2/4-minute backoff and at most 3 restarts in 30 minutes; halt on the limit, repeated OOM/load failure, non-advancing updates, or insufficient authorized time for startup plus safe checkpointing.
-- Monitor advancing updates/checkpoints, finite metrics, resource stability, disk, restarts, and spend. Stop safely before disk cannot hold recovery artifacts; prune only under an explicit retention policy.
+- Measure rollout and optimization time separately, alongside CPU, GPU, VRAM, memory, disk, network where relevant, and task throughput, and tune only the bottleneck you measured. Low VRAM use alone doesn't show poor throughput.
+- Record what reproducing or resuming a run needs: commit or artifact hash, config, seed, command, environment, hardware, and run directory.
+- Before resuming, verify the checkpoint's hash, metrics, architecture, spaces and flags, optimizer state, and that it actually loads. Never silently fall back to stale weights or a fresh start.
+- Keep logs and checkpoints unique, preserve a verified recovery copy when authorized, never overwrite the only recoverable checkpoint, and keep secrets out of all of it.
+- Supervise detached runs with a monotonic deadline and spend ceiling. By default, back off 1, 2, then 4 minutes, with at most 3 restarts in 30 minutes. Halt on reaching that limit, on repeated OOM or load failures, on updates that stop advancing, or when too little authorized time remains to start up and checkpoint safely.
+- Watch that updates and checkpoints advance, metrics stay finite, resources and disk hold, and spend stays in bounds. Stop safely before the disk can no longer hold recovery artifacts, and prune only under an explicit retention policy.
 
-Report run identity and lineage, elapsed spend, bottleneck evidence, learning/evaluation signals, restarts, checkpoint freshness, resource headroom, and unresolved risk, separating measurement from inference.
+Report the run's identity and lineage, spend, bottleneck evidence, learning and evaluation signals, restarts, checkpoint freshness, headroom, and open risks, keeping measurement apart from inference.

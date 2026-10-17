@@ -5,10 +5,10 @@ description: Deeply review and improve current changes, a pull request, or a cod
 
 # Review Deep Action
 
-Infer the intended scope from the request, conversation, working tree, branch, PR context, and cwd; state any important exclusions. Review using the judgment and evidence standards below, then fix validated, worthwhile findings.
+Infer the scope from the request and the state of the repository, and mention exclusions that matter. Review by the standards below, then fix the findings worth fixing.
 
 <!-- include: parts/review-standards -->
 
 ## Implement findings
 
-Preserve unrelated changes and public behavior unless the request says otherwise. Run affected checks, inspect the final diff, and use `sub-review-changes` after non-trivial work. Report changes, declined findings, validation, and residual risk. Do not commit or push unless requested.
+Preserve unrelated changes and public behavior unless the request says otherwise. Run the affected checks, inspect the final diff, and after non-trivial work use `sub-review-changes`. Report what you changed, which findings you declined, validation, and residual risk. Don't commit or push unless asked.

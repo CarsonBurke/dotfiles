@@ -7,7 +7,7 @@ description: Plan and deliver structured lectures in the lessons repo with maste
 
 Operate in the lessons repository. Default root: `~/Documents/repositories/lessons` (`LESSONS_ROOT` or a tree with `curriculum/` + `state/`).
 
-Canonical history is YAML state + Markdown `record.md` — never HTML or audio. Install CLI: `python3 -m venv .venv && .venv/bin/pip install -e 'tools/lessons_cli[dev]'` then use `./bin/lessons` or `.venv/bin/lessons`.
+Canonical history is the YAML state and each lecture's Markdown `record.md`, not the HTML or audio generated from them. Install CLI: `python3 -m venv .venv && .venv/bin/pip install -e 'tools/lessons_cli[dev]'` then use `./bin/lessons` or `.venv/bin/lessons`.
 
 ## Plan
 
@@ -21,13 +21,14 @@ Canonical history is YAML state + Markdown `record.md` — never HTML or audio. 
 
 ## Deliver
 
+Keep `lessons site dev` running while writing; it re-syncs lectures, curriculum, and state into the wiki without a restart. For a one-shot sync, use `lessons site sync`.
+
 1. `lessons lecture init <topic> [--subject …]` → `lectures/<YYYY-MM-DD-slug>/`.
 2. Write token-efficient `record.md` (target ~1–3k tokens). Required frontmatter: `id`, `date`, `subject`, `topics`, `prereqs_assumed`, `outcomes`, `gaps`, `next_candidates`, `mastery_delta`, `sources`, `status: draft`.
 3. Sections: Thesis · Core · Worked example · Checks · Notes for future agent.
 4. Optional spoken `script.md` (short paragraphs, no tables) for TTS.
 5. `lessons lecture finalize <id>` once — applies `mastery_delta` idempotently (`mastery_applied: true`). Re-run is index-only unless `--force-mastery`. Use `--no-mastery` to reindex without touching mastery.
 6. Optional: `lessons lecture speak <id>` → `assets/audio/<id>/`, then `lessons site sync` (sticky wiki player). Reports: `lessons report lecture|dashboard`.
-7. Keep `lessons site dev` running while writing — it re-syncs lectures/curriculum/state into the wiki automatically (no restart). One-shot: `lessons site sync`.
 
 ## Site authoring (in `record.md`)
 
@@ -42,8 +43,10 @@ Canonical history is YAML state + Markdown `record.md` — never HTML or audio. 
 
 ## Pedagogy
 
-Teach from the learner’s level; emphasize why ideas work. Prefer geometric/causal intuition when interests say so. Correct errors at the faulty reasoning step. Use a chart only when it shows a relationship words would bury—not decoration.
+Teach from the learner's level, emphasizing why ideas work, and lean on geometric or causal intuition when their interests suggest it. Correct errors at the step where the reasoning went wrong. A chart earns its place when it shows a relationship that words would bury.
 
 ## Safety
 
-Do not install global deps without permission. No pirate textbook scrapers. Never path-traverse lecture ids. Do not re-apply mastery by force unless correcting a bad delta.
+- Don't install global dependencies without permission or use pirated-textbook scrapers.
+- Lecture ids become paths, so never let one traverse outside the tree.
+- Force-reapply mastery only to correct a bad delta.

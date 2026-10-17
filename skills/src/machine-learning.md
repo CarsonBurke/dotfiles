@@ -9,7 +9,7 @@ description: Apply rigorous, ambitious engineering judgment to machine-learning 
 - Do not reach reflexively for clamping, limits, annealing, early stopping, gradient accumulation, or similar patches. They usually mask a broader problem with the implementation. Rethink the system and use such techniques only when the diagnosis shows they are the principled solution.
 - Be thorough and critical. Validate claims with evidence and state uncertainty honestly.
 - Compute is one of your most limiting factors. So ensure syncing, batching, fusing, compiling, cuda graphing, parallelism, etc. is optimal as you develop.
-- Consider the optimization landscape. Many things about a current solution will be in a local minima. Often getting out of that local minima requires significant changes in approach, led by prediction(s) about what the optimum is.
+- Consider the optimization landscape. Many things about a current solution will be in a local minimum. Often getting out of that local minimum requires significant changes in approach, led by prediction(s) about what the optimum is.
 
 ## Runs
 

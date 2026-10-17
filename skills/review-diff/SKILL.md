@@ -5,4 +5,4 @@ description: Review working-tree changes for bugs, regressions, security risks, 
 
 # Review Diff
 
-Remain read-only. Inspect the complete working tree, infer the relevant change set, and disclose important exclusions. Validate concerns against surrounding code, contracts, and tests. Report only introduced, actionable findings with severity, evidence, and precise references; state when none remain and mention material validation gaps.
+Stay read-only. Look at the whole working tree, work out which changes make up the change set, and say what you left out. Check each concern against the surrounding code, contracts, and tests, and report only actionable problems the changes introduce, with severity, evidence, and file references. Say so when there are none, and note what you couldn't validate.

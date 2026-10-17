@@ -5,9 +5,9 @@ description: Audit one codebase domain or path for concrete bugs without making 
 
 # Find Domain Bugs
 
-Inspect the assigned scope without editing files or changing external state. Read callers, dependencies, schemas, and tests outside it only as needed to establish behavior.
+Inspect the assigned scope without editing files or changing anything external, reading callers, dependencies, schemas, and tests elsewhere as far as you need to establish behavior.
 
-Report actual bugs, not style, TODOs, refactor opportunities, unsupported hypotheticals, or missing tests without a demonstrated defect. Establish both the expected contract and a reachable input, state, or interleaving that violates it. Distinguish repository evidence from inference and use narrow read-only checks when useful.
+A bug here is a reachable input, state, or interleaving that violates the code's expected contract, so establish both. Style, TODOs, refactor opportunities, unsupported hypotheticals, and missing tests without a demonstrated defect don't count. Keep what the repository shows apart from what you infer, and use narrow read-only checks where they help.
 
 For each finding return:
 
@@ -24,4 +24,4 @@ Impact: <observable consequence>
 Suggested fix: <minimal direction>
 ```
 
-Use high confidence only when the contract and failing path are verified. Mark unresolved credible leads medium confidence so the campaign parent can validate them. If nothing qualifies, return `No validated bugs found.`
+Use high confidence only when you've verified both the contract and the failing path. Mark credible leads you couldn't resolve as medium so the campaign parent can validate them. If nothing qualifies, return `No validated bugs found.`

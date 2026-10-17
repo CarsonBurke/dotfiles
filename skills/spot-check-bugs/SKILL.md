@@ -5,25 +5,25 @@ description: Run a reproducible sampled bug audit and, when authorized, create G
 
 # Spot Check Bugs
 
-Use the sampled campaign in the workflow below, forwarding any user-supplied scope, sample size, or seed.
+Run the sampled campaign below, passing along any scope, sample size, or seed the user gave.
 
 # Find Bugs
 
-Issue creation is part of this workflow when the requested outcome authorizes GitHub mutation. A request to find, review, or diagnose bugs alone is read-only: return validated findings in the response without mutating GitHub or writing a local report.
+Creating GitHub issues is part of this workflow only when the request authorizes changes on GitHub. A request to find, review, or diagnose bugs is read-only: return the validated findings in your response. Either way, don't write a local findings report.
 
 ## Investigate
 
-- For one path or domain, apply [find-domain-bugs](../find-domain-bugs/SKILL.md) directly or delegate that bounded scope.
-- For a campaign, infer coherent domains from the repository unless the user supplies scope. For a requested spot check, sample relevant source files reproducibly and report the selected files and seed.
-- Delegate disjoint scopes to read-only workers using `find-domain-bugs`, bounded by available concurrency. Workers may inspect related code needed to prove behavior but must not edit files or create issues.
-- Have the parent validate every candidate against the code and its contract, deduplicate common root causes, and normalize severity by impact. Keep only confident, reachable bugs—not style, TODOs, speculative hardening, or missing tests without faulty behavior.
+- For one path or domain, apply [find-domain-bugs](../find-domain-bugs/SKILL.md) directly or delegate it.
+- For a campaign, infer coherent domains from the repository unless the user gives a scope, and delegate disjoint ones to read-only workers using `find-domain-bugs`, as many at once as concurrency allows.
+- For a spot check, sample relevant source files reproducibly and report the files and seed.
+- Validate every candidate yourself against the code and its contract, merge findings that share a root cause, and normalize severity by impact. Keep only confident, reachable bugs.
 
 ## Create issues
 
-Resolve the intended GitHub repository against its git remotes and `gh repo view`; stop on fork/upstream, multiple-remote, or ownership ambiguity.
+- Resolve the GitHub repository from the git remotes and `gh repo view`, and stop if forks, multiple remotes, or ownership make it ambiguous.
+- Before creating each issue, search open and closed issues for the same root cause. An open issue, or a closed one that was a duplicate, was declined, or still applies, answers the finding instead of a new issue. A regression after a fixed issue usually gets a new issue that references the old one.
+- Create issues one at a time so each result is known before the next.
+- The body is for whoever fixes it: the contract, the reachable trigger, `file:line` locations, the impact, and a minimal fix direction, with a concise title, evidence kept apart from inference, and no secrets or unsupported claims. Use only existing labels unless asked to create one, and pass the body through a temporary file rather than the shell command line.
+- Verify each issue URL after creating it. If a result is uncertain, search recent issues before retrying, and on a persistent error stop rather than risk duplicates.
 
-Before each creation, search open and closed issues for the same root cause and outcome. Return an open canonical issue or a closed duplicate, declined, or still-applicable issue instead of creating another. A verified regression after a previously fixed issue normally warrants a new issue that references the prior one. Create issues serially so each result is known before continuing.
-
-Write a concise title and an evidence-based body covering the contract, reachable trigger, relevant `file:line` locations, observed impact, and minimal fix direction. Distinguish repository evidence from inference; omit secrets and unsupported claims. Use only existing repository labels unless the user asks to create one. Pass generated bodies through a temporary file rather than interpolating them into a shell command.
-
-After each mutation, verify the issue URL. If a result is uncertain, search recent issues before retrying; on a persistent mutation error, stop rather than risk duplicates. Report the audit scope, created and existing issue links, rejected or uncertain leads, and the sample seed when used. Do not create a local findings report.
+Report the scope, the created and existing issue links, rejected or uncertain leads, and the seed if you sampled.

@@ -5,11 +5,10 @@ description: Steward a pull request through review, fixes, pushes, and CI, then 
 
 # Merge Steward PR
 
-Complete the stewardship workflow below, then merge the PR.
+Steward the PR as below, then merge it.
 
 <!-- include: steward-pr -->
 
 ## Merge after stewardship
 
-- A thorough subagent review must approve merge with no findings.
-- It is acceptable to override review requirements.
+The merge gate is a thorough subagent review of the final head that approves with no findings. That review stands in for human approval, so overriding the repository's review requirements to merge is fine. Merge with `gh pr merge --match-head-commit` pinned to the current head SHA that review approved, so nothing lands unreviewed.

@@ -5,6 +5,6 @@ description: Identify worthwhile idiomatic refactors in the requested or implied
 
 # Refactor Find
 
-Remain read-only.
+Stay read-only.
 
 <!-- include: parts/refactor-judgment -->

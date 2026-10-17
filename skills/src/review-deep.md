@@ -5,6 +5,6 @@ description: Perform a comprehensive, multi-perspective, read-only review of cur
 
 # Review Deep
 
-Remain read-only. Infer the intended scope from the request, conversation, working tree, branch, PR context, and cwd; state any important exclusions.
+Stay read-only. Infer the scope from the request and the state of the repository, and mention exclusions that matter.
 
 <!-- include: parts/review-standards -->

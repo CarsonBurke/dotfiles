@@ -5,6 +5,6 @@ description: Run a reproducible sampled bug audit and, when authorized, create G
 
 # Spot Check Bugs
 
-Use the sampled campaign in the workflow below, forwarding any user-supplied scope, sample size, or seed.
+Run the sampled campaign below, passing along any scope, sample size, or seed the user gave.
 
 <!-- include: find-bugs -->

@@ -5,10 +5,10 @@ description: Commit changes, push the branch, and create or reuse its GitHub pul
 
 # Commits Push PR
 
-Complete the commit and push workflow below, then create or update the PR.
+Commit and push as below, then create the branch's GitHub PR or update the existing one.
 
 <!-- include: commits-push -->
 
 ## Pull request
 
-Create or reuse the branch's GitHub PR. Explain the motivation and chosen solution, respecting the reader's time and attention. Include examples, snippets, or screenshots when useful, and describe anything that should still be tested before merging.
+The description is for a reviewer deciding how to review. Say what motivated the change and why this solution, show examples, snippets, or screenshots when they make it easier to see, and say what still needs testing before merge. `writing-copy` applies.

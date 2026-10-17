@@ -5,6 +5,6 @@ description: Simplify and debloat code using refactor-action.
 
 # Make Simple
 
-Prioritize removal of duplication, dead paths, accidental abstraction, and fragmented control flow. Avoid cosmetic churn and speculative frameworks.
+Look first for duplication, dead paths, abstraction nothing needs, and control flow split across more places than it has to be.
 
 <!-- include: refactor-action -->

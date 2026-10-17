@@ -3,8 +3,8 @@ name: make-fast
 description: Use to guide performance improvements.
 ---
 
-- Create a mental model of performance bottlenecks, especially the most significant ones.
-- Consider what the most optimal performant solution(s) would entail. Use that abstract to evaluate the current solutions.
-- Where reasonable, build, maintain and/or use existing benchmarking and profiling tools.
-- Use good judgement. For example, generally do not trade correctness, security, or maintainability. Do not introduce new bugs.
-- Be ambitious. Do not settle for a local minima or lazy solution if an alternative is much better.
+- Build a mental model of where the time goes, especially the largest bottlenecks.
+- Work out what the fastest solution would look like, and judge the current one against it.
+- Use, maintain, or build benchmarks and profilers where reasonable, since intuition about performance is often wrong.
+- Don't trade away correctness, security, or maintainability for speed, and don't introduce bugs.
+- Be ambitious. When a much better approach exists, a local tweak isn't enough.
