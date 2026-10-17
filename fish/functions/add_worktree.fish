@@ -25,10 +25,8 @@ function add_worktree -d "Create a git worktree and cd into it"
     if git rev-parse --git-dir >/dev/null 2>&1
         # Inside a git repo or worktree
         set git_dir (git rev-parse --show-toplevel)
-        set wt_root (dirname $git_dir)
     else
         # Not in a git repo — look for one in subdirectories (e.g. main/)
-        set wt_root $PWD
         for subdir in $PWD/main $PWD/*/
             set subdir (string trim --right --chars=/ $subdir)
             if test -d "$subdir"; and git -C $subdir rev-parse --git-dir >/dev/null 2>&1
@@ -44,6 +42,8 @@ function add_worktree -d "Create a git worktree and cd into it"
     end
 
     # Determine worktree path
+    set -l common_dir (git -C $git_dir rev-parse --path-format=absolute --git-common-dir)
+    set wt_root (dirname $common_dir)/.worktrees
     set -l wt_path "$wt_root/$branch_name"
 
     # Fetch latest from origin
