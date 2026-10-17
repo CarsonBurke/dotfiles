@@ -1,10 +1,13 @@
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
-model = "gpt-6-sol"
+model = "gpt-6.1-sol"
 model_reasoning_effort = "medium"
 personality = "pragmatic"
 approvals_reviewer = "user"
 service_tier = "default"
+
+[agents]
+max_concurrent_threads_per_session = 32
 
 [skills.bundled]
 enabled = false
@@ -20,9 +23,12 @@ hide_full_access_warning = true
 "gpt-5.1-codex-max" = "gpt-5.2-codex"
 
 [features]
-experimental_use_rmcp_client = true
 multi_agent = true
 js_repl = false
+# The background server's socket lives under CODEX_HOME, which account
+# managers (cagents, Orca) nest too deep for a Unix socket path
+# (openai/codex#27765). Re-enable once that is fixed.
+daemon_auto_start = false
 
 [tui]
 theme = "catppuccin-mocha"
@@ -39,6 +45,8 @@ appearanceLightCodeThemeId = "raycast"
 appearanceDarkCodeThemeId = "vscode-plus"
 sansFontSize = 15
 codeFontSize = 13
+notifications-dot-enabled = false
+open-local-url-in-target-preference = "external-browser"
 
 [desktop.appearanceLightChromeTheme]
 accent = "#ff6363"
@@ -110,29 +118,18 @@ NODE_REPL_NODE_MODULE_DIRS = "/usr/lib/chatgpt/resources/cua_node/lib/node_modul
 NODE_REPL_NODE_PATH = "/usr/lib/chatgpt/resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/home/marvin/.codex:/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
 CODEX_HOME = "/home/marvin/.codex"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
 BROWSER_USE_TINYSKY_ENABLED = "1"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.901.51231"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/marvin/.codex/plugins/cache/openai-bundled/browser/26.901.51231/scripts/browser-service.mjs"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.930.41038"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/marvin/.codex/plugins/cache/openai-bundled/browser/26.930.41038/scripts/browser-service.mjs"}'
 CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
 
 [mcp_servers.cua_repl]
 command = "/usr/lib/chatgpt/ChatGPT"
 enabled = false
-
-[mcp_servers.davinci-resolve]
-command = "/home/marvin/Documents/repositories/davinci-resolve-mcp/venv/bin/python"
-args = ["/home/marvin/Documents/repositories/davinci-resolve-mcp/src/server.py"]
-startup_timeout_sec = 60
-tool_timeout_sec = 180
-
-[mcp_servers.davinci-resolve.env]
-RESOLVE_SCRIPT_API = "/opt/resolve/resolve/Developer/Scripting"
-RESOLVE_SCRIPT_LIB = "/opt/resolve/resolve/libs/Fusion/fusionscript.so"
-PYTHONPATH = "/opt/resolve/resolve/Developer/Scripting/Modules"
 
 [apps.connector_5f3c8c41a1e54ad7a76272c89e2554fa]
 enabled = false
