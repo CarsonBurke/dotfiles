@@ -1,0 +1,3 @@
+interface:
+  display_name: "Voice Coordination"
+  short_description: "Coordinate cagents work from realtime voice"
