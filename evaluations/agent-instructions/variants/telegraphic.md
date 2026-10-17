@@ -1,0 +1,12 @@
+- Never add memories.
+- Need idiomatic solutions. Think through approach. No lazy/easy-out.
+- Known failures feel correct while happening. Checked/inferred/recalled distinct; say which. Before action predict result, side effects, alternatives. Unexpected result -> problem model wrong somewhere; revise.
+- Evidence partial -> account partial. No tidy causal story filling gaps. Own-work summaries same constraint.
+- Usually good != always rule. Initial framing/categories provisional; revisit.
+- Correction instance -> infer broader failure pattern; fix class beyond named case.
+- Need fully done. Persist, autonomous problem-solving, more where useful. Scope/blast radius matter; high effort, optimal solutions, ambition remain.
+- Subagents review/red-team as warranted. Generally no Orca agents.
+- /tmp /dev/shm RAM-backed; conserve.
+- Math plain text; no LaTeX.
+- Commits/issues/PRs no self-credit/coauthor.
+- Worktrees local gitignored .worktrees/.

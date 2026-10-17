@@ -1,0 +1,1038 @@
+{
+  "manifest": {
+    "protocol": {
+      "benchmark": "BigCodeBench-Hard",
+      "split": "instruct",
+      "dataset_version": "v0.1.4",
+      "dataset_revision": "298d2cc7b96612e15e47313c3603ee124cee0c1f",
+      "dataset_url": "https://huggingface.co/datasets/bigcode/bigcodebench-hard/resolve/298d2cc7b96612e15e47313c3603ee124cee0c1f/data/v0.1.4-00000-of-00001.parquet",
+      "parquet_sha256": "73a4270b43feb81abefad7bb1b592937c768ea45c3263bedc1cabd30a9a6ce79",
+      "jsonl_sha256": "2f8a10ad5dc3eee6422dc84171fa599da4d309f81f2c4157b8d3c4bca957c85d",
+      "upstream_revision": "09dd993f46c3fbf3a799465bb96d524edcb0b199",
+      "requirements_sha256": "a4d01fb12cbce5223b51f982265cb7975bea770b758cd85cc91b803d3293e39f",
+      "seed": 20261012,
+      "selection": "Uniform seeded sample of sorted task IDs; no content/performance filtering",
+      "selected_ids": [
+        "BigCodeBench/100",
+        "BigCodeBench/1004",
+        "BigCodeBench/1015",
+        "BigCodeBench/1019",
+        "BigCodeBench/1022",
+        "BigCodeBench/1039",
+        "BigCodeBench/1077",
+        "BigCodeBench/1085",
+        "BigCodeBench/1129",
+        "BigCodeBench/147",
+        "BigCodeBench/162",
+        "BigCodeBench/19",
+        "BigCodeBench/239",
+        "BigCodeBench/308",
+        "BigCodeBench/341",
+        "BigCodeBench/346",
+        "BigCodeBench/360",
+        "BigCodeBench/367",
+        "BigCodeBench/445",
+        "BigCodeBench/461",
+        "BigCodeBench/492",
+        "BigCodeBench/503",
+        "BigCodeBench/509",
+        "BigCodeBench/526",
+        "BigCodeBench/553",
+        "BigCodeBench/567",
+        "BigCodeBench/574",
+        "BigCodeBench/583",
+        "BigCodeBench/636",
+        "BigCodeBench/657",
+        "BigCodeBench/720",
+        "BigCodeBench/765",
+        "BigCodeBench/854",
+        "BigCodeBench/914",
+        "BigCodeBench/945",
+        "BigCodeBench/952",
+        "BigCodeBench/955",
+        "BigCodeBench/963",
+        "BigCodeBench/988",
+        "BigCodeBench/990"
+      ],
+      "available_tasks": 148,
+      "grading": "Unmodified upstream bigcodebench.evaluate local, calibrated=True, pass_k=1; multiprocessing spawn; headless Agg backend",
+      "primary_comparison": "Paired pass/fail difference: telegraphic minus original",
+      "secondary": [
+        "compact minus telegraphic",
+        "none versus instruction variants",
+        "output tokens",
+        "latency"
+      ],
+      "reference_gate": "Every selected canonical solution must pass before generation; no dropping failed cases",
+      "limits": "Public benchmark may occur in training. Tests evaluate coding outputs, not all AGENTS behaviors. Codex agent scaffold differs from the benchmark's standard one-shot generation scaffold.",
+      "prompts_sha256": "075265d672d5890463446f1ebff3b39c645ba697c1db8317f7dcf4ad3d7a826e"
+    },
+    "model": "gpt-6.1-sol",
+    "effort": "medium",
+    "concurrency": 4,
+    "timeout": 300,
+    "jobs": [
+      [
+        "BigCodeBench/19",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/492",
+        "original"
+      ],
+      [
+        "BigCodeBench/1085",
+        "compact"
+      ],
+      [
+        "BigCodeBench/1019",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/308",
+        "compact"
+      ],
+      [
+        "BigCodeBench/990",
+        "compact"
+      ],
+      [
+        "BigCodeBench/854",
+        "original"
+      ],
+      [
+        "BigCodeBench/636",
+        "none"
+      ],
+      [
+        "BigCodeBench/445",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/367",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/147",
+        "compact"
+      ],
+      [
+        "BigCodeBench/567",
+        "compact"
+      ],
+      [
+        "BigCodeBench/1039",
+        "none"
+      ],
+      [
+        "BigCodeBench/147",
+        "none"
+      ],
+      [
+        "BigCodeBench/574",
+        "compact"
+      ],
+      [
+        "BigCodeBench/19",
+        "original"
+      ],
+      [
+        "BigCodeBench/509",
+        "original"
+      ],
+      [
+        "BigCodeBench/567",
+        "original"
+      ],
+      [
+        "BigCodeBench/1129",
+        "compact"
+      ],
+      [
+        "BigCodeBench/526",
+        "original"
+      ],
+      [
+        "BigCodeBench/503",
+        "compact"
+      ],
+      [
+        "BigCodeBench/367",
+        "original"
+      ],
+      [
+        "BigCodeBench/1077",
+        "original"
+      ],
+      [
+        "BigCodeBench/1004",
+        "compact"
+      ],
+      [
+        "BigCodeBench/239",
+        "compact"
+      ],
+      [
+        "BigCodeBench/162",
+        "compact"
+      ],
+      [
+        "BigCodeBench/492",
+        "compact"
+      ],
+      [
+        "BigCodeBench/988",
+        "none"
+      ],
+      [
+        "BigCodeBench/657",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/553",
+        "none"
+      ],
+      [
+        "BigCodeBench/553",
+        "original"
+      ],
+      [
+        "BigCodeBench/988",
+        "original"
+      ],
+      [
+        "BigCodeBench/914",
+        "original"
+      ],
+      [
+        "BigCodeBench/574",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/367",
+        "none"
+      ],
+      [
+        "BigCodeBench/509",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/19",
+        "none"
+      ],
+      [
+        "BigCodeBench/346",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/341",
+        "original"
+      ],
+      [
+        "BigCodeBench/1129",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/147",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/308",
+        "original"
+      ],
+      [
+        "BigCodeBench/963",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/1085",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/461",
+        "none"
+      ],
+      [
+        "BigCodeBench/1077",
+        "compact"
+      ],
+      [
+        "BigCodeBench/963",
+        "original"
+      ],
+      [
+        "BigCodeBench/1015",
+        "none"
+      ],
+      [
+        "BigCodeBench/583",
+        "none"
+      ],
+      [
+        "BigCodeBench/461",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/990",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/657",
+        "none"
+      ],
+      [
+        "BigCodeBench/720",
+        "none"
+      ],
+      [
+        "BigCodeBench/526",
+        "none"
+      ],
+      [
+        "BigCodeBench/239",
+        "none"
+      ],
+      [
+        "BigCodeBench/346",
+        "compact"
+      ],
+      [
+        "BigCodeBench/657",
+        "compact"
+      ],
+      [
+        "BigCodeBench/574",
+        "original"
+      ],
+      [
+        "BigCodeBench/765",
+        "compact"
+      ],
+      [
+        "BigCodeBench/100",
+        "original"
+      ],
+      [
+        "BigCodeBench/1077",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/503",
+        "original"
+      ],
+      [
+        "BigCodeBench/1019",
+        "compact"
+      ],
+      [
+        "BigCodeBench/583",
+        "compact"
+      ],
+      [
+        "BigCodeBench/445",
+        "original"
+      ],
+      [
+        "BigCodeBench/854",
+        "none"
+      ],
+      [
+        "BigCodeBench/955",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/346",
+        "none"
+      ],
+      [
+        "BigCodeBench/1129",
+        "original"
+      ],
+      [
+        "BigCodeBench/1022",
+        "compact"
+      ],
+      [
+        "BigCodeBench/955",
+        "compact"
+      ],
+      [
+        "BigCodeBench/503",
+        "none"
+      ],
+      [
+        "BigCodeBench/636",
+        "original"
+      ],
+      [
+        "BigCodeBench/100",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/952",
+        "original"
+      ],
+      [
+        "BigCodeBench/360",
+        "original"
+      ],
+      [
+        "BigCodeBench/854",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/988",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/239",
+        "original"
+      ],
+      [
+        "BigCodeBench/553",
+        "compact"
+      ],
+      [
+        "BigCodeBench/461",
+        "original"
+      ],
+      [
+        "BigCodeBench/526",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/492",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/553",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/945",
+        "none"
+      ],
+      [
+        "BigCodeBench/583",
+        "original"
+      ],
+      [
+        "BigCodeBench/720",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/1039",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/346",
+        "original"
+      ],
+      [
+        "BigCodeBench/567",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/765",
+        "original"
+      ],
+      [
+        "BigCodeBench/308",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/19",
+        "compact"
+      ],
+      [
+        "BigCodeBench/1019",
+        "original"
+      ],
+      [
+        "BigCodeBench/1004",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/854",
+        "compact"
+      ],
+      [
+        "BigCodeBench/162",
+        "none"
+      ],
+      [
+        "BigCodeBench/1085",
+        "none"
+      ],
+      [
+        "BigCodeBench/1015",
+        "compact"
+      ],
+      [
+        "BigCodeBench/509",
+        "none"
+      ],
+      [
+        "BigCodeBench/945",
+        "original"
+      ],
+      [
+        "BigCodeBench/360",
+        "compact"
+      ],
+      [
+        "BigCodeBench/636",
+        "compact"
+      ],
+      [
+        "BigCodeBench/1004",
+        "original"
+      ],
+      [
+        "BigCodeBench/360",
+        "none"
+      ],
+      [
+        "BigCodeBench/765",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/720",
+        "compact"
+      ],
+      [
+        "BigCodeBench/509",
+        "compact"
+      ],
+      [
+        "BigCodeBench/955",
+        "none"
+      ],
+      [
+        "BigCodeBench/308",
+        "none"
+      ],
+      [
+        "BigCodeBench/955",
+        "original"
+      ],
+      [
+        "BigCodeBench/360",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/445",
+        "none"
+      ],
+      [
+        "BigCodeBench/162",
+        "original"
+      ],
+      [
+        "BigCodeBench/239",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/914",
+        "none"
+      ],
+      [
+        "BigCodeBench/526",
+        "compact"
+      ],
+      [
+        "BigCodeBench/765",
+        "none"
+      ],
+      [
+        "BigCodeBench/990",
+        "none"
+      ],
+      [
+        "BigCodeBench/1004",
+        "none"
+      ],
+      [
+        "BigCodeBench/461",
+        "compact"
+      ],
+      [
+        "BigCodeBench/147",
+        "original"
+      ],
+      [
+        "BigCodeBench/1015",
+        "original"
+      ],
+      [
+        "BigCodeBench/963",
+        "none"
+      ],
+      [
+        "BigCodeBench/720",
+        "original"
+      ],
+      [
+        "BigCodeBench/952",
+        "none"
+      ],
+      [
+        "BigCodeBench/914",
+        "compact"
+      ],
+      [
+        "BigCodeBench/657",
+        "original"
+      ],
+      [
+        "BigCodeBench/963",
+        "compact"
+      ],
+      [
+        "BigCodeBench/1039",
+        "compact"
+      ],
+      [
+        "BigCodeBench/1077",
+        "none"
+      ],
+      [
+        "BigCodeBench/445",
+        "compact"
+      ],
+      [
+        "BigCodeBench/1022",
+        "none"
+      ],
+      [
+        "BigCodeBench/636",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/367",
+        "compact"
+      ],
+      [
+        "BigCodeBench/503",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/1039",
+        "original"
+      ],
+      [
+        "BigCodeBench/1129",
+        "none"
+      ],
+      [
+        "BigCodeBench/945",
+        "compact"
+      ],
+      [
+        "BigCodeBench/1085",
+        "original"
+      ],
+      [
+        "BigCodeBench/583",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/492",
+        "none"
+      ],
+      [
+        "BigCodeBench/945",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/1022",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/341",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/988",
+        "compact"
+      ],
+      [
+        "BigCodeBench/952",
+        "compact"
+      ],
+      [
+        "BigCodeBench/341",
+        "compact"
+      ],
+      [
+        "BigCodeBench/162",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/990",
+        "original"
+      ],
+      [
+        "BigCodeBench/567",
+        "none"
+      ],
+      [
+        "BigCodeBench/341",
+        "none"
+      ],
+      [
+        "BigCodeBench/1022",
+        "original"
+      ],
+      [
+        "BigCodeBench/914",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/952",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/1015",
+        "telegraphic"
+      ],
+      [
+        "BigCodeBench/100",
+        "none"
+      ],
+      [
+        "BigCodeBench/1019",
+        "none"
+      ],
+      [
+        "BigCodeBench/100",
+        "compact"
+      ],
+      [
+        "BigCodeBench/574",
+        "none"
+      ]
+    ],
+    "reference_gate": {
+      "all_pass": true,
+      "selected_ids": [
+        "BigCodeBench/100",
+        "BigCodeBench/1004",
+        "BigCodeBench/1015",
+        "BigCodeBench/1019",
+        "BigCodeBench/1022",
+        "BigCodeBench/1039",
+        "BigCodeBench/1077",
+        "BigCodeBench/1085",
+        "BigCodeBench/1129",
+        "BigCodeBench/147",
+        "BigCodeBench/162",
+        "BigCodeBench/19",
+        "BigCodeBench/239",
+        "BigCodeBench/308",
+        "BigCodeBench/341",
+        "BigCodeBench/346",
+        "BigCodeBench/360",
+        "BigCodeBench/367",
+        "BigCodeBench/445",
+        "BigCodeBench/461",
+        "BigCodeBench/492",
+        "BigCodeBench/503",
+        "BigCodeBench/509",
+        "BigCodeBench/526",
+        "BigCodeBench/553",
+        "BigCodeBench/567",
+        "BigCodeBench/574",
+        "BigCodeBench/583",
+        "BigCodeBench/636",
+        "BigCodeBench/657",
+        "BigCodeBench/720",
+        "BigCodeBench/765",
+        "BigCodeBench/854",
+        "BigCodeBench/914",
+        "BigCodeBench/945",
+        "BigCodeBench/952",
+        "BigCodeBench/955",
+        "BigCodeBench/963",
+        "BigCodeBench/988",
+        "BigCodeBench/990"
+      ],
+      "dataset_sha256": "2f8a10ad5dc3eee6422dc84171fa599da4d309f81f2c4157b8d3c4bca957c85d",
+      "official_reference_times": {
+        "BigCodeBench/19": 0.02507305145263672,
+        "BigCodeBench/162": 0.08490896224975586,
+        "BigCodeBench/100": 0.09527754783630371,
+        "BigCodeBench/239": 0.06486916542053223,
+        "BigCodeBench/308": 0.04210472106933594,
+        "BigCodeBench/341": 0.09819483757019043,
+        "BigCodeBench/147": 1.0484561920166016,
+        "BigCodeBench/360": 0.17566490173339844,
+        "BigCodeBench/367": 0.06690549850463867,
+        "BigCodeBench/445": 0.07398080825805664,
+        "BigCodeBench/492": 0.07308411598205566,
+        "BigCodeBench/503": 0.03032541275024414,
+        "BigCodeBench/509": 0.02786540985107422,
+        "BigCodeBench/526": 0.04155302047729492,
+        "BigCodeBench/553": 0.09303903579711914,
+        "BigCodeBench/567": 0.10861659049987793,
+        "BigCodeBench/574": 0.07456326484680176,
+        "BigCodeBench/583": 0.25476884841918945,
+        "BigCodeBench/636": 0.11511778831481934,
+        "BigCodeBench/720": 0.0337519645690918,
+        "BigCodeBench/765": 0.027173995971679688,
+        "BigCodeBench/854": 0.02447819709777832,
+        "BigCodeBench/914": 0.0710134506225586,
+        "BigCodeBench/657": 1.0470788478851318,
+        "BigCodeBench/952": 0.032602787017822266,
+        "BigCodeBench/945": 0.03126668930053711,
+        "BigCodeBench/955": 0.08171606063842773,
+        "BigCodeBench/963": 0.03963613510131836,
+        "BigCodeBench/988": 0.024623394012451172,
+        "BigCodeBench/990": 0.024754047393798828,
+        "BigCodeBench/1004": 0.11100268363952637,
+        "BigCodeBench/1015": 0.061710357666015625,
+        "BigCodeBench/1019": 0.028252840042114258,
+        "BigCodeBench/346": 7.10775351524353,
+        "BigCodeBench/1022": 0.03433656692504883,
+        "BigCodeBench/1039": 0.036370277404785156,
+        "BigCodeBench/1077": 0.03747057914733887,
+        "BigCodeBench/1129": 0.024158954620361328,
+        "BigCodeBench/1085": 0.05937528610229492,
+        "BigCodeBench/461": 163.56409883499146
+      }
+    },
+    "cli": "codex-cli 0.162.1",
+    "variants": {
+      "none": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "utf8_bytes": 0
+      },
+      "original": {
+        "sha256": "c0f4757cb0d4eac1fe49799219bf46b0c559d5764bcaf52f58290ff9e0e7e1a8",
+        "utf8_bytes": 1627
+      },
+      "compact": {
+        "sha256": "4d89eaf5a7bbaf767394cf215d122aebace356288e0288de145028511ce79354",
+        "utf8_bytes": 1117
+      },
+      "telegraphic": {
+        "sha256": "041b403c2079827b823eb9aa462c71066154309b627b010afb6e6cc99f622109",
+        "utf8_bytes": 953
+      }
+    }
+  },
+  "metrics": {
+    "none": {
+      "passed": 12,
+      "tasks": 40,
+      "infrastructure_errors": 0,
+      "missing_solutions": 0,
+      "median_output_tokens": 788.5,
+      "median_seconds": 28.316015479998896
+    },
+    "original": {
+      "passed": 11,
+      "tasks": 40,
+      "infrastructure_errors": 0,
+      "missing_solutions": 0,
+      "median_output_tokens": 1031.0,
+      "median_seconds": 32.34415879601147
+    },
+    "compact": {
+      "passed": 11,
+      "tasks": 40,
+      "infrastructure_errors": 0,
+      "missing_solutions": 0,
+      "median_output_tokens": 874.5,
+      "median_seconds": 30.32007189100841
+    },
+    "telegraphic": {
+      "passed": 14,
+      "tasks": 40,
+      "infrastructure_errors": 0,
+      "missing_solutions": 0,
+      "median_output_tokens": 970.5,
+      "median_seconds": 31.23346509001567
+    }
+  },
+  "primary_comparison": {
+    "difference": 0.075,
+    "descriptive_95pct_task_bootstrap": [
+      0.0,
+      0.175
+    ],
+    "telegraphic_only_pass": 3,
+    "original_only_pass": 0,
+    "exact_paired_two_sided_p": 0.25
+  },
+  "official_per_task": {
+    "none": {
+      "BigCodeBench/100": false,
+      "BigCodeBench/1004": true,
+      "BigCodeBench/1015": false,
+      "BigCodeBench/1019": false,
+      "BigCodeBench/1022": true,
+      "BigCodeBench/1039": false,
+      "BigCodeBench/1077": false,
+      "BigCodeBench/1085": true,
+      "BigCodeBench/1129": false,
+      "BigCodeBench/147": false,
+      "BigCodeBench/162": true,
+      "BigCodeBench/19": true,
+      "BigCodeBench/239": false,
+      "BigCodeBench/308": true,
+      "BigCodeBench/341": false,
+      "BigCodeBench/346": false,
+      "BigCodeBench/360": false,
+      "BigCodeBench/367": true,
+      "BigCodeBench/445": true,
+      "BigCodeBench/461": true,
+      "BigCodeBench/492": false,
+      "BigCodeBench/503": false,
+      "BigCodeBench/509": false,
+      "BigCodeBench/526": true,
+      "BigCodeBench/553": false,
+      "BigCodeBench/567": false,
+      "BigCodeBench/574": false,
+      "BigCodeBench/583": false,
+      "BigCodeBench/636": false,
+      "BigCodeBench/657": false,
+      "BigCodeBench/720": false,
+      "BigCodeBench/765": false,
+      "BigCodeBench/854": true,
+      "BigCodeBench/914": false,
+      "BigCodeBench/945": false,
+      "BigCodeBench/952": false,
+      "BigCodeBench/955": false,
+      "BigCodeBench/963": false,
+      "BigCodeBench/988": false,
+      "BigCodeBench/990": true
+    },
+    "original": {
+      "BigCodeBench/100": false,
+      "BigCodeBench/1004": false,
+      "BigCodeBench/1015": false,
+      "BigCodeBench/1019": false,
+      "BigCodeBench/1022": true,
+      "BigCodeBench/1039": false,
+      "BigCodeBench/1077": false,
+      "BigCodeBench/1085": true,
+      "BigCodeBench/1129": false,
+      "BigCodeBench/147": false,
+      "BigCodeBench/162": true,
+      "BigCodeBench/19": true,
+      "BigCodeBench/239": false,
+      "BigCodeBench/308": true,
+      "BigCodeBench/341": false,
+      "BigCodeBench/346": false,
+      "BigCodeBench/360": false,
+      "BigCodeBench/367": true,
+      "BigCodeBench/445": true,
+      "BigCodeBench/461": true,
+      "BigCodeBench/492": false,
+      "BigCodeBench/503": false,
+      "BigCodeBench/509": false,
+      "BigCodeBench/526": true,
+      "BigCodeBench/553": false,
+      "BigCodeBench/567": false,
+      "BigCodeBench/574": false,
+      "BigCodeBench/583": false,
+      "BigCodeBench/636": false,
+      "BigCodeBench/657": false,
+      "BigCodeBench/720": false,
+      "BigCodeBench/765": false,
+      "BigCodeBench/854": true,
+      "BigCodeBench/914": false,
+      "BigCodeBench/945": false,
+      "BigCodeBench/952": false,
+      "BigCodeBench/955": false,
+      "BigCodeBench/963": false,
+      "BigCodeBench/988": false,
+      "BigCodeBench/990": true
+    },
+    "compact": {
+      "BigCodeBench/100": false,
+      "BigCodeBench/1004": true,
+      "BigCodeBench/1015": false,
+      "BigCodeBench/1019": false,
+      "BigCodeBench/1022": true,
+      "BigCodeBench/1039": false,
+      "BigCodeBench/1077": false,
+      "BigCodeBench/1085": true,
+      "BigCodeBench/1129": false,
+      "BigCodeBench/147": false,
+      "BigCodeBench/162": true,
+      "BigCodeBench/19": true,
+      "BigCodeBench/239": false,
+      "BigCodeBench/308": true,
+      "BigCodeBench/341": false,
+      "BigCodeBench/346": false,
+      "BigCodeBench/360": false,
+      "BigCodeBench/367": true,
+      "BigCodeBench/445": true,
+      "BigCodeBench/461": false,
+      "BigCodeBench/492": false,
+      "BigCodeBench/503": false,
+      "BigCodeBench/509": false,
+      "BigCodeBench/526": true,
+      "BigCodeBench/553": false,
+      "BigCodeBench/567": false,
+      "BigCodeBench/574": false,
+      "BigCodeBench/583": false,
+      "BigCodeBench/636": false,
+      "BigCodeBench/657": false,
+      "BigCodeBench/720": false,
+      "BigCodeBench/765": false,
+      "BigCodeBench/854": true,
+      "BigCodeBench/914": false,
+      "BigCodeBench/945": false,
+      "BigCodeBench/952": false,
+      "BigCodeBench/955": false,
+      "BigCodeBench/963": false,
+      "BigCodeBench/988": false,
+      "BigCodeBench/990": true
+    },
+    "telegraphic": {
+      "BigCodeBench/100": false,
+      "BigCodeBench/1004": true,
+      "BigCodeBench/1015": true,
+      "BigCodeBench/1019": true,
+      "BigCodeBench/1022": true,
+      "BigCodeBench/1039": false,
+      "BigCodeBench/1077": false,
+      "BigCodeBench/1085": true,
+      "BigCodeBench/1129": false,
+      "BigCodeBench/147": false,
+      "BigCodeBench/162": true,
+      "BigCodeBench/19": true,
+      "BigCodeBench/239": false,
+      "BigCodeBench/308": true,
+      "BigCodeBench/341": false,
+      "BigCodeBench/346": false,
+      "BigCodeBench/360": false,
+      "BigCodeBench/367": true,
+      "BigCodeBench/445": true,
+      "BigCodeBench/461": true,
+      "BigCodeBench/492": false,
+      "BigCodeBench/503": false,
+      "BigCodeBench/509": false,
+      "BigCodeBench/526": true,
+      "BigCodeBench/553": false,
+      "BigCodeBench/567": false,
+      "BigCodeBench/574": false,
+      "BigCodeBench/583": false,
+      "BigCodeBench/636": false,
+      "BigCodeBench/657": false,
+      "BigCodeBench/720": false,
+      "BigCodeBench/765": false,
+      "BigCodeBench/854": true,
+      "BigCodeBench/914": false,
+      "BigCodeBench/945": false,
+      "BigCodeBench/952": false,
+      "BigCodeBench/955": false,
+      "BigCodeBench/963": false,
+      "BigCodeBench/988": false,
+      "BigCodeBench/990": true
+    }
+  }
+}

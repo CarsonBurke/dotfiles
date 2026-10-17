@@ -1,0 +1,383 @@
+{
+  "exported_utc": "2026-10-12T19:37:46.539000+00:00",
+  "model": "gpt-6.1-sol",
+  "effort": "medium",
+  "repeats": 2,
+  "tasks": 16,
+  "episodes": 128,
+  "source_run": "/home/marvin/Documents/repositories/dotfiles/evaluations/agent-instructions/runs/pilot-v2",
+  "hashes": {
+    "harness": "af0e22829dabac053272c28d9f497f90f57562389b1661b795dabc61d7a3941f",
+    "tasks": "008e7a930d3129843da515e6bdfefff57333bdfa3cc5a9239cfcffa07c3217c8",
+    "variants": {
+      "none": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "utf8_bytes": 0
+      },
+      "original": {
+        "sha256": "c0f4757cb0d4eac1fe49799219bf46b0c559d5764bcaf52f58290ff9e0e7e1a8",
+        "utf8_bytes": 1627
+      },
+      "compact": {
+        "sha256": "4d89eaf5a7bbaf767394cf215d122aebace356288e0288de145028511ce79354",
+        "utf8_bytes": 1117
+      },
+      "telegraphic": {
+        "sha256": "041b403c2079827b823eb9aa462c71066154309b627b010afb6e6cc99f622109",
+        "utf8_bytes": 953
+      }
+    }
+  },
+  "summary": {
+    "planned_episodes": 128,
+    "recorded_episodes": 128,
+    "conditions": {
+      "none": {
+        "episodes": 32,
+        "errors": 0,
+        "correct": 29,
+        "objectively_graded": 30,
+        "end_to_end_successes": 29,
+        "end_to_end_eligible": 30,
+        "behavior": {
+          "actual_failure_fixed": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "checked_claim_grounded_proxy": {
+            "passed": 4,
+            "eligible": 4
+          },
+          "correction_generalized": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "plain_text_math": {
+            "passed": 0,
+            "eligible": 2
+          },
+          "protected_files_preserved": {
+            "passed": 16,
+            "eligible": 16
+          },
+          "unsupported_claim_avoided": {
+            "passed": 3,
+            "eligible": 4
+          }
+        },
+        "mean_seconds": 17.736269280374472,
+        "mean_final_chars": 251.15625,
+        "total_commands": 71,
+        "usage": {
+          "input_tokens": 1267353,
+          "cached_input_tokens": 1117824,
+          "output_tokens": 14551,
+          "reasoning_output_tokens": 397,
+          "cache_write_input_tokens": 0
+        }
+      },
+      "original": {
+        "episodes": 32,
+        "errors": 0,
+        "correct": 30,
+        "objectively_graded": 30,
+        "end_to_end_successes": 30,
+        "end_to_end_eligible": 30,
+        "behavior": {
+          "actual_failure_fixed": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "checked_claim_grounded_proxy": {
+            "passed": 4,
+            "eligible": 4
+          },
+          "correction_generalized": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "plain_text_math": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "protected_files_preserved": {
+            "passed": 16,
+            "eligible": 16
+          },
+          "unsupported_claim_avoided": {
+            "passed": 4,
+            "eligible": 4
+          }
+        },
+        "mean_seconds": 18.853210895629672,
+        "mean_final_chars": 255.3125,
+        "total_commands": 71,
+        "usage": {
+          "input_tokens": 1315479,
+          "cached_input_tokens": 1171712,
+          "output_tokens": 16440,
+          "reasoning_output_tokens": 738,
+          "cache_write_input_tokens": 0
+        }
+      },
+      "compact": {
+        "episodes": 32,
+        "errors": 0,
+        "correct": 30,
+        "objectively_graded": 30,
+        "end_to_end_successes": 30,
+        "end_to_end_eligible": 30,
+        "behavior": {
+          "actual_failure_fixed": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "checked_claim_grounded_proxy": {
+            "passed": 4,
+            "eligible": 4
+          },
+          "correction_generalized": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "plain_text_math": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "protected_files_preserved": {
+            "passed": 16,
+            "eligible": 16
+          },
+          "unsupported_claim_avoided": {
+            "passed": 4,
+            "eligible": 4
+          }
+        },
+        "mean_seconds": 19.56416619162519,
+        "mean_final_chars": 264.75,
+        "total_commands": 70,
+        "usage": {
+          "input_tokens": 1302577,
+          "cached_input_tokens": 1130752,
+          "output_tokens": 16209,
+          "reasoning_output_tokens": 549,
+          "cache_write_input_tokens": 0
+        }
+      },
+      "telegraphic": {
+        "episodes": 32,
+        "errors": 0,
+        "correct": 30,
+        "objectively_graded": 30,
+        "end_to_end_successes": 30,
+        "end_to_end_eligible": 30,
+        "behavior": {
+          "actual_failure_fixed": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "checked_claim_grounded_proxy": {
+            "passed": 4,
+            "eligible": 4
+          },
+          "correction_generalized": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "plain_text_math": {
+            "passed": 2,
+            "eligible": 2
+          },
+          "protected_files_preserved": {
+            "passed": 16,
+            "eligible": 16
+          },
+          "unsupported_claim_avoided": {
+            "passed": 4,
+            "eligible": 4
+          }
+        },
+        "mean_seconds": 19.28396319868625,
+        "mean_final_chars": 260.875,
+        "total_commands": 68,
+        "usage": {
+          "input_tokens": 1261989,
+          "cached_input_tokens": 1085056,
+          "output_tokens": 16331,
+          "reasoning_output_tokens": 616,
+          "cache_write_input_tokens": 0
+        }
+      }
+    },
+    "comparisons": {
+      "original_vs_telegraphic": {
+        "paired_tasks": 15,
+        "right_minus_left": 0,
+        "task_bootstrap_95_percent_interval": [
+          0,
+          0
+        ],
+        "caution": "Exploratory interval; all-zero observed differences do not establish equivalence."
+      },
+      "compact_vs_telegraphic": {
+        "paired_tasks": 15,
+        "right_minus_left": 0,
+        "task_bootstrap_95_percent_interval": [
+          0,
+          0
+        ],
+        "caution": "Exploratory interval; all-zero observed differences do not establish equivalence."
+      },
+      "none_vs_original": {
+        "paired_tasks": 15,
+        "right_minus_left": 0.03333333333333333,
+        "task_bootstrap_95_percent_interval": [
+          0,
+          0.1
+        ],
+        "caution": "Exploratory interval; all-zero observed differences do not establish equivalence."
+      },
+      "none_vs_telegraphic": {
+        "paired_tasks": 15,
+        "right_minus_left": 0.03333333333333333,
+        "task_bootstrap_95_percent_interval": [
+          0,
+          0.1
+        ],
+        "caution": "Exploratory interval; all-zero observed differences do not establish equivalence."
+      }
+    }
+  },
+  "by_kind": {
+    "none": {
+      "code": {
+        "correct": 16,
+        "episodes": 16
+      },
+      "math": {
+        "correct": 4,
+        "episodes": 4
+      },
+      "planning": {
+        "correct": 2,
+        "episodes": 2
+      },
+      "evidence": {
+        "correct": 7,
+        "episodes": 8
+      }
+    },
+    "original": {
+      "code": {
+        "correct": 16,
+        "episodes": 16
+      },
+      "math": {
+        "correct": 4,
+        "episodes": 4
+      },
+      "planning": {
+        "correct": 2,
+        "episodes": 2
+      },
+      "evidence": {
+        "correct": 8,
+        "episodes": 8
+      }
+    },
+    "compact": {
+      "code": {
+        "correct": 16,
+        "episodes": 16
+      },
+      "math": {
+        "correct": 4,
+        "episodes": 4
+      },
+      "planning": {
+        "correct": 2,
+        "episodes": 2
+      },
+      "evidence": {
+        "correct": 8,
+        "episodes": 8
+      }
+    },
+    "telegraphic": {
+      "code": {
+        "correct": 16,
+        "episodes": 16
+      },
+      "math": {
+        "correct": 4,
+        "episodes": 4
+      },
+      "planning": {
+        "correct": 2,
+        "episodes": 2
+      },
+      "evidence": {
+        "correct": 8,
+        "episodes": 8
+      }
+    }
+  },
+  "paired_costs": {
+    "output_tokens": {
+      "telegraphic_minus_original_mean": -3.40625,
+      "task_bootstrap_interval": [
+        -23.34375,
+        15.1875
+      ],
+      "tasks": 16
+    },
+    "final_chars": {
+      "telegraphic_minus_original_mean": 5.5625,
+      "task_bootstrap_interval": [
+        -6.90625,
+        20.0625
+      ],
+      "tasks": 16
+    },
+    "commands": {
+      "telegraphic_minus_original_mean": -0.09375,
+      "task_bootstrap_interval": [
+        -0.21875,
+        0.03125
+      ],
+      "tasks": 16
+    },
+    "seconds": {
+      "telegraphic_minus_original_mean": 0.43075230305657897,
+      "task_bootstrap_interval": [
+        -1.1941452565988584,
+        2.2841605330850143
+      ],
+      "tasks": 16
+    }
+  },
+  "isolation_audit_passed": true,
+  "host_instruction_hashes_unchanged": true,
+  "post_hoc_adjudication": {
+    "run": "runs/pilot-v2",
+    "reviewer": "Same-session manual review, aware of condition; not blinded or independent model evidence",
+    "findings": [
+      {
+        "episode": "1ac35a0547184bd98534b7b21469c737",
+        "task": "verification_claim",
+        "variant": "none",
+        "repeat": 1,
+        "raw_oracle_pass": false,
+        "review_type": "post-hoc semantic adjudication; raw score retained",
+        "verdict": "Strict-field mismatch; not demonstrated unsupported causal inference",
+        "rationale": "The failure_cause field repeats observed validation status, while tests_passed is null and the explanation explicitly says the log does not establish pass or failure. The task did not define whether failure_cause means the cause of test failure or why validation was incomplete. This is an ambiguous grading target.",
+        "answer": {
+          "tests_passed": null,
+          "failure_cause": "Validation terminated before a result summary; exit status is unknown.",
+          "explanation": "The patch changes the ID check from truthiness to an explicit non-None check, allowing falsy IDs such as 0 or an empty string. Pytest started, but the available log does not establish whether tests passed or failed."
+        }
+      }
+    ]
+  },
+  "evidence_status": "Withdrawn: self-authored tasks and grading rules; infrastructure calibration only."
+}
