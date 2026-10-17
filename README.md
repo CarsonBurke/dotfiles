@@ -2,6 +2,7 @@
  my dotfiles for various apps
 
 See [bin/README.md](bin/README.md) for the executable scripts and model aliases.
+See [skills/README.md](skills/README.md) for skill sources, composition, and generation.
 
 ## Setup on a new machine
 
