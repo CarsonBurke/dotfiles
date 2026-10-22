@@ -31,3 +31,17 @@ find "$skill_source" -mindepth 1 -maxdepth 1 -type d -print0 |
 
     ln -s "$source_dir" "$target_path"
   done
+
+# Drop links this script owns whose skill no longer exists, so renamed or
+# removed skills stop appearing as broken entries. Directories installed by
+# Orca or another installer are never touched.
+for target_path in "$skill_target"/*; do
+  [[ -L "$target_path" ]] || continue
+
+  link_target="$(readlink "$target_path")"
+  [[ "$link_target" == "$skill_source/"* ]] || continue
+  [[ -e "$link_target" ]] && continue
+
+  rm "$target_path"
+  printf 'removed stale skill link: %s -> %s\n' "$target_path" "$link_target"
+done

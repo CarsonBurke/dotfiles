@@ -21,10 +21,17 @@ Codex user skills use the standard `~/.agents/skills` location. Do not link
 `~/.codex/skills` to this repository: Codex owns `$CODEX_HOME/skills`.
 Bundled system skills are disabled in `codex/config.toml`.
 
-Expose the shared skills through Codex's personal skill directory without
-replacing skills managed by Orca or another installer:
+When Orca or another installer also manages `~/.agents/skills`, keep it a real
+directory and link each shared skill into it instead of linking the whole
+directory. Put the model wrappers and other typed commands on PATH through
+`~/.local/bin` either way:
 
     bin/link-codex-skills
+    bin/link-bin
+
+Both are idempotent: they add missing links, keep foreign entries in place, and
+drop their own links once a skill or command is renamed or removed. Re-run them
+after a pull that touches `skills/` or `bin/`.
 
 Remove the bundled Codex marketplace and its default Browser, Chrome, Computer
 Use, LaTeX, Record and Replay, Sites, and Visualize plugins:

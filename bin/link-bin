@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Put the repo's typed-by-hand commands on PATH via ~/.local/bin, which
+# fish/config.fish keeps on PATH after the mise shims. Only commands meant to
+# be invoked by name are linked:
+#
+#   - setup scripts (link-codex-skills, remove-codex-base-plugins) are
+#     documented as `bin/...` from the repo root and stay repo-local;
+#   - codex-config-filter is a git filter registered with a repo-relative path;
+#   - browser-harness and browser-harness-import-helium-auth are invoked by
+#     absolute path from the browser skill, and the plain `browser-harness`
+#     name belongs to the uv-installed runtime they drive;
+#   - muse must be a copy, not a link: Meta's launcher self-updates by
+#     overwriting its own resolved path (see the header in bin/muse).
+
+dotfiles_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+bin_source="$dotfiles_root/bin"
+bin_target="$HOME/.local/bin"
+
+commands=(
+  bw-redact
+  claudefable
+  claudeopus
+  codex-cheap
+  codexastra
+  codexcheap
+  codexluna
+  codexsol
+  commits-push
+  ompastra
+  ompcheap
+  ompclaude
+  ompcodex
+  ompfable
+  ompgrok
+)
+
+# niri is Linux-only, and the Helium importer reads Linux browser profile paths.
+if [[ "$(uname -s)" == "Linux" ]]; then
+  commands+=(
+    niri-duplicate-window
+    niri-ide-from-terminal
+    niri-open-ide
+    niri-park-codex-voice-overlay
+    niri-terminal-at-editor
+    orca-import-helium-cookies
+  )
+fi
+
+mkdir -p "$bin_target"
+
+for name in "${commands[@]}"; do
+  source_path="$bin_source/$name"
+  target_path="$bin_target/$name"
+
+  if [[ ! -x "$source_path" ]]; then
+    printf 'warning: skipping missing or non-executable command: %s\n' "$source_path" >&2
+    continue
+  fi
+
+  if [[ -L "$target_path" ]]; then
+    if [[ "$(readlink "$target_path")" == "$source_path" ]]; then
+      continue
+    fi
+    printf 'warning: preserving conflicting link: %s -> %s\n' \
+      "$target_path" "$(readlink "$target_path")" >&2
+    continue
+  fi
+
+  if [[ -e "$target_path" ]]; then
+    printf 'warning: preserving existing file: %s\n' "$target_path" >&2
+    continue
+  fi
+
+  ln -s "$source_path" "$target_path"
+  printf 'linked %s\n' "$target_path"
+done
+
+# Drop links this script owns whose command no longer exists, so renamed or
+# removed wrappers stop shadowing PATH with a broken entry.
+for target_path in "$bin_target"/*; do
+  [[ -L "$target_path" ]] || continue
+
+  link_target="$(readlink "$target_path")"
+  [[ "$link_target" == "$bin_source/"* ]] || continue
+  [[ -e "$link_target" ]] && continue
+
+  rm "$target_path"
+  printf 'removed stale link %s -> %s\n' "$target_path" "$link_target"
+done
