@@ -101,7 +101,7 @@ def render_evidence_header(item: dict[str, Any], path: str, kind: str) -> str:
     return (
         '<header class="evidence-header"><div>'
         f'<p class="eyebrow">{escaped(item.get("area"), f"{path}.area")}</p>'
-        f'<h2>{escaped(item.get("title"), f"{path}.title")}</h2>'
+        f'<h3>{escaped(item.get("title"), f"{path}.title")}</h3>'
         f'<p>{escaped(item.get("summary"), f"{path}.summary")}</p>'
         f'</div><span class="kind">{html.escape(kind)}</span></header>'
     )
