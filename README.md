@@ -33,16 +33,16 @@ Use, LaTeX, Record and Replay, Sites, and Visualize plugins:
 
 The browser skill also needs its runtime:
 
-    uv tool install --python 3.12 browser-harness==0.1.8
+    uv tool install --python 3.12 browser-harness==0.1.13
 
-On macOS, Codex uses `bin/browser-harness` to start a persistent, dedicated
-Brave profile on demand and connect through a loopback-only debugging endpoint.
-Other platforms retain browser-harness's native browser discovery. Sign in to
-services once in the automation profile when a task requires an authenticated
-session. The launcher disables browser-harness telemetry so task code and page
-output remain local, and gives each invocation its own transient harness daemon
-control channel. The Brave profile, cookies, and tabs remain shared between
-local invocations.
+On macOS, the browser skill uses `bin/browser-harness` to start a persistent,
+dedicated Brave profile on demand and connect through a loopback-only debugging
+endpoint. Other platforms retain browser-harness's native browser discovery.
+Sign in to services once in the automation profile when a task requires an
+authenticated session. The launcher disables browser-harness telemetry so task
+code and page output remain local, and gives each invocation its own transient
+harness daemon control channel. The Brave profile, cookies, and tabs remain
+shared between local invocations.
 
 Loopback limits the debugging endpoint to the local machine, but it does not
 authenticate local processes. Any process running as the user can inspect the

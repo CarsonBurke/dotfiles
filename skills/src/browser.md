@@ -53,3 +53,12 @@ browser-harness <<'PY'
 stop_remote_daemon("task-name")
 PY
 ```
+
+## macOS
+
+The Mac's runtime has no `new_window(...)` or `attach_tab(...)`, and Chromium blocks remote debugging on the normal profile there. So run every snippet through the dotfiles launcher, `"$HOME/Developer/repositories/dotfiles/bin/browser-harness"`, rather than bare `browser-harness`. It starts a dedicated Brave automation profile on demand with a loopback-only CDP endpoint.
+
+- Open each task page with `new_tab(...)`, which creates a background target and returns its ID. Keep those IDs, move between them with `switch_tab(...)`, and close only those with `close_tab(...)`.
+- The profile is separate from the user's daily browser. At a login wall, ask the user to sign in there. Only when they explicitly authorize it for the task, `bin/browser-harness-import-helium-auth` copies the allowlisted GitHub and Vercel session cookies from Helium.
+- The endpoint doesn't authenticate other local processes, so after sensitive work, when no other browser task is running, stop the browser with `--stop`. Run `--doctor` when the harness can't connect.
+- For an approved remote session, pass `--remote-admin` to the start and stop snippets and `--remote` with `BU_NAME` to the task snippet. `--remote` fails closed when no live remote daemon matches, so an expired session can't silently fall back to local Brave.

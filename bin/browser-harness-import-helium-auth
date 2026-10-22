@@ -7,7 +7,7 @@ readonly helium_binary="/Applications/Helium.app/Contents/MacOS/Helium"
 readonly helium_profile="$HOME/Library/Application Support/net.imput.helium"
 readonly source_cookies="$helium_profile/Default/Cookies"
 readonly source_local_state="$helium_profile/Local State"
-readonly browser_launcher="$HOME/Documents/repositories/dotfiles/bin/browser-harness"
+readonly browser_launcher="$HOME/Developer/repositories/dotfiles/bin/browser-harness"
 readonly source_cdp_url="http://127.0.0.1:9224"
 readonly target_cdp_url="http://127.0.0.1:9223"
 

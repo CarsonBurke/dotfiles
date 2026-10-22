@@ -252,7 +252,7 @@ if ! browser_is_ready; then
 
   if [[ ! -x "$harness_python" ]]; then
     printf '%s\n' \
-      'browser-harness is not installed. Run: uv tool install --python 3.12 browser-harness==0.1.8' >&2
+      'browser-harness is not installed. Run: uv tool install --python 3.12 browser-harness==0.1.13' >&2
     exit 1
   fi
 
