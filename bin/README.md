@@ -27,8 +27,7 @@ through their arguments with `"$@"`.
 
 | Script | Purpose |
 | --- | --- |
-| `browser-harness` | Run browser-harness against a dedicated Brave profile on macOS. |
-| `browser-harness-import-helium-auth` | Copy allowlisted GitHub and Vercel cookies from Helium into that profile. |
+| `browser-harness` | Run browser-harness against a headless Helium profile seeded with Helium's sign-ins on macOS. |
 | `bw-redact` | Use a separate Bitwarden CLI profile for Redact. |
 | `codex-config-filter` | Keep machine-local Codex state out of tracked config. |
 | `link-bin` | Link the typed-by-hand commands into `~/.local/bin`. |

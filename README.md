@@ -42,27 +42,23 @@ The browser skill also needs its runtime:
 
     uv tool install --python 3.12 browser-harness==0.1.13
 
-On macOS, the browser skill uses `bin/browser-harness` to start a persistent,
-dedicated Brave profile on demand and connect through a loopback-only debugging
-endpoint. Other platforms retain browser-harness's native browser discovery.
-Sign in to services once in the automation profile when a task requires an
-authenticated session. The launcher disables browser-harness telemetry so task
-code and page output remain local, and gives each invocation its own transient
-harness daemon control channel. The Brave profile, cookies, and tabs remain
-shared between local invocations.
+On macOS, the browser skill uses `bin/browser-harness` to start Helium, the
+default browser, headless on demand and connect through a loopback-only
+debugging endpoint. Other platforms retain browser-harness's native browser
+discovery. Chromium refuses remote debugging on the normal profile, so each
+start rebuilds a dedicated automation profile from the normal profile's cookies
+and Local State. Sign-ins made in Helium carry over at the next start; to pick
+up a new one, stop the automation browser and run the task again. The launcher
+disables browser-harness telemetry so task code and page output remain local,
+and gives each invocation its own transient harness daemon control channel.
+Tabs remain shared between local invocations while the browser runs.
 
 Loopback limits the debugging endpoint to the local machine, but it does not
 authenticate local processes. Any process running as the user can inspect the
-automation browser while it is running. Stop the dedicated browser after
+automation browser, and every session it holds, while it is running. Stop the dedicated browser after
 sensitive work when no other browser task is active:
 
     bin/browser-harness --stop
-
-When explicitly authorized, `bin/browser-harness-import-helium-auth` can copy
-the current GitHub and Vercel session cookies from Helium into that Brave
-profile. The importer uses an allowlist, keeps cookie values out of output,
-verifies the transfer in memory, rolls back on failure, and removes its
-temporary Helium profile.
 
 Register the codex config filter once per machine, from the repo root:
 

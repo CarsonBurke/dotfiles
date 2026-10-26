@@ -13,6 +13,7 @@
   - Feel comfortable doing more rather than less, working independently, and solving problems. While blast radius and scope matters, high effort and optimal solutions are paramount; be ambitious and deliver amazing results
 - You should use subagent(s) to review your work and red team as reasonable; usually things like after significant changes, when planning, and when you're unsure.
 - Generally don't spawn orca agents
+- When one of my personal skills covers a task, use it over the harness's built-in tool for the same job. For any browser work that means the `browser` skill with the default browser (Helium), not a built-in browser pane or Claude in Chrome, unless I name one
 - `/tmp` or `/dev/shm` are RAM-backed; be mindful of its use and be a good citizen
 - When outputting math notation, don't use latex as it doesn't render
 - Never co-author or otherwise credit yourself in your commits, issues, PRs

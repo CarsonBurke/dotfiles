@@ -3,9 +3,13 @@
 set -euo pipefail
 
 readonly cdp_url="http://127.0.0.1:9223"
-readonly browser_app="/Applications/Brave Browser.app"
-readonly browser_binary="$browser_app/Contents/MacOS/Brave Browser"
-readonly profile_dir="$HOME/Library/Application Support/browser-harness/brave-profile"
+# Helium is the default browser. Chromium refuses remote debugging on its
+# normal profile, so automation runs in a dedicated Helium profile seeded from
+# the normal one's sign-ins. Same app, so the copied cookies decrypt.
+readonly browser_app="/Applications/Helium.app"
+readonly browser_binary="$browser_app/Contents/MacOS/Helium"
+readonly source_profile_dir="$HOME/Library/Application Support/net.imput.helium"
+readonly profile_dir="$HOME/Library/Application Support/browser-harness/helium-profile"
 readonly harness_python="$HOME/.local/share/uv/tools/browser-harness/bin/python"
 readonly requested_bu_name="${BU_NAME:-}"
 
@@ -62,9 +66,9 @@ run_doctor() {
   fi
 
   if [[ -x "$browser_binary" ]]; then
-    printf 'ok: Brave executable: %s\n' "$browser_binary"
+    printf 'ok: Helium executable: %s\n' "$browser_binary"
   else
-    printf 'error: Brave executable is missing: %s\n' "$browser_binary" >&2
+    printf 'error: Helium executable is missing: %s\n' "$browser_binary" >&2
     failed=true
   fi
 
@@ -87,10 +91,10 @@ run_doctor() {
     printf 'error: port 9223 is listening but does not expose a CDP endpoint\n' >&2
     failed=true
   elif pgrep -f -- "--user-data-dir=$profile_dir" >/dev/null; then
-    printf 'error: dedicated Brave is running without its CDP endpoint\n' >&2
+    printf 'error: dedicated Helium is running without its CDP endpoint\n' >&2
     failed=true
   else
-    printf 'ok: dedicated Brave is stopped and will start on demand\n'
+    printf 'ok: dedicated Helium is stopped and will start on demand\n'
   fi
 
   if [[ "$failed" == "true" ]]; then
@@ -98,12 +102,34 @@ run_doctor() {
   fi
 }
 
+# Rebuilds the automation profile from the normal one's cookies and the Local
+# State that holds their encryption key, so each start has the current
+# sign-ins. A reused profile keeps state, such as device-bound session
+# records, that can sign Google out of the copied cookies.
+seed_profile() {
+  for required_path in "$source_profile_dir/Local State" \
+    "$source_profile_dir/Default/Cookies"; do
+    if [[ ! -e "$required_path" ]]; then
+      printf 'Helium profile file is missing: %s\n' "$required_path" >&2
+      return 1
+    fi
+  done
+
+  rm -rf "$profile_dir"
+  mkdir -p "$profile_dir/Default"
+  chmod 700 "$profile_dir" "$profile_dir/Default"
+  cp -p "$source_profile_dir/Local State" "$profile_dir/Local State"
+  sqlite3 "$source_profile_dir/Default/Cookies" \
+    ".backup '$profile_dir/Default/Cookies'"
+  chmod 600 "$profile_dir/Local State" "$profile_dir/Default/Cookies"
+}
+
 stop_browser() {
   local listener_pid
   local stopped=false
 
   if ! browser_is_ready; then
-    printf 'Dedicated Brave is already stopped.\n'
+    printf 'Dedicated Helium is already stopped.\n'
     return
   fi
   if ! endpoint_belongs_to_profile; then
@@ -124,11 +150,11 @@ stop_browser() {
   done
 
   if browser_is_ready; then
-    printf 'Dedicated Brave did not stop cleanly.\n' >&2
+    printf 'Dedicated Helium did not stop cleanly.\n' >&2
     return 1
   fi
   if [[ "$stopped" == "true" ]]; then
-    printf 'Dedicated Brave stopped.\n'
+    printf 'Dedicated Helium stopped.\n'
   fi
 }
 
@@ -139,7 +165,7 @@ fi
 
 if [[ "${1:-}" == "--stop" ]]; then
   if [[ "$platform" != "Darwin" ]]; then
-    printf '%s\n' '--stop is only available for the dedicated macOS Brave profile.' >&2
+    printf '%s\n' '--stop is only available for the dedicated macOS Helium profile.' >&2
     exit 1
   fi
   stop_browser
@@ -246,7 +272,7 @@ fi
 
 if ! browser_is_ready; then
   if [[ ! -x "$browser_binary" ]]; then
-    printf 'Brave is not installed at %s\n' "$browser_app" >&2
+    printf 'Helium is not installed at %s\n' "$browser_app" >&2
     exit 1
   fi
 
@@ -256,13 +282,19 @@ if ! browser_is_ready; then
     exit 1
   fi
 
-  mkdir -p "$profile_dir"
-  open -n "$browser_app" --args \
+  seed_profile
+  # Headless, so no window can take focus. A headed instance also drops the
+  # copied cookies it cannot decrypt, while a headless one keeps them.
+  nohup "$browser_binary" \
     "--user-data-dir=$profile_dir" \
     "--remote-debugging-address=127.0.0.1" \
     "--remote-debugging-port=9223" \
+    --headless=new \
+    --window-size=1440,1000 \
     --no-default-browser-check \
-    --no-first-run
+    --no-first-run \
+    about:blank >/dev/null 2>&1 &
+  disown
 
   for _ in {1..100}; do
     if browser_is_ready; then
@@ -272,9 +304,12 @@ if ! browser_is_ready; then
   done
 
   if ! browser_is_ready || ! endpoint_belongs_to_profile; then
-    printf 'Brave did not expose its debugging endpoint at %s\n' "$cdp_url" >&2
+    printf 'Helium did not expose its debugging endpoint at %s\n' "$cdp_url" >&2
     exit 1
   fi
+  # A daemon from before this start is attached to a browser that is gone.
+  BU_CDP_URL="$cdp_url" "$harness_python" -m browser_harness.run --reload \
+    >/dev/null 2>&1 || true
 fi
 
 export BU_CDP_URL="$cdp_url"

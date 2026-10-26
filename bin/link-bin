@@ -8,9 +8,9 @@ set -euo pipefail
 #   - setup scripts (link-codex-skills, remove-codex-base-plugins) are
 #     documented as `bin/...` from the repo root and stay repo-local;
 #   - codex-config-filter is a git filter registered with a repo-relative path;
-#   - browser-harness and browser-harness-import-helium-auth are invoked by
-#     absolute path from the browser skill, and the plain `browser-harness`
-#     name belongs to the uv-installed runtime they drive;
+#   - browser-harness is invoked by absolute path from the browser skill, and
+#     the plain `browser-harness` name belongs to the uv-installed runtime it
+#     drives;
 #   - muse must be a copy, not a link: Meta's launcher self-updates by
 #     overwriting its own resolved path (see the header in bin/muse).
 
