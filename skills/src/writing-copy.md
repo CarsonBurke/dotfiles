@@ -7,7 +7,7 @@ description: Use when writing prose that people will read outside this conversat
 
 Model writing defaults to slop, and readers notice. Most of it comes from writing for no one in particular, which leaves text saying what that kind of text usually says.
 
-So write with purpose. Have in mind who will read it, what they already know, and what it should change for them, and let that decide what goes in, what goes first, and how it sounds. When the reader is unclear, write for the likeliest one rather than for everyone. Outside reference material, the instinct toward completeness usually works against the point.
+So write with purpose. Have in mind who will read it, what they already know, and what it should change for them, and let that decide what goes in, what goes first, and how it sounds. When the reader is unclear, write for the likeliest one rather than for everyone. Outside reference material, the instinct toward completeness usually works against the point, and so does restating what the reader already has in front of them. When you revise, rewrite for what's true now instead of appending.
 
 The reader wasn't in your session, so watch for context only you have. Write in the voice of whoever the text is from, which for the user or an existing project means matching what they've written.
 
