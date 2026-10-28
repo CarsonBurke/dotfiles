@@ -5,7 +5,7 @@ description: Use when asked for a PR report, an HTML review handoff, a before/af
 
 # PR Report
 
-An evidence pack that helps a reviewer understand and verify a change. Stay read-only except for the report and temporary capture artifacts, so no approving, commenting, pushing, or editing source. Use `review-deep` for readiness or defect hunting, `update-pr` for the PR's description, and `html-change-report` for a general timeline.
+An evidence pack that helps a reviewer understand and verify a change. Stay read-only except for the report and temporary capture artifacts, so no approving, commenting, pushing, or editing source. Use `review-deep` for readiness or defect hunting, `commits-push-pr` for the PR's description, and `html-change-report` for a general timeline.
 
 ## Change set
 
